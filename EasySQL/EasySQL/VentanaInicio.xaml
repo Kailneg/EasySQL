@@ -1,0 +1,52 @@
+﻿<Window x:Name="VentanaInicio" x:Class="EasySQL.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasySQL"
+        mc:Ignorable="d"
+        Title="EasySQL" Height="400" Width="350" MinWidth="300" MinHeight="280">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <!--0 Fila: Label Usuario-->
+        <Grid Grid.Row="0">
+            <Label Content="Usuario:" Height="24" VerticalAlignment="Bottom"/>
+        </Grid>
+        <!--1 Fila: Textbox Usuario-->
+        <Grid Grid.Row="1">
+            <TextBox x:Name="txtBoxUsuario"/>
+        </Grid>
+        <!--2 Fila: Label Contraseña-->
+        <Grid Grid.Row="2">
+            <Label Content="Contraseña:" VerticalAlignment="Bottom"/>
+        </Grid>
+        <!--3 Fila: Textbox Contraseña-->
+        <Grid Grid.Row="3">
+            <TextBox x:Name="txtBoxContrasenia"/>
+        </Grid>
+        <!--4 Fila: Botón Acceder-->
+        <Grid Grid.Row="5">
+            <Button x:Name="btnAcceder" Content="Acceder"/>
+        </Grid>
+        <!--5 Fila: Botones Acceder sin registrar y registrar-->
+        <Grid Grid.Row="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnInvitado" Grid.Column="0">
+                <TextBlock TextAlignment="Center">Acceder<LineBreak/>como invitado</TextBlock>
+            </Button>
+            <Button x:Name="btnRegistro" Grid.Column="1" Content="Registrarse"/>
+        </Grid>
+    </Grid>
+</Window>
