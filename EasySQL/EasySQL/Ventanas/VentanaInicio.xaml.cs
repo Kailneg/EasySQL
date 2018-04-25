@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasySQL.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,36 @@ namespace EasySQL.Ventanas
     {
         public VentanaInicio()
         {
-            InitializeComponent();
+            InitializeComponent();  
+        }
+
+        public VentanaInicio(Usuario usuario) : this()
+        {
+            if (usuario != null)
+            {
+                RefrescarTexboxes(usuario);
+            }
+        }
+
+        private void RefrescarTexboxes(Usuario usuario)
+        {
+            txtBoxUsuario.Text = usuario.Nombre;
+            txtBoxContrasenia.Text = usuario.Contrasenia;
+        }
+
+        private void btnAcceder_Click(object sender, RoutedEventArgs e)
+        {
+            Usuario enviar = new Usuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
+            VentanaConexion vc = new VentanaConexion(enviar);
+            this.Close();
+            vc.Show();
+        }
+
+        private void btnInvitado_Click(object sender, RoutedEventArgs e)
+        {
+            VentanaConexion vc = new VentanaConexion(null);
+            this.Close();
+            vc.Show();
         }
 
         private void btnRegistro_Click(object sender, RoutedEventArgs e)

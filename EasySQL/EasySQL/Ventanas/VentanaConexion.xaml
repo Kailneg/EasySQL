@@ -110,7 +110,7 @@
 
             <Button x:Name="btnGuardar" Content="Guardar" Grid.Column="0"/>
             <Button x:Name="btnLimpiar" Content="Limpiar" Grid.Column="1"/>
-            <Button x:Name="btnCancelar" Content="Cancelar" Grid.Column="3"/>
+            <Button x:Name="btnCancelar" Content="Cancelar" Grid.Column="3" Click="btnCancelar_Click"/>
             <Button x:Name="btnTest" Content="Test" Grid.Column="5"/>
             <Button x:Name="btnConectar" Content="Conectar" Grid.Column="6"/>
         </Grid>

@@ -29,8 +29,16 @@ namespace EasySQL.Ventanas
             InitializeComponent();
             if (usuario != null)
             {
-                datosPrograma.ObtenerConexiones(usuarioActivo);
+                usuarioActivo = usuario;
+                //datosPrograma.ObtenerConexiones(usuarioActivo);
             }
+        }
+
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            VentanaInicio vi = new VentanaInicio(usuarioActivo);
+            this.Close();
+            vi.Show();
         }
     }
 }

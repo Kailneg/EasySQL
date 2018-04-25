@@ -8,13 +8,19 @@ namespace EasySQL.Modelos
 {
     public class Usuario
     {
-        public String Nombre { get; set; }
-        public String Contrasenia { get; set; }
+        public string Nombre { get; set; }
+        public string Contrasenia { get; set; }
         public DateTime FechaCreacion { get; set; }
 
         public static bool ComprobarContrasenia(String contrasenia)
         {
             return contrasenia.Length >= 4;
+        }
+
+        public Usuario (string nombre, string contrasenia)
+        {
+            Nombre = nombre;
+            Contrasenia = contrasenia;
         }
     }
 }

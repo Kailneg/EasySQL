@@ -35,7 +35,7 @@
         </Grid>
         <!--4 Fila: Botón Acceder-->
         <Grid Grid.Row="5">
-            <Button x:Name="btnAcceder" Content="Acceder"/>
+            <Button x:Name="btnAcceder" Content="Acceder" Click="btnAcceder_Click"/>
         </Grid>
         <!--5 Fila: Botones Acceder sin registrar y registrar-->
         <Grid Grid.Row="7">
@@ -43,7 +43,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnInvitado" Grid.Column="0">
+            <Button x:Name="btnInvitado" Grid.Column="0" Click="btnInvitado_Click">
                 <TextBlock TextAlignment="Center">Acceder<LineBreak/>como invitado</TextBlock>
             </Button>
             <Button x:Name="btnRegistro" Grid.Column="1" Content="Registrarse" Click="btnRegistro_Click"/>
