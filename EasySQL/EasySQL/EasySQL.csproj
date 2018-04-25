@@ -54,6 +54,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Modelos\Conexion.cs" />
+    <Compile Include="Modelos\Usuario.cs" />
     <Compile Include="Ventanas\VentanaInicio.xaml.cs">
       <DependentUpon>VentanaInicio.xaml</DependentUpon>
     </Compile>
