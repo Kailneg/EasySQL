@@ -54,14 +54,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BBDD\BBDDPrograma.cs" />
+    <Compile Include="BBDD\BBDDProgramaImpl.cs" />
     <Compile Include="Modelos\Conexion.cs" />
     <Compile Include="Modelos\Usuario.cs" />
+    <Compile Include="Ventanas\VentanaConexion.xaml.cs">
+      <DependentUpon>VentanaConexion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\VentanaInicio.xaml.cs">
       <DependentUpon>VentanaInicio.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ventanas\VentanaRegistro.xaml.cs">
       <DependentUpon>VentanaRegistro.xaml</DependentUpon>
     </Compile>
+    <Page Include="Ventanas\VentanaConexion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Ventanas\VentanaInicio.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
