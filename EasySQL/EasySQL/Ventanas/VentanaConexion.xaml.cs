@@ -40,5 +40,34 @@ namespace EasySQL.Ventanas
             this.Close();
             vi.Show();
         }
+
+        private void btnLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            txtBoxNombre.Text = "";
+            txtBoxDireccion.Text = "";
+            txtBoxPuerto.Text = "";
+            txtBoxUsuario.Text = "";
+            txtBoxContrasenia.Text = "";
+            chkGuardarContrasenia.IsChecked = false;
+            rbtnMicrosoft.IsChecked = false;
+            rbtnMySQL.IsChecked = false;
+            rbtnPostgreSQL.IsChecked = false;
+        }
+
+        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+            string nombreConex = txtBoxNombre.Text;
+            string nombreDirecc = txtBoxDireccion.Text;
+            //string no
+        }
+
+        /// <summary>
+        /// Se comprueban todos los campos obligatorios y que estos tengan datos correctos.
+        /// </summary>
+        private void ComprobarDatos() {
+
+            //Campos obligatorios: nombre conexión, dirección, usuario, tipo conexión.
+
+        }
     }
 }

@@ -48,6 +48,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -55,13 +56,13 @@
             </Grid.ColumnDefinitions>
 
             <!--Columna 1-->
-            <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right">Nombre de la conexión:</Label>
-            <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">Direccion:</Label>
+            <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right">* Nombre de la conexión:</Label>
+            <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">* Direccion:</Label>
             <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Puerto:</Label>
             <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right">Usuario:</Label>
-            <Label Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right">Contraseña:</Label>
+            <Label Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right">* Contraseña:</Label>
             <Label Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right">Guardar contraseña:</Label>
-            <Label Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right">Tipo de conexión:</Label>
+            <Label Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right">* Tipo de conexión:</Label>
             
             <!--Columna 2-->
             <TextBox    x:Name="txtBoxNombre" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0"></TextBox>
@@ -77,11 +78,12 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <RadioButton GroupName="tipoConexion" Grid.Row="0" VerticalAlignment="Center">Microsoft SQL</RadioButton>
-                <RadioButton GroupName="tipoConexion" Grid.Row="1" VerticalAlignment="Center">MySQL</RadioButton>
-                <RadioButton GroupName="tipoConexion" Grid.Row="2" VerticalAlignment="Center">PostgreSQL</RadioButton>
+                <RadioButton x:Name="rbtnMicrosoft" GroupName="tipoConexion" Grid.Row="0" VerticalAlignment="Center">Microsoft SQL</RadioButton>
+                <RadioButton x:Name="rbtnMySQL" GroupName="tipoConexion" Grid.Row="1" VerticalAlignment="Center">MySQL</RadioButton>
+                <RadioButton x:Name="rbtnPostgreSQL" GroupName="tipoConexion" Grid.Row="2" VerticalAlignment="Center">PostgreSQL</RadioButton>
             </Grid>
-            
+
+            <Label Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left">* Campos marcados con un asterísco deben ser rellenados.</Label>
         </Grid>
 
         <!--Grid botones ListaConexiones-->
@@ -108,8 +110,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="btnGuardar" Content="Guardar" Grid.Column="0"/>
-            <Button x:Name="btnLimpiar" Content="Limpiar" Grid.Column="1"/>
+            <Button x:Name="btnGuardar" Content="Guardar" Grid.Column="0" Click="btnGuardar_Click"/>
+            <Button x:Name="btnLimpiar" Content="Limpiar" Grid.Column="1" Click="btnLimpiar_Click"/>
             <Button x:Name="btnCancelar" Content="Cancelar" Grid.Column="3" Click="btnCancelar_Click"/>
             <Button x:Name="btnTest" Content="Test" Grid.Column="5"/>
             <Button x:Name="btnConectar" Content="Conectar" Grid.Column="6"/>
