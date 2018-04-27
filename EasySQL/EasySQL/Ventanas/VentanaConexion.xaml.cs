@@ -1,5 +1,6 @@
 ﻿using EasySQL.BBDD;
 using EasySQL.Modelos;
+using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,40 @@ namespace EasySQL.Ventanas
         private void ComprobarDatos() {
 
             //Campos obligatorios: nombre conexión, dirección, usuario, tipo conexión.
+
+        }
+
+        private void txtBoxNombre_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoError(datos, Comprueba.Nombre(datos.Text));
+        }
+
+        private void txtBoxDireccion_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoError(datos, Comprueba.Direccion(datos.Text));
+        }
+
+        private void txtBoxPuerto_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoError(datos, Comprueba.Usuario(datos.Text));
+        }
+
+        private void txtBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoError(datos, Comprueba.Contrasenia(datos.Text));
+        }
+
+        private void chkGuardarContrasenia_LostFocus(object sender, RoutedEventArgs e)
+        {
 
         }
     }

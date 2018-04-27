@@ -9,19 +9,40 @@ namespace EasySQL.Utils
 {
     public class Comprueba
     {
+        private static readonly int LONGITUD_NOMBRE = 15;
+        private static readonly int LONGITUD_DIRECCION = 20;
+        private static readonly int LONGITUD_USUARIO = 12;
+        private static readonly int LONGITUD_CONTRASENIA = 12;
+
+        public static bool? Nombre(string cadena)
+        {
+            if (cadena.Length == 0)
+                return null;
+            else
+                return SoloLetras(cadena, LONGITUD_NOMBRE);
+        }
+
+        public static bool? Direccion(string cadena)
+        {
+            if (cadena.Length == 0)
+                return null;
+            else
+                return SoloLetras(cadena, LONGITUD_DIRECCION);
+        }
+
         public static bool? Usuario(string cadena)
         {
-            if (cadena.Length > 0)
-                return SoloLetras(cadena, 12);
-            else
+            if (cadena.Length == 0)
                 return null;
+            else
+                return SoloLetras(cadena, LONGITUD_USUARIO);
         }
         public static bool? Contrasenia(string cadena)
         {
-            if (cadena.Length > 0)
-                return SoloLetras(cadena, 12);
-            else
+            if (cadena.Length == 0)
                 return null;
+            else
+                return SoloLetras(cadena, LONGITUD_CONTRASENIA);
         }
 
         public static bool SoloNumeros(string cadena)
