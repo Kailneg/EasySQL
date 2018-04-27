@@ -23,7 +23,7 @@
         </Grid>
         <!--1 Fila: Textbox Usuario-->
         <Grid Grid.Row="1">
-            <TextBox x:Name="txtBoxUsuario"/>
+            <TextBox x:Name="txtBoxUsuario" LostFocus="txtBoxUsuario_LostFocus"/>
         </Grid>
         <!--2 Fila: Label Contraseña-->
         <Grid Grid.Row="2">
@@ -31,7 +31,7 @@
         </Grid>
         <!--3 Fila: Textbox Contraseña-->
         <Grid Grid.Row="3">
-            <TextBox x:Name="txtBoxContrasenia"/>
+            <TextBox x:Name="txtBoxContrasenia" LostFocus="txtBoxContrasenia_LostFocus"/>
         </Grid>
         <!--4 Fila: Botón Acceder-->
         <Grid Grid.Row="5">

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasySQL.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +25,72 @@ namespace EasySQL.Ventanas
             InitializeComponent();
         }
 
-        private void btnInvitado_Click(object sender, RoutedEventArgs e)
+        private void Acceder() {
+            MessageBox.Show("Accediendo...");
+        }
+
+        private bool Guardar() {
+            if (ComprobarCampos())
+            {
+                MessageBox.Show("Guardando campos");
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Uno o más campos contienen errores");
+                return false;
+            }
+        }
+
+
+        private void btnAcceder_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (Guardar())
+            {
+                Acceder();
+            }
+        }
+
+        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+            Guardar();
+        }
+
+        private void btnAtras_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoError(datos, Comprueba.Usuario(datos.Text));
+        }
+
+        private void txtBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoError(datos, Comprueba.Usuario(datos.Text));
+        }
+
+        private void txtBoxRepetirContrasenia_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoError(datos, this.ComprobarContrasenias());
+        }
+        
+        private bool ComprobarCampos()
+        {
+            return ((Comprueba.Usuario(txtBoxUsuario.Text) ?? false)
+                && (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false)
+                && ComprobarContrasenias());
+        }
+
+
+        private bool ComprobarContrasenias()
+        {
+            return (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false)
+                && txtBoxRepetirContrasenia.Text.Equals(txtBoxContrasenia.Text);
         }
     }
 }

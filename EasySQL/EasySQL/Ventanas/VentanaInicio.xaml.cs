@@ -1,4 +1,5 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,5 +60,19 @@ namespace EasySQL.Ventanas
             VentanaRegistro vr = new VentanaRegistro();
             vr.ShowDialog();
         }
+
+        private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.Usuario(datos.Text));
+        }
+
+        private void txtBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.Contrasenia(datos.Text));
+        }
+
+
     }
 }

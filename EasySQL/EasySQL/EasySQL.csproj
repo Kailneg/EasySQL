@@ -58,6 +58,8 @@
     <Compile Include="BBDD\BBDDProgramaImpl.cs" />
     <Compile Include="Modelos\Conexion.cs" />
     <Compile Include="Modelos\Usuario.cs" />
+    <Compile Include="Utils\Colorea.cs" />
+    <Compile Include="Utils\Comprueba.cs" />
     <Compile Include="Ventanas\Pruebas.xaml.cs">
       <DependentUpon>Pruebas.xaml</DependentUpon>
     </Compile>
@@ -115,7 +117,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ficheropruebaproxy.txt" />
