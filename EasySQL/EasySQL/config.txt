@@ -1,0 +1,8 @@
+﻿Microsoft SQL Server:
+
+sa
+Root1234
+
+MYSQL Server:
+root
+root

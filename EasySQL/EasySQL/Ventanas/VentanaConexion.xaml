@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas"
         mc:Ignorable="d"
-        Title="Conexion" Height="450" Width="800">
+        Title="Conexiones" Height="450" Width="800">
     
     <!--Grid General-->
     <Grid Margin="20">
