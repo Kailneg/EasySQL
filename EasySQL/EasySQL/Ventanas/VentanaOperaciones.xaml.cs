@@ -1,4 +1,5 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Ventanas.Operaciones;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,8 @@ namespace EasySQL.Ventanas
 
         private void btnCreateDb_Click(object sender, RoutedEventArgs e)
         {
-
+            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre:");
+            vog.ShowDialog();
         }
 
         private void btnDropDb_Click(object sender, RoutedEventArgs e)

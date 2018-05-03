@@ -6,7 +6,14 @@
         xmlns:local="clr-namespace:EasySQL.Ventanas"
         mc:Ignorable="d"
         Title="Conexiones" Height="450" Width="800">
-    
+
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
     <!--Grid General-->
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -56,21 +63,21 @@
             </Grid.ColumnDefinitions>
 
             <!--Columna 1-->
-            <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right">* Nombre de la conexión:</Label>
-            <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">* Direccion:</Label>
-            <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Puerto:</Label>
-            <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right">Usuario:</Label>
-            <Label Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right">* Contraseña:</Label>
-            <Label Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right">Guardar contraseña:</Label>
-            <Label Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right">* Tipo de conexión:</Label>
+            <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right">* Nombre de la conexión:</Label>
+            <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right">* Direccion:</Label>
+            <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right">Puerto:</Label>
+            <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right">Usuario:</Label>
+            <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right">* Contraseña:</Label>
+            <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right">Guardar contraseña:</Label>
+            <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right">* Tipo de conexión:</Label>
             
             <!--Columna 2-->
-            <TextBox    x:Name="txtBoxNombre" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" LostFocus="txtBoxNombre_LostFocus"></TextBox>
-            <TextBox    x:Name="txtBoxDireccion" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" LostFocus="txtBoxDireccion_LostFocus"></TextBox>
-            <TextBox    x:Name="txtBoxPuerto" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" LostFocus="txtBoxPuerto_LostFocus"></TextBox>
-            <TextBox    x:Name="txtBoxUsuario" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" LostFocus="txtBoxUsuario_LostFocus"></TextBox>
-            <TextBox    x:Name="txtBoxContrasenia" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" LostFocus="txtBoxContrasenia_LostFocus"></TextBox>
-            <CheckBox   x:Name="chkGuardarContrasenia" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" LostFocus="chkGuardarContrasenia_LostFocus"></CheckBox>
+            <TextBox    x:Name="txtBoxNombre" Grid.Column="1" Grid.Row="0" LostFocus="txtBoxNombre_LostFocus"></TextBox>
+            <TextBox    x:Name="txtBoxDireccion" Grid.Column="1" Grid.Row="1" LostFocus="txtBoxDireccion_LostFocus"></TextBox>
+            <TextBox    x:Name="txtBoxPuerto" Grid.Column="1" Grid.Row="2" LostFocus="txtBoxPuerto_LostFocus"></TextBox>
+            <TextBox    x:Name="txtBoxUsuario"  Grid.Column="1" Grid.Row="3" LostFocus="txtBoxUsuario_LostFocus"></TextBox>
+            <TextBox    x:Name="txtBoxContrasenia" Grid.Column="1" Grid.Row="4" LostFocus="txtBoxContrasenia_LostFocus"></TextBox>
+            <CheckBox   x:Name="chkGuardarContrasenia" Grid.Column="1" Grid.Row="5" LostFocus="chkGuardarContrasenia_LostFocus"></CheckBox>
             <!--Radiobuttons-->
             <Grid Grid.Column="1" Grid.Row="6">
                 <Grid.RowDefinitions>

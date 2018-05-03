@@ -114,8 +114,8 @@ namespace EasySQL.Ventanas
         private void btnConectar_Click(object sender, RoutedEventArgs e)
         {
             Conexion datosActuales = new Conexion();
-            VentanaOperaciones vo = new VentanaOperaciones(this);
-            this.Hide();
+            VentanaOperaciones vo = new VentanaOperaciones(datosActuales);
+            this.Close();
             vo.Show();
         }
     }

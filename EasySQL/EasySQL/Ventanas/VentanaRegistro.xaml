@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL"
         mc:Ignorable="d"
-        Title="Registro" Height="400" Width="350" MinWidth="300" MinHeight="360">
+        Title="Registro" Height="420" Width="350" MinWidth="300" MinHeight="420">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
