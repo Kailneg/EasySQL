@@ -6,52 +6,89 @@
         xmlns:local="clr-namespace:EasySQL.Ventanas"
         mc:Ignorable="d"
         Title="Operaciones" Height="450" Width="800">
-
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+    </Window.Resources>
     <!--Grid General-->
     <Grid Margin="20">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="3*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <!--Grid Label 1-->
-        <Grid Grid.Column="0" Grid.Row="0">
+        <!--Grid Botones General-->
+        <Grid Grid.Column="0" Grid.Row="0" >
 
-            <Label VerticalAlignment="Center">Lista Conexiones</Label>
-        </Grid>
-
-        <!--Grid Botones 1-->
-        <Grid Grid.Column="0" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnAtras" Content="Atras" Grid.Column="0" Click="btnAtras_Click"/>
+            <Button x:Name="btnCargar" Content="Cargar" Grid.Column="1" Click="btnCargar_Click"/>
+            <Button x:Name="btnGuardar" Content="Guardar" Grid.Column="2" Click="btnGuardar_Click"/>
+            
+        </Grid>
+
+        <!--Grid Label DDL-->
+        <Grid Grid.Column="0" Grid.Row="1">
+
+            <Label VerticalAlignment="Center">Definición de datos (DDL)</Label>
+        </Grid>
+
+        <!--Grid Botones DDL-->
+        <Grid Grid.Column="0" Grid.Row="2" >
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnGuardar" Content="Guardar" Grid.Column="0" Click="btnGuardar_Click"/>
-            <Button x:Name="btnGuardar2" Content="Guardar" Grid.Column="1" Click="btnGuardar_Click"/>
+            
+            <Button x:Name="btnCreateDb" Content="CREATE DATABASE" Grid.Column="0" Click="btnCreateDb_Click"/>
+            <Button x:Name="btnDropDb" Content="DROP DATABASE" Grid.Column="1" Click="btnDropDb_Click"/>
+            <Button x:Name="btnCreateTable" Content="CREATE TABLE" Grid.Column="2" Click="btnCreateTable_Click"/>
+            <Button x:Name="btnDropTable" Content="DROP TABLE" Grid.Column="3" Click="btnDropTable_Click"/>
         </Grid>
 
-        <!--Grid Label 2-->
-        <Grid Grid.Column="0" Grid.Row="2">
-            <Label VerticalAlignment="Center">Lista Conexiones</Label>
-        </Grid>
-
-        <!--Grid Botones 1-->
+        <!--Grid Botones DDL-->
         <Grid Grid.Column="0" Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnShowDbs" Content="SHOW DATABASES" Grid.Column="0" Click="btnShowDbs_Click"/>
+            <Button x:Name="btnShowTables" Content="SHOW TABLES" Grid.Column="1" Click="btnShowTables_Click"/>
+        </Grid>
+
+        <!--Grid Label DML-->
+        <Grid Grid.Column="0" Grid.Row="4">
+            <Label VerticalAlignment="Center">Manipulación de datos (DML)</Label>
+        </Grid>
+
+        <!--Grid Botones DML-->
+        <Grid Grid.Column="0" Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnGuardar3" Content="Guardar" Grid.Column="0" Click="btnGuardar_Click"/>
-            <Button x:Name="btnGuardar4" Content="Guardar" Grid.Column="1" Click="btnGuardar_Click"/>
+            <Button x:Name="btnSelect" Content="SELECT" Grid.Column="0" Click="btnSelect_Click"/>
+            <Button x:Name="btnInsert" Content="INSERT" Grid.Column="1" Click="btnInsert_Click"/>
+            <Button x:Name="btnUpdate" Content="UPDATE" Grid.Column="2" Click="btnUpdate_Click"/>
+            <Button x:Name="btnDelete" Content="DELETE" Grid.Column="3" Click="btnDelete_Click"/>
         </Grid>
     </Grid>
 </Window>

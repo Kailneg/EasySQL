@@ -85,7 +85,8 @@ namespace EasySQL.Ventanas
 
         private void txtBoxPuerto_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            TextBox datos = (TextBox)sender;
+            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.SoloNumeros(datos.Text));
         }
 
         private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
@@ -103,6 +104,19 @@ namespace EasySQL.Ventanas
         private void chkGuardarContrasenia_LostFocus(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnTest_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnConectar_Click(object sender, RoutedEventArgs e)
+        {
+            Conexion datosActuales = new Conexion();
+            VentanaOperaciones vo = new VentanaOperaciones(this);
+            this.Hide();
+            vo.Show();
         }
     }
 }
