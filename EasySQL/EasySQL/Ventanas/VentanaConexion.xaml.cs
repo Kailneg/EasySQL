@@ -35,40 +35,50 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /*
+         * Botones General
+         */
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
-            VentanaInicio vi = new VentanaInicio(usuarioActivo);
-            this.Close();
-            vi.Show();
+            Cancelar();
         }
 
         private void btnLimpiar_Click(object sender, RoutedEventArgs e)
         {
-            txtBoxNombre.Text = "";
-            txtBoxDireccion.Text = "";
-            txtBoxPuerto.Text = "";
-            txtBoxUsuario.Text = "";
-            txtBoxContrasenia.Text = "";
-            chkGuardarContrasenia.IsChecked = false;
-            rbtnMicrosoft.IsChecked = false;
-            rbtnMySQL.IsChecked = false;
-            rbtnPostgreSQL.IsChecked = false;
+            LimpiarDatos();
         }
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            string nombreConex = txtBoxNombre.Text;
-            string nombreDirecc = txtBoxDireccion.Text;
-            //string no
+            GuardarConexion();
         }
 
-        /// <summary>
-        /// Se comprueban todos los campos obligatorios y que estos tengan datos correctos.
-        /// </summary>
-        private void ComprobarDatos() {
+        private void btnTest_Click(object sender, RoutedEventArgs e)
+        {
+            TestConexion();
+        }
 
-            //Campos obligatorios: nombre conexión, dirección, usuario, tipo conexión.
+        private void btnConectar_Click(object sender, RoutedEventArgs e)
+        {
+            Conectar();
+        }
 
+        /*
+         * Botones ListView
+         */
+        private void btnListaActualizar_Click(object sender, RoutedEventArgs e)
+        {
+            ListaActualizar();
+        }
+
+        private void btnListaBorrar_Click(object sender, RoutedEventArgs e)
+        {
+            ListaBorrar();
+        }
+
+        private void btnListaOrdenar_Click(object sender, RoutedEventArgs e)
+        {
+            ListaOrdenar();
         }
 
         private void txtBoxNombre_LostFocus(object sender, RoutedEventArgs e)
@@ -99,24 +109,6 @@ namespace EasySQL.Ventanas
         {
             TextBox datos = (TextBox)sender;
             Colorea.BordeCorrectoError(datos, Comprueba.Contrasenia(datos.Text));
-        }
-
-        private void chkGuardarContrasenia_LostFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnTest_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnConectar_Click(object sender, RoutedEventArgs e)
-        {
-            Conexion datosActuales = new Conexion();
-            VentanaOperaciones vo = new VentanaOperaciones(datosActuales);
-            this.Close();
-            vo.Show();
         }
     }
 }

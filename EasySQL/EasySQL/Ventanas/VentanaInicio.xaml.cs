@@ -42,6 +42,7 @@ namespace EasySQL.Ventanas
 
         private void btnAcceder_Click(object sender, RoutedEventArgs e)
         {
+            Utils.Consola.NoImplementado();
             Usuario enviar = new Usuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
             VentanaConexion vc = new VentanaConexion(enviar);
             this.Close();

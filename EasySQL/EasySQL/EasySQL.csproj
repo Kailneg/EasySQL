@@ -60,6 +60,8 @@
     <Compile Include="Modelos\Usuario.cs" />
     <Compile Include="Utils\Colorea.cs" />
     <Compile Include="Utils\Comprueba.cs" />
+    <Compile Include="Utils\Consola.cs" />
+    <Compile Include="Ventanas\VentanaConexion.cs" />
     <Compile Include="Ventanas\Operaciones\VOperacionGenerica.xaml.cs">
       <DependentUpon>VOperacionGenerica.xaml</DependentUpon>
     </Compile>
@@ -72,6 +74,7 @@
     <Compile Include="Ventanas\VentanaInicio.xaml.cs">
       <DependentUpon>VentanaInicio.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\VentanaOperaciones.cs" />
     <Compile Include="Ventanas\VentanaOperaciones.xaml.cs">
       <DependentUpon>VentanaOperaciones.xaml</DependentUpon>
     </Compile>

@@ -26,10 +26,12 @@ namespace EasySQL.Ventanas
         }
 
         private void Acceder() {
+            Utils.Consola.NoImplementado();
             MessageBox.Show("Accediendo...");
         }
 
         private bool Guardar() {
+            Utils.Consola.NoImplementado();
             if (ComprobarCampos())
             {
                 MessageBox.Show("Guardando campos");

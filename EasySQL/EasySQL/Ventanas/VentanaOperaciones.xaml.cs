@@ -21,7 +21,6 @@ namespace EasySQL.Ventanas
     /// </summary>
     public partial class VentanaOperaciones : Window
     {
-        private Conexion datosConexion;
         public VentanaOperaciones(Conexion datosConexion)
         {
             InitializeComponent();
@@ -30,74 +29,68 @@ namespace EasySQL.Ventanas
 
         private void btnAtras_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-            VentanaConexion vc = new VentanaConexion(null);
+            Atras();
         }
 
         private void btnCargar_Click(object sender, RoutedEventArgs e)
         {
-
+            Cargar();
+            
         }
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-
+            Guardar();
         }
 
         private void btnCreateDb_Click(object sender, RoutedEventArgs e)
         {
-            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre:");
-            vog.ShowDialog();
+            CreateDB();
         }
 
         private void btnDropDb_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void btnCreateTable_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnDropTable_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnGuardar212_Click(object sender, RoutedEventArgs e)
-        {
-
+            DropDB();
         }
 
         private void btnShowDbs_Click(object sender, RoutedEventArgs e)
         {
+            ShowDBs();
+        }
 
+        private void btnCreateTable_Click(object sender, RoutedEventArgs e)
+        {
+            CreateTable();
+        }
+
+        private void btnDropTable_Click(object sender, RoutedEventArgs e)
+        {
+            DropTable();
         }
 
         private void btnShowTables_Click(object sender, RoutedEventArgs e)
         {
-
+            ShowTables();
         }
 
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
-
+            Select();
         }
 
         private void btnInsert_Click(object sender, RoutedEventArgs e)
         {
-
+            Insert();
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-
+            Update();
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            Delete();
         }
     }
 }
