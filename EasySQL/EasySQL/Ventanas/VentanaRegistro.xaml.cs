@@ -1,4 +1,5 @@
-﻿using EasySQL.Utils;
+﻿using EasySQL.BBDD;
+using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +21,21 @@ namespace EasySQL.Ventanas
     /// </summary>
     public partial class VentanaRegistro : Window
     {
-        public VentanaRegistro()
+        public VentanaInicio vi;
+
+        public VentanaRegistro(VentanaInicio vi)
         {
             InitializeComponent();
+            this.vi = vi;
         }
 
         private void Acceder() {
             Utils.Consola.NoImplementado();
             MessageBox.Show("Accediendo...");
+            this.Close();
+            VentanaConexion vc = new VentanaConexion(new Modelos.Usuario(txtBoxUsuario.Text, txtBoxContrasenia.Text));
+            vi.Close();
+            vc.Show();
         }
 
         private bool Guardar() {
@@ -35,7 +43,17 @@ namespace EasySQL.Ventanas
             if (ComprobarCampos())
             {
                 MessageBox.Show("Guardando campos");
-                return true;
+                bool resultado =
+                BBDDPrograma.ObtenerInstancia().RegistrarUsuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
+                if (resultado)
+                {
+                    MessageBox.Show("Usuario almacenado correctamente.");
+                    return true;
+                } else
+                {
+                    MessageBox.Show("La operación ha fallado.");
+                    return false;
+                }
             }
             else
             {

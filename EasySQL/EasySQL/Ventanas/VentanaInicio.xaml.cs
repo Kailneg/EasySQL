@@ -58,7 +58,7 @@ namespace EasySQL.Ventanas
 
         private void btnRegistro_Click(object sender, RoutedEventArgs e)
         {
-            VentanaRegistro vr = new VentanaRegistro();
+            VentanaRegistro vr = new VentanaRegistro(this);
             vr.ShowDialog();
         }
 

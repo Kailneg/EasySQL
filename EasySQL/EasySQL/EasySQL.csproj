@@ -55,7 +55,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BBDD\BBDDPrograma.cs" />
-    <Compile Include="BBDD\BBDDProgramaImpl.cs" />
     <Compile Include="Modelos\Conexion.cs" />
     <Compile Include="Modelos\Usuario.cs" />
     <Compile Include="Utils\Colorea.cs" />
