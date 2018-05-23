@@ -10,7 +10,7 @@ namespace EasySQL.BBDD
 {
     public class ResultadoLogin
     {
-        public enum TipoResultado { ACEPTADO, DENEGADO }
+        public enum TipoResultado { ACEPTADO, DENEGADO, ERROR }
 
         public TipoResultado ResultadoActual { get; private set; }
         public Usuario UsuarioActual { get; private set; }
@@ -19,6 +19,8 @@ namespace EasySQL.BBDD
             "Usuario y contraseña correcto, accediendo...";
         private readonly static string RESPUESTA_DENEGADO =
             "No existe el usuario o la contraseña no es correcta.";
+        private readonly static string RESPUESTA_ERROR =
+            "Se ha producido un error al intentar conectar con la base de datos.";
 
         public ResultadoLogin(TipoResultado resultado, Usuario usuarioLogin)
         {
@@ -35,6 +37,9 @@ namespace EasySQL.BBDD
                     break;
                 case TipoResultado.DENEGADO:
                     MessageBox.Show(RESPUESTA_DENEGADO);
+                    break;
+                case TipoResultado.ERROR:
+                    MessageBox.Show(RESPUESTA_ERROR);
                     break;
                 default:
                     break;

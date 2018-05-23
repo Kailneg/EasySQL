@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static EasySQL.BBDD.ResultadoRegistro;
+using EasySQL.Modelos;
 
 namespace EasySQL.BBDD
 {
@@ -22,8 +22,9 @@ namespace EasySQL.BBDD
                 + "Initial Catalog=usuarios;"
                 + "Integrated Security=True";
 
+            loginQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario AND contrasenia =@contrasenia";
             registQuery = "INSERT INTO Usuario (nombre, contrasenia) VALUES (@usuario,@contrasenia)";
-            
+            existQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario";
         }
 
         private static BBDDProgramaImpl instancia;
@@ -38,14 +39,43 @@ namespace EasySQL.BBDD
 
         public ResultadoLogin LoginUsuario(string usuario, string contrasenia)
         {
-            throw new NotImplementedException();
+            object resultado = null;
+            using (sqlCon = new SqlConnection(cadenaConexion))
+            {
+                // 1. Crea el comando
+                SqlCommand command = new SqlCommand(loginQuery, sqlCon);
+                command.Parameters.AddWithValue("@usuario", usuario);
+                command.Parameters.AddWithValue("@contrasenia", contrasenia);
+                try
+                {
+                    // 2. Abre the la conexión
+                    sqlCon.Open();
+                    // 3. Ejecuta y devuelve un objeto resultado
+                    resultado = command.ExecuteScalar();
+                }
+                catch (SqlException s)
+                {
+                    Console.WriteLine(s);
+                    return new ResultadoLogin(ResultadoLogin.TipoResultado.ERROR, null);
+                }
+            }
+            // Si el resultado es nulo, no existe el usuario.
+            if (resultado == null)
+            {
+                return new ResultadoLogin(ResultadoLogin.TipoResultado.DENEGADO, null);
+            }
+            else
+            {
+                return new ResultadoLogin(ResultadoLogin.TipoResultado.ACEPTADO,
+                    new Usuario(usuario, contrasenia));
+            }
         }
 
         public ResultadoRegistro RegistrarUsuario(string usuario, string contrasenia)
         {
             if (ExisteUsuario(usuario))
             {
-                return new ResultadoRegistro(TipoResultado.DUPLICADO, null);
+                return new ResultadoRegistro(ResultadoRegistro.TipoResultado.DUPLICADO, null);
             }
             else
             {
@@ -72,12 +102,12 @@ namespace EasySQL.BBDD
                 // Si es distinto a 0, se habrá registrado el usuario
                 if (resultadoFilasSQL != 0)
                 {
-                    return new ResultadoRegistro(TipoResultado.DUPLICADO, 
-                        new Modelos.Usuario(usuario, contrasenia));
+                    return new ResultadoRegistro(ResultadoRegistro.TipoResultado.ACEPTADO, 
+                        new Usuario(usuario, contrasenia));
                 }
                 else
                 {
-                    return new ResultadoRegistro(TipoResultado.ERROR_CONEXION, null);
+                    return new ResultadoRegistro(ResultadoRegistro.TipoResultado.ERROR_CONEXION, null);
                 }
              }
             
@@ -89,8 +119,7 @@ namespace EasySQL.BBDD
             using (sqlCon = new SqlConnection(cadenaConexion))
             {
                 // 1. Crea el comando
-                string query = "SELECT nombre FROM Usuario WHERE nombre =@usuario";
-                SqlCommand command = new SqlCommand(query, sqlCon);
+                SqlCommand command = new SqlCommand(existQuery, sqlCon);
                 command.Parameters.AddWithValue("@usuario", usuario);
 
                 try
@@ -108,5 +137,7 @@ namespace EasySQL.BBDD
             // Si el resultado es nulo, no existe el usuario.
             return (resultado != null);
         }
+
+        
     }
 }
