@@ -142,7 +142,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="config.txt" />
+    <Resource Include="Recursos\config.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Recursos\scriptCreacion.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
