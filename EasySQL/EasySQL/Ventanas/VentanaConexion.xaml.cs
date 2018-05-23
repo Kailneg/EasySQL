@@ -31,6 +31,7 @@ namespace EasySQL.Ventanas
             if (usuario != null)
             {
                 usuarioActivo = usuario;
+                this.Title += "// " + usuario.Nombre + " " + usuario.Contrasenia;
                 //datosPrograma.ObtenerConexiones(usuarioActivo);
             }
         }
