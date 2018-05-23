@@ -53,7 +53,7 @@
         </Grid>
         <!--4 Fila: Botón Acceder-->
         <Grid Grid.Row="7">
-            <Button x:Name="btnAcceder" Content="Guardar y Acceder" Click="btnAcceder_Click"/>
+            <Button x:Name="btnAcceder" Content="Guardar y Acceder" Click="btnGuardarAcceder_Click"/>
         </Grid>
         <!--5 Fila: Botones Acceder sin registrar y registrar-->
         <Grid Grid.Row="9">

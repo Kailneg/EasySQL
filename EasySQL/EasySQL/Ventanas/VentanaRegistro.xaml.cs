@@ -1,4 +1,5 @@
 ﻿using EasySQL.BBDD;
+using EasySQL.Modelos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static EasySQL.BBDD.ResultadoRegistro;
 
 namespace EasySQL.Ventanas
 {
@@ -22,6 +24,10 @@ namespace EasySQL.Ventanas
     public partial class VentanaRegistro : Window
     {
         public VentanaInicio vi;
+        /// <summary>
+        /// Utilizado para la función Guardar y Acceder
+        /// </summary>
+        private Usuario usuarioGuardado;
 
         public VentanaRegistro(VentanaInicio vi)
         {
@@ -32,28 +38,24 @@ namespace EasySQL.Ventanas
         private void Acceder() {
             Utils.Consola.NoImplementado();
             MessageBox.Show("Accediendo...");
-            this.Close();
-            VentanaConexion vc = new VentanaConexion(new Modelos.Usuario(txtBoxUsuario.Text, txtBoxContrasenia.Text));
-            vi.Close();
-            vc.Show();
+            VentanaConexion vc = new VentanaConexion(usuarioGuardado);
+            Manejador.CambiarVentana(this, vc);
         }
 
         private bool Guardar() {
             Utils.Consola.NoImplementado();
             if (ComprobarCampos())
             {
-                MessageBox.Show("Guardando campos");
-                bool resultado =
-                BBDDPrograma.ObtenerInstancia().RegistrarUsuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
-                if (resultado)
+                ResultadoRegistro resultado =
+                    BBDDPrograma.RegistrarUsuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
+                MostrarMensaje(resultado.ResultadoActual);
+                
+                // Si se guarda, lo almacenamos temporalmente por si se desea acceder directamente
+                if (resultado.ResultadoActual == TipoResultado.ACEPTADO)
                 {
-                    MessageBox.Show("Usuario almacenado correctamente.");
-                    return true;
-                } else
-                {
-                    MessageBox.Show("La operación ha fallado.");
-                    return false;
+                    usuarioGuardado = resultado.UsuarioActual;
                 }
+                return (resultado.ResultadoActual == TipoResultado.ACEPTADO);
             }
             else
             {
@@ -63,11 +65,20 @@ namespace EasySQL.Ventanas
         }
 
 
-        private void btnAcceder_Click(object sender, RoutedEventArgs e)
+        private void btnGuardarAcceder_Click(object sender, RoutedEventArgs e)
         {
-            if (Guardar())
+            // Primero se comprueba si hay un usuario ya guardado.
+            // Si el guardado es igual a los datos de los input, se accede directamente sin guardar
+            if (UsuarioGuardadoCorrespondeConInputs())
             {
                 Acceder();
+            }
+            else
+            {
+                if (Guardar())
+                {
+                    Acceder();
+                }
             }
         }
 
@@ -78,7 +89,8 @@ namespace EasySQL.Ventanas
 
         private void btnAtras_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            VentanaInicio vi = new VentanaInicio(usuarioGuardado);
+            Manejador.CambiarVentana(this, vi);
         }
 
         private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
@@ -111,6 +123,19 @@ namespace EasySQL.Ventanas
         {
             return (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false)
                 && txtBoxRepetirContrasenia.Text.Equals(txtBoxContrasenia.Text);
+        }
+
+        private bool UsuarioGuardadoCorrespondeConInputs()
+        {
+            if (this.usuarioGuardado != null)
+            {
+                if (this.usuarioGuardado.Nombre.Equals(txtBoxUsuario.Text) &&
+                    this.usuarioGuardado.Contrasenia.Equals(txtBoxContrasenia.Text))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

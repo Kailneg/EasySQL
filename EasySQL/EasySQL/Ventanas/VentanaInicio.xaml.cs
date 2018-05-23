@@ -45,21 +45,19 @@ namespace EasySQL.Ventanas
             Utils.Consola.NoImplementado();
             Usuario enviar = new Usuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
             VentanaConexion vc = new VentanaConexion(enviar);
-            this.Close();
-            vc.Show();
+            Manejador.CambiarVentana(this, vc);
         }
 
         private void btnInvitado_Click(object sender, RoutedEventArgs e)
         {
             VentanaConexion vc = new VentanaConexion(null);
-            this.Close();
-            vc.Show();
+            Manejador.CambiarVentana(this, vc);
         }
 
         private void btnRegistro_Click(object sender, RoutedEventArgs e)
         {
             VentanaRegistro vr = new VentanaRegistro(this);
-            vr.ShowDialog();
+            Manejador.CambiarVentana(this, vr);
         }
 
         private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
