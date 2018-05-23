@@ -1,4 +1,5 @@
-﻿using EasySQL.Modelos;
+﻿using EasySQL.BBDD;
+using EasySQL.Modelos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -42,11 +43,27 @@ namespace EasySQL.Ventanas
 
         private void btnAcceder_Click(object sender, RoutedEventArgs e)
         {
-            Utils.Consola.NoImplementado();
-            Usuario enviar = new Usuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
-            VentanaConexion vc = new VentanaConexion(enviar);
-            Manejador.CambiarVentana(this, vc);
+            if (ComprobarCampos())
+            {
+                Usuario enviar = new Usuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
+                
+                ResultadoLogin resultado =
+                    BBDDPrograma.LoginUsuario(enviar.Nombre, enviar.Contrasenia);
+                ResultadoLogin.MostrarMensaje(resultado.ResultadoActual);
+
+                // Si el login ha sido correcto, abrimos la ventana de conexión pasando el usuario logeado.
+                if (resultado.ResultadoActual == ResultadoLogin.TipoResultado.ACEPTADO)
+                {
+                    VentanaConexion vc = new VentanaConexion(enviar);
+                    Manejador.CambiarVentana(this, vc);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Uno o más campos contienen errores");
+            }
         }
+        
 
         private void btnInvitado_Click(object sender, RoutedEventArgs e)
         {
@@ -72,6 +89,10 @@ namespace EasySQL.Ventanas
             Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.Contrasenia(datos.Text));
         }
 
-
+        private bool ComprobarCampos()
+        {
+            return ((Comprueba.Usuario(txtBoxUsuario.Text) ?? false)
+                && (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false));
+        }
     }
 }

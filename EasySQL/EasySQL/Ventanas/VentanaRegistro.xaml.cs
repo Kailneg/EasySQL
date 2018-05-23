@@ -36,14 +36,12 @@ namespace EasySQL.Ventanas
         }
 
         private void Acceder() {
-            Utils.Consola.NoImplementado();
             MessageBox.Show("Accediendo...");
             VentanaConexion vc = new VentanaConexion(usuarioGuardado);
             Manejador.CambiarVentana(this, vc);
         }
 
         private bool Guardar() {
-            Utils.Consola.NoImplementado();
             if (ComprobarCampos())
             {
                 ResultadoRegistro resultado =
@@ -117,8 +115,7 @@ namespace EasySQL.Ventanas
                 && (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false)
                 && ComprobarContrasenias());
         }
-
-
+        
         private bool ComprobarContrasenias()
         {
             return (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false)
