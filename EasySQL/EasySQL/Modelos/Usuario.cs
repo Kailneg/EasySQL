@@ -10,7 +10,6 @@ namespace EasySQL.Modelos
     {
         public string Nombre { get; set; }
         public string Contrasenia { get; set; }
-        public DateTime FechaCreacion { get; set; }
 
         public static bool ComprobarContrasenia(String contrasenia)
         {
