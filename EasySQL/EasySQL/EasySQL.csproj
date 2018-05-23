@@ -55,11 +55,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BBDD\BBDDPrograma.cs" />
+    <Compile Include="BBDD\BBDDProgramaImpl.cs" />
+    <Compile Include="BBDD\ResultadoLogin.cs" />
+    <Compile Include="BBDD\ResultadoRegistro.cs" />
     <Compile Include="Modelos\Conexion.cs" />
     <Compile Include="Modelos\Usuario.cs" />
     <Compile Include="Utils\Colorea.cs" />
     <Compile Include="Utils\Comprueba.cs" />
     <Compile Include="Utils\Consola.cs" />
+    <Compile Include="Ventanas\Manejador.cs" />
     <Compile Include="Ventanas\VentanaConexion.cs" />
     <Compile Include="Ventanas\Operaciones\VOperacionGenerica.xaml.cs">
       <DependentUpon>VOperacionGenerica.xaml</DependentUpon>
