@@ -22,18 +22,10 @@ namespace EasySQL.Ventanas
     /// </summary>
     public partial class VentanaConexion : Window
     {
-        private Usuario usuarioActivo;
-        private BBDDPrograma datosPrograma;
-
         public VentanaConexion(Usuario usuario)
         {
             InitializeComponent();
-            if (usuario != null)
-            {
-                usuarioActivo = usuario;
-                this.Title += "// " + usuario.Nombre + " " + usuario.Contrasenia;
-                //datosPrograma.ObtenerConexiones(usuarioActivo);
-            }
+            ComprobacionInicial(usuario);
         }
 
         /*

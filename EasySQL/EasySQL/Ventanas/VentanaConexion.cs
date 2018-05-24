@@ -1,4 +1,5 @@
-﻿using EasySQL.Modelos;
+﻿using EasySQL.BBDD;
+using EasySQL.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,53 @@ namespace EasySQL.Ventanas
 {
     public partial class VentanaConexion : Window
     {
+        private Usuario usuarioActivo;
+        private BBDDPrograma datosPrograma;
+        private List<Conexion> conexionesUsuario;
+
+        private void ComprobacionInicial(Usuario usuario)
+        {
+            if (ComprobarUsuario(usuario))
+            {
+                conexionesUsuario = ObtenerConexionesUsuario();
+                if (conexionesUsuario != null)
+                {
+                    MostarConexionesUsuario();
+                }
+            }
+        }
+
+        private bool ComprobarUsuario(Usuario usuario)
+        {
+            if (usuario != null)
+            {
+                usuarioActivo = usuario;
+                MostrarTituloUsuario();
+                return true;
+            }
+            return false;
+        }
+
+        private void MostrarTituloUsuario()
+        {
+            this.Title += " || Conectado usuario: " + usuarioActivo.Nombre;
+        }
+
+        private List<Conexion> ObtenerConexionesUsuario()
+        {
+            //datosPrograma.ObtenerConexiones(usuarioActivo);
+            // debe llamar a la bbdd y traer una lista con todas las conexiones pobladas
+            // que existan para ese usuario
+            throw new NotImplementedException();
+        }
+
+        private void MostarConexionesUsuario()
+        {
+            // Listview listaConexiones
+            // Debe mostrar en el ListView cada una de las conexiones existentes en conexionesUsuario
+            throw new NotImplementedException();
+        }
+
         private void GuardarConexion()
         {
             if (ComprobarDatos())

@@ -138,6 +138,9 @@ namespace EasySQL.BBDD
             return (resultado != null);
         }
 
-        
+        public List<Conexion> ObtenerConexionesUsuario(Usuario usuario)
+        {
+            return null;
+        }
     }
 }

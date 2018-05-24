@@ -41,7 +41,7 @@
             <Grid Grid.Row="0">
                 <Label VerticalAlignment="Top">Lista Conexiones</Label>
             </Grid>
-            <ListView x:Name="listaConexiones" Grid.Row="1">
+            <ListView x:Name="listViewConexiones" Grid.Row="1">
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContextMenu>
