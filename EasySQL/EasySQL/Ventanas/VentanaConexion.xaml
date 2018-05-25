@@ -44,12 +44,9 @@
             <ListView x:Name="listViewConexiones" Grid.Row="1">
                 <ListView.View>
                     <GridView>
-                        <GridView.ColumnHeaderContextMenu>
-                            <ContextMenu/>
-                        </GridView.ColumnHeaderContextMenu>
-                        <GridViewColumn/>
+                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Id}"/>
+                        <GridViewColumn Header="Dirección" DisplayMemberBinding="{Binding Name}"/>
                     </GridView>
-                    
                 </ListView.View>
             </ListView>
         </Grid>

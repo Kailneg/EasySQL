@@ -62,11 +62,22 @@ namespace EasySQL.Ventanas
         {
             if (ComprobarDatos())
             {
+                ListViewItem item = new ListViewItem();
                 string nombreConex = txtBoxNombre.Text;
                 string nombreDirecc = txtBoxDireccion.Text;
+                item.
+                item.SubItems.Add(textBox2.Text);
+                item.SubItems.Add(textBox3.Text);
+                item.SubItems.Add(textBox4.Text);
+                listViewConexiones.Items.Add(item);
+                listView1.Items.Add(new ListViewItem(new[] { "John dsfsfsdfs", "1", "100" }));
+                listView1.Items.Add(new ListViewItem(new[] { "Smith sdfsdfsdfs", "2", "120" }));
+                listView1.Items.Add(new ListViewItem(new[] { "Cait dsffffffffffffffffffffff", "3", "97" }));
+                listView1.Items.Add(new ListViewItem(new[] { "Irene", "4", "100" }));
+                listView1.Items.Add(new ListViewItem(new[]{"Ben", "5", "100"}));
+                listView1.Items.Add(new ListViewItem (new[]{"Deniel           jjhkh", "6", "88"}));
                 //string no
                 //listaConexiones.Items.Add(new Conexion());
-                listViewConexiones.Items.Add(nombreConex + " " + nombreDirecc);
             }
         }
 
