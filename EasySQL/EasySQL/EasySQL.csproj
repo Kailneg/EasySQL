@@ -56,6 +56,7 @@
     </ApplicationDefinition>
     <Compile Include="BBDD\BBDDPrograma.cs" />
     <Compile Include="BBDD\BBDDProgramaImpl.cs" />
+    <Compile Include="BBDD\BBDDProgramaMapeo.cs" />
     <Compile Include="BBDD\ResultadoConexiones.cs" />
     <Compile Include="BBDD\ResultadoLogin.cs" />
     <Compile Include="BBDD\ResultadoRegistro.cs" />

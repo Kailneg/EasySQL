@@ -66,6 +66,7 @@ namespace EasySQL.Ventanas
                 string nombreDirecc = txtBoxDireccion.Text;
                 //string no
                 //listaConexiones.Items.Add(new Conexion());
+                listViewConexiones.Items.Add(nombreConex + " " + nombreDirecc);
             }
         }
 
@@ -79,7 +80,7 @@ namespace EasySQL.Ventanas
             chkGuardarContrasenia.IsChecked = false;
             rbtnMicrosoftSQL.IsChecked = false;
             rbtnMySQL.IsChecked = false;
-            rbtnOracleDB.IsChecked = false;
+            rbtnPostgreSQL.IsChecked = false;
         }
 
         /// <summary>

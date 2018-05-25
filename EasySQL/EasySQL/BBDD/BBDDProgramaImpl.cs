@@ -113,6 +113,19 @@ namespace EasySQL.BBDD
             
         }
 
+        public void RegistrarConexion(Conexion guardar)
+        {
+            // Mirar cada uno de los campos
+            // Teniendo en consiederaración el campo Puerto
+            // Si el puerto no está relleno, usar el por defecto almacenado en la bbdd
+
+        }
+
+        private int obtenerPuertoDefecto(Conexion.TipoConexion tipo)
+        {
+            return 0;
+        }
+
         private bool ExisteUsuario(string usuario)
         {
             object resultado = null;

@@ -96,7 +96,7 @@
                 </Grid.RowDefinitions>
                 <RadioButton x:Name="rbtnMicrosoftSQL" GroupName="tipoConexion" Grid.Row="0" VerticalAlignment="Center">Microsoft SQL</RadioButton>
                 <RadioButton x:Name="rbtnMySQL" GroupName="tipoConexion" Grid.Row="1" VerticalAlignment="Center">MySQL</RadioButton>
-                <RadioButton x:Name="rbtnOracleDB" GroupName="tipoConexion" Grid.Row="2" VerticalAlignment="Center" Content="Oracle DB"/>
+                <RadioButton x:Name="rbtnPostgreSQL" GroupName="tipoConexion" Grid.Row="2" VerticalAlignment="Center" Content="PostgreSQL"/>
             </Grid>
 
             <Label Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left">* Campos marcados con un asterísco deben ser rellenados.</Label>
