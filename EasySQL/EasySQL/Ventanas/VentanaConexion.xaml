@@ -46,6 +46,8 @@
                     <GridView>
                         <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}"/>
                         <GridViewColumn Header="Dirección" DisplayMemberBinding="{Binding Direccion}"/>
+                        <GridViewColumn Header="Tipo Conexión" DisplayMemberBinding="{Binding TipoActual}"/>
+                        <GridViewColumn Header="Usuario" DisplayMemberBinding="{Binding UsuarioConexion}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

@@ -2,6 +2,7 @@
 using EasySQL.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,19 +14,30 @@ namespace EasySQL.Ventanas
     public partial class VentanaConexion : Window
     {
         private Usuario usuarioActivo;
-        private List<Conexion> conexionesUsuario;
+        private ObservableCollection<Conexion> listaConexiones;
         private Conexion conexionActual;
 
         private void ComprobacionInicial(Usuario usuario)
         {
             if (ComprobarUsuario(usuario))
             {
-                conexionesUsuario = ObtenerConexionesUsuario();
-                if (conexionesUsuario != null)
+                //listaConexiones = ObtenerConexionesUsuario();
+                if (listaConexiones != null)
                 {
                     MostarConexionesUsuario();
                 }
             }
+            listaConexiones = new ObservableCollection<Conexion>
+            {
+                new Conexion() { Nombre = "Estudiantes", Puerto = 42, Direccion = "localhost//Estudiantes",
+                    TipoActual = Conexion.TipoConexion.SQLServer},
+                new Conexion() { Nombre = "Mis pruebas", Puerto = 7, Direccion = "localhost//Pruebas" },
+                new Conexion() { Nombre = "Prueba Ejercicio", Puerto = 7, Direccion = "localhost//Ejercicio",
+                    TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "root", ContraseniaConexion = "root"},
+                new Conexion() { Nombre = "Cocina", Puerto = 39, Direccion = "localhost//Cocina",
+                    TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "cocinero", ContraseniaConexion = "root"},
+            };
+            listViewConexiones.ItemsSource = listaConexiones;
         }
 
         private bool ComprobarUsuario(Usuario usuario)
@@ -57,8 +69,8 @@ namespace EasySQL.Ventanas
             txtBoxUsuario.Text = actual.UsuarioConexion;
             txtBoxContrasenia.Text = actual.ContraseniaConexion;
             chkGuardarContrasenia.IsChecked = false;
-            rbtnMicrosoftSQL.IsChecked = false;
-            rbtnMySQL.IsChecked = false;
+            rbtnMicrosoftSQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.SQLServer);
+            rbtnMySQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.MySQL);
         }
 
         private List<Conexion> ObtenerConexionesUsuario()
@@ -79,12 +91,7 @@ namespace EasySQL.Ventanas
         private void GuardarConexion()
         {
 
-            conexionesUsuario = new List<Conexion>();
-            conexionesUsuario.Add(new Conexion() { Nombre = "John Doe", Puerto = 42, Direccion = "john@doe-family.com" });
-            conexionesUsuario.Add(new Conexion() { Nombre = "Jane Doe", Puerto = 39, Direccion = "jane@doe-family.com" });
-            conexionesUsuario.Add(new Conexion() { Nombre = "Sammy Doe", Puerto = 7, Direccion = "sammy.doe@gmail.com" });
-            conexionesUsuario.Add(new Conexion() { Nombre = "Aammy Foe", Puerto = 7, Direccion = "sammy.doe@gmail.com" });
-            listViewConexiones.ItemsSource = conexionesUsuario;
+            
 
             //if (ComprobarDatos())
             //{
@@ -147,11 +154,15 @@ namespace EasySQL.Ventanas
          */
         private void ListaActualizar()
         {
-            Utils.Consola.NoImplementado();
+            // Reasigna las conexiones al listView para reflejar los cambios.
+            listViewConexiones.ItemsSource = listaConexiones;
+            
         }
 
         private void ListaBorrar()
         {
+            listaConexiones.Remove(conexionActual);
+            //ListaActualizar();
             // Debo mandar el comando sql para borrar y
             LimpiarDatos();
             Utils.Consola.NoImplementado();
@@ -165,9 +176,10 @@ namespace EasySQL.Ventanas
         {
             if (listViewConexiones.Items.Count > 0)
             {
-                conexionesUsuario = conexionesUsuario.OrderBy(c => c.Nombre).ToList();
-                // Reasigna las conexiones al listView para reflejar los cambios.
-                listViewConexiones.ItemsSource = conexionesUsuario;
+
+                // listaConexiones = new ObservableCollection<Conexion>(listaConexiones.OrderBy(c => c.Nombre));
+                listaConexiones.OrderBy(c => c.Nombre);
+                //ListaActualizar();
             } else
             {
                 MessageBox.Show("No existen conexiones a ordenar");
@@ -177,7 +189,10 @@ namespace EasySQL.Ventanas
         private void SeleccionCambiada(object sender)
         {
             Conexion nueva = (sender as ListView).SelectedItem as Conexion;
-            ActualizarConexionActual(nueva);
+            if (nueva != null)
+            {
+                ActualizarConexionActual(nueva);
+            }
         }
 
         /// <summary>
