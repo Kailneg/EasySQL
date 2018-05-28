@@ -103,5 +103,15 @@ namespace EasySQL.Ventanas
             TextBox datos = (TextBox)sender;
             Colorea.BordeCorrectoError(datos, Comprueba.Contrasenia(datos.Text));
         }
+
+        private void listViewConexiones_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SeleccionCambiada(sender);
+        }
+
+        private void chkIntegratedSecurity_Click(object sender, RoutedEventArgs e)
+        {
+            IntegratedSecurity(sender);
+        }
     }
 }

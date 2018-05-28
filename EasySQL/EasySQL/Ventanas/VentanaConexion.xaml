@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         
         <!--Grid lista conexiones-->
@@ -41,11 +41,11 @@
             <Grid Grid.Row="0">
                 <Label VerticalAlignment="Top">Lista Conexiones</Label>
             </Grid>
-            <ListView x:Name="listViewConexiones" Grid.Row="1">
+            <ListView x:Name="listViewConexiones" Grid.Row="1" SelectionChanged="listViewConexiones_SelectionChanged">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Header="Dirección" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}"/>
+                        <GridViewColumn Header="Dirección" DisplayMemberBinding="{Binding Direccion}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -89,11 +89,14 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
                 <RadioButton x:Name="rbtnMicrosoftSQL" GroupName="tipoConexion" Grid.Row="0" VerticalAlignment="Center">Microsoft SQL</RadioButton>
+                <CheckBox   x:Name="chkIntegratedSecurity" Grid.Column="1" Grid.Row="0" Content="Integrated Security" Click="chkIntegratedSecurity_Click"/>
                 <RadioButton x:Name="rbtnMySQL" GroupName="tipoConexion" Grid.Row="1" VerticalAlignment="Center">MySQL</RadioButton>
-                <RadioButton x:Name="rbtnPostgreSQL" GroupName="tipoConexion" Grid.Row="2" VerticalAlignment="Center" Content="PostgreSQL"/>
             </Grid>
 
             <Label Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left">* Campos marcados con un asterísco deben ser rellenados.</Label>

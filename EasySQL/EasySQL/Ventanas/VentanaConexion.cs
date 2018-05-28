@@ -6,14 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace EasySQL.Ventanas
 {
     public partial class VentanaConexion : Window
     {
         private Usuario usuarioActivo;
-        private BBDDPrograma datosPrograma;
         private List<Conexion> conexionesUsuario;
+        private Conexion conexionActual;
 
         private void ComprobacionInicial(Usuario usuario)
         {
@@ -43,6 +44,23 @@ namespace EasySQL.Ventanas
             this.Title += " || Conectado usuario: " + usuarioActivo.Nombre;
         }
 
+        /// <summary>
+        /// Actualiza la conexion seleccionada actual, reflejando los nuevos datos por pantalla.
+        /// </summary>
+        /// <param name="actual">La nueva conexión a mostrar</param>
+        private void ActualizarConexionActual(Conexion actual)
+        {
+            conexionActual = actual;
+            txtBoxNombre.Text = actual.Nombre;
+            txtBoxDireccion.Text = actual.Direccion;
+            txtBoxPuerto.Text = actual.Puerto.ToString();
+            txtBoxUsuario.Text = actual.UsuarioConexion;
+            txtBoxContrasenia.Text = actual.ContraseniaConexion;
+            chkGuardarContrasenia.IsChecked = false;
+            rbtnMicrosoftSQL.IsChecked = false;
+            rbtnMySQL.IsChecked = false;
+        }
+
         private List<Conexion> ObtenerConexionesUsuario()
         {
             //datosPrograma.ObtenerConexiones(usuarioActivo);
@@ -60,25 +78,21 @@ namespace EasySQL.Ventanas
 
         private void GuardarConexion()
         {
-            if (ComprobarDatos())
-            {
-                ListViewItem item = new ListViewItem();
-                string nombreConex = txtBoxNombre.Text;
-                string nombreDirecc = txtBoxDireccion.Text;
-                item.
-                item.SubItems.Add(textBox2.Text);
-                item.SubItems.Add(textBox3.Text);
-                item.SubItems.Add(textBox4.Text);
-                listViewConexiones.Items.Add(item);
-                listView1.Items.Add(new ListViewItem(new[] { "John dsfsfsdfs", "1", "100" }));
-                listView1.Items.Add(new ListViewItem(new[] { "Smith sdfsdfsdfs", "2", "120" }));
-                listView1.Items.Add(new ListViewItem(new[] { "Cait dsffffffffffffffffffffff", "3", "97" }));
-                listView1.Items.Add(new ListViewItem(new[] { "Irene", "4", "100" }));
-                listView1.Items.Add(new ListViewItem(new[]{"Ben", "5", "100"}));
-                listView1.Items.Add(new ListViewItem (new[]{"Deniel           jjhkh", "6", "88"}));
-                //string no
-                //listaConexiones.Items.Add(new Conexion());
-            }
+
+            conexionesUsuario = new List<Conexion>();
+            conexionesUsuario.Add(new Conexion() { Nombre = "John Doe", Puerto = 42, Direccion = "john@doe-family.com" });
+            conexionesUsuario.Add(new Conexion() { Nombre = "Jane Doe", Puerto = 39, Direccion = "jane@doe-family.com" });
+            conexionesUsuario.Add(new Conexion() { Nombre = "Sammy Doe", Puerto = 7, Direccion = "sammy.doe@gmail.com" });
+            conexionesUsuario.Add(new Conexion() { Nombre = "Aammy Foe", Puerto = 7, Direccion = "sammy.doe@gmail.com" });
+            listViewConexiones.ItemsSource = conexionesUsuario;
+
+            //if (ComprobarDatos())
+            //{
+            //    string nombreConex = txtBoxNombre.Text;
+            //    string nombreDirecc = txtBoxDireccion.Text;
+            //    //string no
+            //    //listaConexiones.Items.Add(new Conexion());
+            //}
         }
 
         private void LimpiarDatos()
@@ -91,7 +105,6 @@ namespace EasySQL.Ventanas
             chkGuardarContrasenia.IsChecked = false;
             rbtnMicrosoftSQL.IsChecked = false;
             rbtnMySQL.IsChecked = false;
-            rbtnPostgreSQL.IsChecked = false;
         }
 
         /// <summary>
@@ -139,12 +152,47 @@ namespace EasySQL.Ventanas
 
         private void ListaBorrar()
         {
+            // Debo mandar el comando sql para borrar y
+            LimpiarDatos();
             Utils.Consola.NoImplementado();
         }
 
+        /// <summary>
+        /// Ordena alfabéticamente según "Nombre" la lista de conexiones.
+        /// En caso de no existir conexiones, lanza un aviso.
+        /// </summary>
         private void ListaOrdenar()
         {
-            Utils.Consola.NoImplementado();
+            if (listViewConexiones.Items.Count > 0)
+            {
+                conexionesUsuario = conexionesUsuario.OrderBy(c => c.Nombre).ToList();
+                // Reasigna las conexiones al listView para reflejar los cambios.
+                listViewConexiones.ItemsSource = conexionesUsuario;
+            } else
+            {
+                MessageBox.Show("No existen conexiones a ordenar");
+            }
+        }
+
+        private void SeleccionCambiada(object sender)
+        {
+            Conexion nueva = (sender as ListView).SelectedItem as Conexion;
+            ActualizarConexionActual(nueva);
+        }
+
+        /// <summary>
+        /// Desactiva los campos Usuario y contraseña en caso de marcar la opción
+        /// "Integrated Security" para SQL Server.
+        /// </summary>
+        /// <param name="sender"></param>
+        private void IntegratedSecurity(object sender)
+        {
+            bool habilitado = !(sender as CheckBox).IsChecked.Value;
+            txtBoxUsuario.IsEnabled = habilitado;
+            txtBoxContrasenia.IsEnabled = habilitado;
+            chkGuardarContrasenia.IsEnabled = habilitado;
+            rbtnMySQL.IsEnabled = habilitado;
+            rbtnMicrosoftSQL.IsChecked = true;
         }
     }
 }
