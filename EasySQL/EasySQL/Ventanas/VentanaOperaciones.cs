@@ -18,7 +18,7 @@ namespace EasySQL.Ventanas
         private void Atras()
         {
             this.Close();
-            VentanaConexion vc = new VentanaConexion(null);
+            VentanaConexion vc = new VentanaConexion(datosConexion.Propietario);
         }
 
         private void Cargar()
@@ -36,12 +36,14 @@ namespace EasySQL.Ventanas
          */
         private void CreateDB()
         {
-            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre:");
+            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre de la BBDD a crear:");
             vog.ShowDialog();
         }
 
         private void DropDB()
         {
+            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre de la BBDD a eliminar:");
+            vog.ShowDialog();
             Utils.Consola.NoImplementado();
         }
 
@@ -52,12 +54,15 @@ namespace EasySQL.Ventanas
 
         private void CreateTable()
         {
+            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre de la tabla a crear:");
+            vog.ShowDialog();
             Utils.Consola.NoImplementado();
         }
 
         private void DropTable()
         {
-
+            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre de la tabla a crear:");
+            vog.ShowDialog();
             Utils.Consola.NoImplementado();
         }
 

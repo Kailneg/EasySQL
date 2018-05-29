@@ -25,5 +25,10 @@ namespace EasySQL.BBDD
         {
             return BBDDProgramaImpl.ObtenerInstancia().ObtenerConexionesUsuario(usuario);
         }
+
+        public static int ObtenerIDUsuario(Usuario usuario)
+        {
+            return BBDDProgramaImpl.ObtenerInstancia().ObtenerIDUsuario(usuario);
+        }
     }
 }

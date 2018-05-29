@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasySQL.BBDD;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace EasySQL.Modelos
 {
     public class Usuario
     {
+        public int ID { get; set; }
         public string Nombre { get; set; }
         public string Contrasenia { get; set; }
 
@@ -20,6 +22,7 @@ namespace EasySQL.Modelos
         {
             Nombre = nombre;
             Contrasenia = contrasenia;
+            ID = BBDDPrograma.ObtenerIDUsuario(this);
         }
     }
 }

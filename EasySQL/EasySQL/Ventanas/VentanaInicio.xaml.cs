@@ -44,17 +44,15 @@ namespace EasySQL.Ventanas
         private void btnAcceder_Click(object sender, RoutedEventArgs e)
         {
             if (ComprobarCampos())
-            {
-                Usuario enviar = new Usuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
-                
+            {                
                 ResultadoLogin resultado =
-                    BBDDPrograma.LoginUsuario(enviar.Nombre, enviar.Contrasenia);
+                    BBDDPrograma.LoginUsuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
                 ResultadoLogin.MostrarMensaje(resultado.ResultadoActual);
 
                 // Si el login ha sido correcto, abrimos la ventana de conexión pasando el usuario logeado.
                 if (resultado.ResultadoActual == ResultadoLogin.TipoResultado.ACEPTADO)
                 {
-                    VentanaConexion vc = new VentanaConexion(enviar);
+                    VentanaConexion vc = new VentanaConexion(resultado.UsuarioActual);
                     Manejador.CambiarVentana(this, vc);
                 }
             }

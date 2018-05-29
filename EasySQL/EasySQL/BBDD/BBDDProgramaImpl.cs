@@ -12,7 +12,7 @@ namespace EasySQL.BBDD
     {
         private string cadenaConexion;
         private SqlConnection sqlCon;
-        private string registQuery, existQuery, loginQuery;
+        private string registrarQuery, existirQuery, loginQuery, obtenerIDQuery;
 
         private BBDDProgramaImpl()
         {
@@ -23,8 +23,9 @@ namespace EasySQL.BBDD
                 + "Integrated Security=True";
 
             loginQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario AND contrasenia =@contrasenia";
-            registQuery = "INSERT INTO Usuario (nombre, contrasenia) VALUES (@usuario,@contrasenia)";
-            existQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario";
+            registrarQuery = "INSERT INTO Usuario (nombre, contrasenia) VALUES (@usuario,@contrasenia)";
+            existirQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario";
+            obtenerIDQuery = "SELECT id_usuario FROM Usuario WHERE nombre=@usuario AND contrasenia=@contrasenia";
         }
 
         private static BBDDProgramaImpl instancia;
@@ -84,7 +85,7 @@ namespace EasySQL.BBDD
                 using (sqlCon = new SqlConnection(cadenaConexion))
                 {
                     // 1. Crea el comando
-                    SqlCommand registCommand = new SqlCommand(registQuery, sqlCon);
+                    SqlCommand registCommand = new SqlCommand(registrarQuery, sqlCon);
                     registCommand.Parameters.AddWithValue("@usuario", usuario);
                     registCommand.Parameters.AddWithValue("@contrasenia", contrasenia);
                     try
@@ -113,6 +114,41 @@ namespace EasySQL.BBDD
             
         }
 
+        public int ObtenerIDUsuario(Usuario usuario)
+        {
+            // SELECT id_usuario FROM usuario
+            // WHERE nombre = AND contrasenia =
+            object resultado = null;
+            using (sqlCon = new SqlConnection(cadenaConexion))
+            {
+                // 1. Crea el comando
+                SqlCommand command = new SqlCommand(obtenerIDQuery, sqlCon);
+                command.Parameters.AddWithValue("@usuario", usuario.Nombre);
+                command.Parameters.AddWithValue("@contrasenia", usuario.Contrasenia);
+                try
+                {
+                    // 2. Abre the la conexión
+                    sqlCon.Open();
+                    // 3. Ejecuta y devuelve un objeto resultado
+                    resultado = command.ExecuteScalar();
+                }
+                catch (SqlException s)
+                {
+                    Console.WriteLine(s);
+                    return -1;
+                }
+            }
+            // Si el resultado es nulo, no existe el usuario.
+            if (resultado == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return (int) resultado;
+            }
+        }
+
         public void RegistrarConexion(Conexion guardar)
         {
             // Mirar cada uno de los campos
@@ -132,7 +168,7 @@ namespace EasySQL.BBDD
             using (sqlCon = new SqlConnection(cadenaConexion))
             {
                 // 1. Crea el comando
-                SqlCommand command = new SqlCommand(existQuery, sqlCon);
+                SqlCommand command = new SqlCommand(existirQuery, sqlCon);
                 command.Parameters.AddWithValue("@usuario", usuario);
 
                 try
@@ -153,6 +189,10 @@ namespace EasySQL.BBDD
 
         public List<Conexion> ObtenerConexionesUsuario(Usuario usuario)
         {
+            /*
+             * SELECT id_conexion, id_tipo_conexion, c.nombre, direccion, puerto, usuario, c.contrasenia 
+             *  FROM conexion as c INNER JOIN usuario on c.id_usuario = usuario.id_usuario
+             */
             return null;
         }
     }
