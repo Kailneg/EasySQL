@@ -1,6 +1,7 @@
 ﻿using EasySQL.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace EasySQL.BBDD
             return BBDDProgramaImpl.ObtenerInstancia().LoginUsuario(usuario, contrasenia);
         }
 
-        public static List<Conexion> ObtenerConexionesUsuario(Usuario usuario)
+        public static ObservableCollection<Conexion> ObtenerConexionesUsuario(Usuario usuario)
         {
             return BBDDProgramaImpl.ObtenerInstancia().ObtenerConexionesUsuario(usuario);
         }

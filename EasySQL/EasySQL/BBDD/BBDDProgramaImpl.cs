@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace EasySQL.BBDD
     {
         private string cadenaConexion;
         private SqlConnection sqlCon;
-        private string registrarQuery, existirQuery, loginQuery, obtenerIDQuery;
+        private string registrarQuery, existirQuery, loginQuery, obtenerIDQuery, obtenerConexionesQuery;
 
         private BBDDProgramaImpl()
         {
@@ -26,6 +27,8 @@ namespace EasySQL.BBDD
             registrarQuery = "INSERT INTO Usuario (nombre, contrasenia) VALUES (@usuario,@contrasenia)";
             existirQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario";
             obtenerIDQuery = "SELECT id_usuario FROM Usuario WHERE nombre=@usuario AND contrasenia=@contrasenia";
+            obtenerConexionesQuery = "SELECT id_conexion, id_tipo_conexion, nombre, direccion, puerto, usuario, contrasenia " +
+                                        "FROM conexion WHERE id_usuario = @id_usuario";
         }
 
         private static BBDDProgramaImpl instancia;
@@ -187,13 +190,13 @@ namespace EasySQL.BBDD
             return (resultado != null);
         }
 
-        public List<Conexion> ObtenerConexionesUsuario(Usuario usuario)
+        public ObservableCollection<Conexion> ObtenerConexionesUsuario(Usuario usuario)
         {
             /*
              * SELECT id_conexion, id_tipo_conexion, c.nombre, direccion, puerto, usuario, c.contrasenia 
              *  FROM conexion as c INNER JOIN usuario on c.id_usuario = usuario.id_usuario
              */
-            return null;
+            return new ObservableCollection<Conexion>();
         }
     }
 }
