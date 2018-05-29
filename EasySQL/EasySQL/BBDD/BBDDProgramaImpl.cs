@@ -196,7 +196,36 @@ namespace EasySQL.BBDD
              * SELECT id_conexion, id_tipo_conexion, c.nombre, direccion, puerto, usuario, c.contrasenia 
              *  FROM conexion as c INNER JOIN usuario on c.id_usuario = usuario.id_usuario
              */
-            return new ObservableCollection<Conexion>();
+            SqlDataReader lector = null;
+            using (sqlCon = new SqlConnection(cadenaConexion))
+            {
+                // 1. Crea el comando
+                SqlCommand command = new SqlCommand(obtenerConexionesQuery, sqlCon);
+                command.Parameters.AddWithValue("@id_usuario", usuario.ID);
+                try
+                {
+                    // 2. Abre the la conexión
+                    sqlCon.Open();
+                    // 3. Ejecuta y devuelve un objeto resultado
+                    lector = command.ExecuteReader();
+
+                    // Si el lector no es nulo, parsear las conexiones
+                    if (lector != null)
+                    {
+                        return new ObservableCollection<Conexion>(BBDDProgramaMapeo.ExtraerConexiones(lector, usuario));
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (SqlException s)
+                {
+                    Console.WriteLine(s);
+                    return null;
+                }
+            }
+            
         }
     }
 }

@@ -60,26 +60,27 @@ namespace EasySQL.Ventanas
             txtBoxUsuario.Text = actual.UsuarioConexion;
             txtBoxContrasenia.Text = actual.ContraseniaConexion;
             chkGuardarContrasenia.IsChecked = false;
-            rbtnMicrosoftSQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.SQLServer);
+            rbtnMicrosoftSQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.MicrosoftSQL);
             rbtnMySQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.MySQL);
         }
 
         private ObservableCollection<Conexion> ObtenerConexionesUsuario()
         {
-            //datosPrograma.ObtenerConexiones(usuarioActivo);
+
             // debe llamar a la bbdd y traer una lista con todas las conexiones pobladas
             // que existan para ese usuario
-            ObservableCollection<Conexion> listaConexiones = new ObservableCollection<Conexion>
-            {
-                new Conexion() { Nombre = "Estudiantes", Puerto = 42, Direccion = "localhost//Estudiantes",
-                    TipoActual = Conexion.TipoConexion.SQLServer},
-                new Conexion() { Nombre = "Mis pruebas", Puerto = 7, Direccion = "localhost//Pruebas" },
-                new Conexion() { Nombre = "Prueba Ejercicio", Puerto = 7, Direccion = "localhost//Ejercicio",
-                    TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "root", ContraseniaConexion = "root"},
-                new Conexion() { Nombre = "Cocina", Puerto = 39, Direccion = "localhost//Cocina",
-                    TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "cocinero", ContraseniaConexion = "root"},
-            };
-            return listaConexiones;
+            //ObservableCollection<Conexion> listaConexiones = new ObservableCollection<Conexion>
+            //{
+            //    new Conexion() { Nombre = "Estudiantes", Puerto = 42, Direccion = "localhost//Estudiantes",
+            //        TipoActual = Conexion.TipoConexion.SQLServer},
+            //    new Conexion() { Nombre = "Mis pruebas", Puerto = 7, Direccion = "localhost//Pruebas" },
+            //    new Conexion() { Nombre = "Prueba Ejercicio", Puerto = 7, Direccion = "localhost//Ejercicio",
+            //        TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "root", ContraseniaConexion = "root"},
+            //    new Conexion() { Nombre = "Cocina", Puerto = 39, Direccion = "localhost//Cocina",
+            //        TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "cocinero", ContraseniaConexion = "root"},
+            //};
+            return BBDDPrograma.ObtenerConexionesUsuario(usuarioActivo);
+            //return listaConexiones;
         }
 
         private void MostarConexionesUsuario()

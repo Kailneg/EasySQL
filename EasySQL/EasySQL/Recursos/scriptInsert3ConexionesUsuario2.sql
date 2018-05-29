@@ -1,5 +1,5 @@
 /*****
-Insertando conexiones para usuario 1
+Insertando conexiones para usuario 2 manolo
 ******/
 
 USE [usuarios]
@@ -16,10 +16,10 @@ INSERT INTO [dbo].[conexion]
            ,[fecha_creacion])
      VALUES
            (0
-           ,1
-           ,'Mi Microsoft SQL'
-           ,'localhost/SQLALE'
-           ,1433
+           ,2
+           ,'ManolinBBDD'
+           ,'localhost/Manolin'
+           ,12345
            ,'Integrated Security'
            ,''
            ,default)
@@ -36,12 +36,12 @@ INSERT INTO [dbo].[conexion]
            ,[fecha_creacion])
      VALUES
            (1
-           ,1
-           ,'Mi MySQL'
+           ,2
+           ,'La mejor bbdd'
            ,'localhost/MySQLServer'
            ,3306
-           ,'root'
-           ,'root'
+           ,'manolin'
+           ,'manolito'
            ,default)
 GO
 
@@ -55,12 +55,12 @@ INSERT INTO [dbo].[conexion]
            ,[contrasenia]
            ,[fecha_creacion])
      VALUES
-           (0
-           ,1
-           ,'cocina'
-           ,'localhost/SQLALE'
-           ,1433
-           ,'Integrated Security'
-           ,''
+           (1
+           ,2
+           ,'La segunda mejor bbd'
+           ,'localhost/MySQLServer2'
+           ,3306
+           ,'manolin2'
+           ,'manolito2'
            ,default)
 GO
