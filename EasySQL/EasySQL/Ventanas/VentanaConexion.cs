@@ -133,18 +133,16 @@ namespace EasySQL.Ventanas
         {
             if (ComprobarDatos())
             {
-                Conexion datosActuales = new Conexion();
+                Conexion datosActuales = new Conexion() { Propietario = usuarioActivo };
                 VentanaOperaciones vo = new VentanaOperaciones(datosActuales);
-                this.Close();
-                vo.Show();
+                Manejador.CambiarVentana(this, vo);
             }
         }
 
         private void Cancelar()
         {
             VentanaInicio vi = new VentanaInicio(usuarioActivo);
-            this.Close();
-            vi.Show();
+            Manejador.CambiarVentana(this, vi);
         }
 
         /*

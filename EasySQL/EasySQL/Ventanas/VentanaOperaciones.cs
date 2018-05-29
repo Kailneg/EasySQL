@@ -17,8 +17,8 @@ namespace EasySQL.Ventanas
          */
         private void Atras()
         {
-            this.Close();
             VentanaConexion vc = new VentanaConexion(datosConexion.Propietario);
+            Manejador.CambiarVentana(this, vc);
         }
 
         private void Cargar()
