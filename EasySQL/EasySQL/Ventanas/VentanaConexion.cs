@@ -21,23 +21,13 @@ namespace EasySQL.Ventanas
         {
             if (ComprobarUsuario(usuario))
             {
-                //listaConexiones = ObtenerConexionesUsuario();
+                listaConexiones = ObtenerConexionesUsuario();
                 if (listaConexiones != null)
                 {
                     MostarConexionesUsuario();
                 }
             }
-            listaConexiones = new ObservableCollection<Conexion>
-            {
-                new Conexion() { Nombre = "Estudiantes", Puerto = 42, Direccion = "localhost//Estudiantes",
-                    TipoActual = Conexion.TipoConexion.SQLServer},
-                new Conexion() { Nombre = "Mis pruebas", Puerto = 7, Direccion = "localhost//Pruebas" },
-                new Conexion() { Nombre = "Prueba Ejercicio", Puerto = 7, Direccion = "localhost//Ejercicio",
-                    TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "root", ContraseniaConexion = "root"},
-                new Conexion() { Nombre = "Cocina", Puerto = 39, Direccion = "localhost//Cocina",
-                    TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "cocinero", ContraseniaConexion = "root"},
-            };
-            listViewConexiones.ItemsSource = listaConexiones;
+            
         }
 
         private bool ComprobarUsuario(Usuario usuario)
@@ -53,7 +43,8 @@ namespace EasySQL.Ventanas
 
         private void MostrarTituloUsuario()
         {
-            this.Title += " || Conectado usuario: " + usuarioActivo.Nombre;
+            this.Title += " || Conectado usuario: " + usuarioActivo.Nombre
+                + " con ID: " + usuarioActivo.ID;
         }
 
         /// <summary>
@@ -73,26 +64,33 @@ namespace EasySQL.Ventanas
             rbtnMySQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.MySQL);
         }
 
-        private List<Conexion> ObtenerConexionesUsuario()
+        private ObservableCollection<Conexion> ObtenerConexionesUsuario()
         {
             //datosPrograma.ObtenerConexiones(usuarioActivo);
             // debe llamar a la bbdd y traer una lista con todas las conexiones pobladas
             // que existan para ese usuario
-            throw new NotImplementedException();
+            ObservableCollection<Conexion> listaConexiones = new ObservableCollection<Conexion>
+            {
+                new Conexion() { Nombre = "Estudiantes", Puerto = 42, Direccion = "localhost//Estudiantes",
+                    TipoActual = Conexion.TipoConexion.SQLServer},
+                new Conexion() { Nombre = "Mis pruebas", Puerto = 7, Direccion = "localhost//Pruebas" },
+                new Conexion() { Nombre = "Prueba Ejercicio", Puerto = 7, Direccion = "localhost//Ejercicio",
+                    TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "root", ContraseniaConexion = "root"},
+                new Conexion() { Nombre = "Cocina", Puerto = 39, Direccion = "localhost//Cocina",
+                    TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "cocinero", ContraseniaConexion = "root"},
+            };
+            return listaConexiones;
         }
 
         private void MostarConexionesUsuario()
         {
             // Listview listaConexiones
             // Debe mostrar en el ListView cada una de las conexiones existentes en conexionesUsuario
-            throw new NotImplementedException();
+            listViewConexiones.ItemsSource = listaConexiones;
         }
 
         private void GuardarConexion()
         {
-
-            
-
             //if (ComprobarDatos())
             //{
             //    string nombreConex = txtBoxNombre.Text;
@@ -154,15 +152,15 @@ namespace EasySQL.Ventanas
          */
         private void ListaActualizar()
         {
+            // Debe traer de nuevo las conexiones del usuario de la bbdd
             // Reasigna las conexiones al listView para reflejar los cambios.
-            listViewConexiones.ItemsSource = listaConexiones;
-            
+            MostarConexionesUsuario();
         }
 
         private void ListaBorrar()
         {
             listaConexiones.Remove(conexionActual);
-            //ListaActualizar();
+
             // Debo mandar el comando sql para borrar y
             LimpiarDatos();
             Utils.Consola.NoImplementado();
@@ -177,9 +175,8 @@ namespace EasySQL.Ventanas
             if (listViewConexiones.Items.Count > 0)
             {
 
-                // listaConexiones = new ObservableCollection<Conexion>(listaConexiones.OrderBy(c => c.Nombre));
-                listaConexiones.OrderBy(c => c.Nombre);
-                //ListaActualizar();
+                listaConexiones = new ObservableCollection<Conexion>(listaConexiones.OrderBy(c => c.Nombre));
+                ListaActualizar();
             } else
             {
                 MessageBox.Show("No existen conexiones a ordenar");
