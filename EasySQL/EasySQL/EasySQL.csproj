@@ -137,6 +137,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Recursos\DiagramaBBDD-drawio.pdf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -147,8 +148,14 @@
     <Resource Include="Recursos\config.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Recursos\scriptCreacion.sql" />
     <Resource Include="Recursos\toDo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Recursos\DiagramaBBDD-drawio.xml" />
+    <Content Include="Recursos\scriptCreacionBBDDPrograma.sql" />
+    <Content Include="Recursos\scriptInsert1tipo_conexiones.sql" />
+    <Content Include="Recursos\scriptInsert2usuarios.sql" />
+    <Content Include="Recursos\scriptInsert3ConexionesUsuario1.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
