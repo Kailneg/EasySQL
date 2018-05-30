@@ -103,6 +103,7 @@ namespace EasySQL.Ventanas
 
         private void LimpiarDatos()
         {
+            conexionActual = null;
             txtBoxNombre.Text = "";
             txtBoxDireccion.Text = "";
             txtBoxPuerto.Text = "";
@@ -156,11 +157,14 @@ namespace EasySQL.Ventanas
             MostarConexionesUsuario();
         }
 
+        /// <summary>
+        /// Elimina de la lista de conexiones la conexión seleccionada, ejecuta el comando 
+        /// que borra la conexión de la BBDD, y limpia los campos de la aplicación
+        /// </summary>
         private void ListaBorrar()
         {
             listaConexiones.Remove(conexionActual);
-
-            // Debo mandar el comando sql para borrar y
+            BBDDPrograma.EliminarConexion(conexionActual);
             LimpiarDatos();
             Utils.Consola.NoImplementado();
         }

@@ -13,7 +13,8 @@ namespace EasySQL.BBDD
     {
         private string cadenaConexion;
         private SqlConnection sqlCon;
-        private string registrarQuery, existirQuery, loginQuery, obtenerIDQuery, obtenerConexionesQuery;
+        private string registrarQuery, existirQuery, loginQuery, obtenerIDQuery, obtenerConexionesQuery,
+            eliminarConexionQuery;
 
         private BBDDProgramaImpl()
         {
@@ -29,6 +30,7 @@ namespace EasySQL.BBDD
             obtenerIDQuery = "SELECT id_usuario FROM Usuario WHERE nombre=@usuario AND contrasenia=@contrasenia";
             obtenerConexionesQuery = "SELECT id_conexion, id_tipo_conexion, nombre, direccion, puerto, usuario, contrasenia " +
                                         "FROM conexion WHERE id_usuario = @id_usuario";
+            eliminarConexionQuery = "DELETE FROM Conexion WHERE id_conexion = @id_conexion";
         }
 
         private static BBDDProgramaImpl instancia;
@@ -160,34 +162,30 @@ namespace EasySQL.BBDD
 
         }
 
-        private int obtenerPuertoDefecto(Conexion.TipoConexion tipo)
+        public bool EliminarConexion(Conexion eliminar)
         {
-            return 0;
-        }
+            int resultadoFilasSQL = 0;
 
-        private bool ExisteUsuario(string usuario)
-        {
-            object resultado = null;
             using (sqlCon = new SqlConnection(cadenaConexion))
             {
                 // 1. Crea el comando
-                SqlCommand command = new SqlCommand(existirQuery, sqlCon);
-                command.Parameters.AddWithValue("@usuario", usuario);
-
+                SqlCommand registCommand = new SqlCommand(eliminarConexionQuery, sqlCon);
+                registCommand.Parameters.AddWithValue("@id_conexion", eliminar.ID);
                 try
                 {
                     // 2. Abre the la conexión
                     sqlCon.Open();
-                    // 3. Ejecuta y devuelve un objeto resultado
-                    resultado = command.ExecuteScalar();
+                    // 3. Ejecuta y devuelve el número de filas afectadas
+                    resultadoFilasSQL = registCommand.ExecuteNonQuery();
                 }
                 catch (SqlException s)
                 {
                     Console.WriteLine(s);
                 }
             }
-            // Si el resultado es nulo, no existe el usuario.
-            return (resultado != null);
+            // Si es distinto a 0, se eliminado la conexión
+            return (resultadoFilasSQL != 0);
+            
         }
 
         public ObservableCollection<Conexion> ObtenerConexionesUsuario(Usuario usuario)
@@ -225,7 +223,40 @@ namespace EasySQL.BBDD
                     return null;
                 }
             }
-            
+
         }
+
+        //// Métodos privados ////
+
+        private bool ExisteUsuario(string usuario)
+        {
+            object resultado = null;
+            using (sqlCon = new SqlConnection(cadenaConexion))
+            {
+                // 1. Crea el comando
+                SqlCommand command = new SqlCommand(existirQuery, sqlCon);
+                command.Parameters.AddWithValue("@usuario", usuario);
+
+                try
+                {
+                    // 2. Abre the la conexión
+                    sqlCon.Open();
+                    // 3. Ejecuta y devuelve un objeto resultado
+                    resultado = command.ExecuteScalar();
+                }
+                catch (SqlException s)
+                {
+                    Console.WriteLine(s);
+                }
+            }
+            // Si el resultado es nulo, no existe el usuario.
+            return (resultado != null);
+        }
+
+        private int obtenerPuertoDefecto(Conexion.TipoConexion tipo)
+        {
+            return 0;
+        }
+
     }
 }
