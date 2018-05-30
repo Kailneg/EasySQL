@@ -46,7 +46,7 @@ namespace EasySQL.Ventanas
             {
                 ResultadoRegistro resultado =
                     BBDDPrograma.RegistrarUsuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
-                MostrarMensaje(resultado.ResultadoActual);
+                resultado.MostrarMensaje();
                 
                 // Si se guarda, lo almacenamos temporalmente por si se desea acceder directamente
                 if (resultado.ResultadoActual == TipoResultado.ACEPTADO)

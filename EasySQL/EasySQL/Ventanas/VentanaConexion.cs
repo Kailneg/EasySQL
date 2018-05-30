@@ -90,15 +90,26 @@ namespace EasySQL.Ventanas
             listViewConexiones.ItemsSource = listaConexiones;
         }
 
-        private void GuardarConexion()
+        private bool GuardarConexion()
         {
-            //if (ComprobarDatos())
-            //{
-            //    string nombreConex = txtBoxNombre.Text;
-            //    string nombreDirecc = txtBoxDireccion.Text;
-            //    //string no
-            //    //listaConexiones.Items.Add(new Conexion());
-            //}
+            if (ComprobarCampos())
+            {
+                ResultadoConexion resultado =
+                    BBDDPrograma.RegistrarConexion(conexionActual);
+                resultado.MostrarMensaje();
+
+                // Si se guarda, lo almacenamos temporalmente por si se desea acceder directamente
+                if (resultado.ResultadoActual == ResultadoConexion.TipoResultado.ACEPTADO)
+                {
+                    conexionActual = resultado.ConexionGuardar;
+                }
+                return (resultado.ResultadoActual == ResultadoConexion.TipoResultado.ACEPTADO);
+            }
+            else
+            {
+                MessageBox.Show("Uno o más campos contienen errores");
+                return false;
+            }
         }
 
         private void LimpiarDatos()
@@ -119,7 +130,7 @@ namespace EasySQL.Ventanas
         /// </summary>
         /// <returns>Devuelve true si los campos obligatorios tienen valores correctos y los demás
         /// estén vacíos o con valores correctos.</returns>
-        private bool ComprobarDatos()
+        private bool ComprobarCampos()
         {
             //Campos obligatorios: nombre conexión, dirección, usuario, tipo conexión.
             Console.Write("ComprobarDatos no implementado");
@@ -133,7 +144,7 @@ namespace EasySQL.Ventanas
 
         private void Conectar()
         {
-            if (ComprobarDatos())
+            if (ComprobarCampos())
             {
                 Conexion datosActuales = new Conexion() { Propietario = usuarioActivo };
                 VentanaOperaciones vo = new VentanaOperaciones(datosActuales);

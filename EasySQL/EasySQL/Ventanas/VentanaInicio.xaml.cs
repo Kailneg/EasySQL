@@ -47,7 +47,7 @@ namespace EasySQL.Ventanas
             {                
                 ResultadoLogin resultado =
                     BBDDPrograma.LoginUsuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
-                ResultadoLogin.MostrarMensaje(resultado.ResultadoActual);
+                resultado.MostrarMensaje();
 
                 // Si el login ha sido correcto, abrimos la ventana de conexión pasando el usuario logeado.
                 if (resultado.ResultadoActual == ResultadoLogin.TipoResultado.ACEPTADO)

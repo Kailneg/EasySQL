@@ -28,9 +28,9 @@ namespace EasySQL.BBDD
             UsuarioActual = usuarioLogin;
         }
 
-        public static TipoResultado MostrarMensaje(TipoResultado r)
+        public void MostrarMensaje()
         {
-            switch (r)
+            switch (ResultadoActual)
             {
                 case TipoResultado.ACEPTADO:
                     MessageBox.Show(RESPUESTA_ACEPTADO);
@@ -44,7 +44,6 @@ namespace EasySQL.BBDD
                 default:
                     break;
             }
-            return r;
         }
     }
 }

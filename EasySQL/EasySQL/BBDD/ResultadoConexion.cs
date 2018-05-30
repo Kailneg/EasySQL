@@ -8,36 +8,35 @@ using System.Windows;
 
 namespace EasySQL.BBDD
 {
-    public class ResultadoConexiones
+    public class ResultadoConexion
     {
-        public enum TipoResultado { ACEPTADO, NO_EXISTE, ERROR }
+        public enum TipoResultado { ACEPTADO, DUPLICADA, ERROR }
 
         public TipoResultado ResultadoActual { get; private set; }
-        public Usuario UsuarioActual { get; private set; }
-        public List<Conexion> ConexionesUsuario { get; private set; }
+        public Conexion ConexionGuardar { get; private set; }
 
         private readonly static string RESPUESTA_ACEPTADO =
-            "Conexiones correctamente recuperadas.";
-        private readonly static string RESPUESTA_NO_EXISTE =
-            "No existen conexiones almacenadas en la base de datos.";
+            "Se ha almacenado correctamente la conexion";
+        private readonly static string RESPUESTA_DUPLICADA =
+            "La conexión ya se encuentra almacenada en la base de datos.";
         private readonly static string RESPUESTA_ERROR =
             "Se ha producido un error al intentar conectar con la base de datos.";
 
-        public ResultadoConexiones(TipoResultado resultado, List<Conexion> conexiones)
+        public ResultadoConexion(TipoResultado resultado, Conexion conexiones)
         {
             ResultadoActual = resultado;
-            ConexionesUsuario = conexiones;
+            ConexionGuardar = conexiones;
         }
 
-        public TipoResultado MostrarMensaje(TipoResultado r)
+        public void MostrarMensaje()
         {
-            switch (r)
+            switch (ResultadoActual)
             {
                 case TipoResultado.ACEPTADO:
-                    MessageBox.Show(ConexionesUsuario?.Count + RESPUESTA_ACEPTADO);
+                    MessageBox.Show(RESPUESTA_ACEPTADO);
                     break;
-                case TipoResultado.NO_EXISTE:
-                    MessageBox.Show(RESPUESTA_NO_EXISTE);
+                case TipoResultado.DUPLICADA:
+                    MessageBox.Show(RESPUESTA_DUPLICADA);
                     break;
                 case TipoResultado.ERROR:
                     MessageBox.Show(RESPUESTA_ERROR);
@@ -45,7 +44,6 @@ namespace EasySQL.BBDD
                 default:
                     break;
             }
-            return r;
         }
     }
 }

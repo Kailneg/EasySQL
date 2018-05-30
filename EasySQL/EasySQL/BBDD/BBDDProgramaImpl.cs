@@ -46,13 +46,12 @@ namespace EasySQL.BBDD
 
         public ResultadoLogin LoginUsuario(string usuario, string contrasenia)
         {
-            // Crea el comando
-            SqlCommand command = new SqlCommand(loginQuery);
-            command.Parameters.AddWithValue("@usuario", usuario);
-            command.Parameters.AddWithValue("@contrasenia", contrasenia);
+            SqlCommand loginCmd = new SqlCommand(loginQuery);
+            loginCmd.Parameters.AddWithValue("@usuario", usuario);
+            loginCmd.Parameters.AddWithValue("@contrasenia", contrasenia);
 
             // Obtiene el resultado
-            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, command);
+            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, loginCmd);
             
             // Si el resultado es nulo, no existe el usuario.
             if (resultado == null)
@@ -77,7 +76,6 @@ namespace EasySQL.BBDD
             }
             else
             {
-                // Crea el comando
                 SqlCommand registrarCmd = new SqlCommand(registrarQuery);
                 registrarCmd.Parameters.AddWithValue("@usuario", usuario);
                 registrarCmd.Parameters.AddWithValue("@contrasenia", contrasenia);
@@ -118,21 +116,30 @@ namespace EasySQL.BBDD
             }
         }
 
-        public void RegistrarConexion(Conexion guardar)
+        public ResultadoConexion RegistrarConexion(Conexion guardar)
         {
-            // Mirar cada uno de los campos
-            // Teniendo en consiederaración el campo Puerto
             // Si el puerto no está relleno, usar el por defecto almacenado en la bbdd
-
+            // INSERT INTO conexion VALUES 
+            // id_conexion, tipo_conexion, id_usuario, nombre, direccion, puerto, usuario, contrasenia, 
+            int tipo_conexion = (int)guardar.TipoActual;
+            int id_usuario = guardar.Propietario.ID;
+            string nombre = guardar.Nombre;
+            string direccion = guardar.Direccion;
+            string usuario = guardar.UsuarioConexion;
+            string contrasenia = guardar.ContraseniaConexion;
+            int puerto = guardar.Puerto;
+            if (puerto == 0)
+                puerto = obtenerPuertoDefecto(guardar.TipoActual);
+            return null;
+            // La conexion se registra y luego se obtiene el ID de la BBDD en el constructor de Conexion
         }
 
         public bool EliminarConexion(Conexion eliminar)
         {
-            // Crea el comando
-            SqlCommand registCommand = new SqlCommand(eliminarConexionQuery);
-            registCommand.Parameters.AddWithValue("@id_conexion", eliminar.ID);
-            // Obtiene resultados
-            int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, registCommand); 
+            SqlCommand eliminarCmd = new SqlCommand(eliminarConexionQuery);
+            eliminarCmd.Parameters.AddWithValue("@id_conexion", eliminar.ID);
+            // Obtiene resultado
+            int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, eliminarCmd); 
 
             // Si es distinto a 0, se eliminado la conexión
             return (resultadoFilasSQL != 0);
