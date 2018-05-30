@@ -44,6 +44,7 @@
             <ListView x:Name="listViewConexiones" Grid.Row="1" SelectionChanged="listViewConexiones_SelectionChanged">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
                         <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}"/>
                         <GridViewColumn Header="Dirección" DisplayMemberBinding="{Binding Direccion}"/>
                         <GridViewColumn Header="Tipo Conexión" DisplayMemberBinding="{Binding TipoActual}"/>

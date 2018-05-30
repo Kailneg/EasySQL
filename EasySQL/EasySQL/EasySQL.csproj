@@ -62,6 +62,7 @@
     <Compile Include="BBDD\ResultadoRegistro.cs" />
     <Compile Include="Modelos\Conexion.cs" />
     <Compile Include="Modelos\Usuario.cs" />
+    <Compile Include="Utils\AyudanteSQL.cs" />
     <Compile Include="Utils\Colorea.cs" />
     <Compile Include="Utils\Comprueba.cs" />
     <Compile Include="Utils\Consola.cs" />

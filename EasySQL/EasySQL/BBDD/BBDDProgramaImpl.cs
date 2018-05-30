@@ -6,13 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EasySQL.Modelos;
+using EasySQL.Utils;
 
 namespace EasySQL.BBDD
 {
     public class BBDDProgramaImpl
     {
         private string cadenaConexion;
-        private SqlConnection sqlCon;
+        
         private string registrarQuery, existirQuery, loginQuery, obtenerIDQuery, obtenerConexionesQuery,
             eliminarConexionQuery;
 
@@ -45,32 +46,23 @@ namespace EasySQL.BBDD
 
         public ResultadoLogin LoginUsuario(string usuario, string contrasenia)
         {
-            object resultado = null;
-            using (sqlCon = new SqlConnection(cadenaConexion))
-            {
-                // 1. Crea el comando
-                SqlCommand command = new SqlCommand(loginQuery, sqlCon);
-                command.Parameters.AddWithValue("@usuario", usuario);
-                command.Parameters.AddWithValue("@contrasenia", contrasenia);
-                try
-                {
-                    // 2. Abre the la conexión
-                    sqlCon.Open();
-                    // 3. Ejecuta y devuelve un objeto resultado
-                    resultado = command.ExecuteScalar();
-                }
-                catch (SqlException s)
-                {
-                    Console.WriteLine(s);
-                    return new ResultadoLogin(ResultadoLogin.TipoResultado.ERROR, null);
-                }
-            }
+            // Crea el comando
+            SqlCommand command = new SqlCommand(loginQuery);
+            command.Parameters.AddWithValue("@usuario", usuario);
+            command.Parameters.AddWithValue("@contrasenia", contrasenia);
+
+            // Obtiene el resultado
+            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, command);
+            
             // Si el resultado es nulo, no existe el usuario.
             if (resultado == null)
             {
                 return new ResultadoLogin(ResultadoLogin.TipoResultado.DENEGADO, null);
             }
-            else
+            else if (resultado.Equals(AyudanteSQL.ERROR))
+            {
+                return new ResultadoLogin(ResultadoLogin.TipoResultado.ERROR, null);
+            }
             {
                 return new ResultadoLogin(ResultadoLogin.TipoResultado.ACEPTADO,
                     new Usuario(usuario, contrasenia));
@@ -85,28 +77,16 @@ namespace EasySQL.BBDD
             }
             else
             {
-                int resultadoFilasSQL = 0;
+                // Crea el comando
+                SqlCommand registrarCmd = new SqlCommand(registrarQuery);
+                registrarCmd.Parameters.AddWithValue("@usuario", usuario);
+                registrarCmd.Parameters.AddWithValue("@contrasenia", contrasenia);
 
-                using (sqlCon = new SqlConnection(cadenaConexion))
-                {
-                    // 1. Crea el comando
-                    SqlCommand registCommand = new SqlCommand(registrarQuery, sqlCon);
-                    registCommand.Parameters.AddWithValue("@usuario", usuario);
-                    registCommand.Parameters.AddWithValue("@contrasenia", contrasenia);
-                    try
-                    {
-                        // 2. Abre the la conexión
-                        sqlCon.Open();
-                        // 3. Ejecuta y devuelve el número de filas afectadas
-                        resultadoFilasSQL = registCommand.ExecuteNonQuery();
-                    }
-                    catch (SqlException s)
-                    {
-                        Console.WriteLine(s);
-                    }
-                }
-                // Si es distinto a 0, se habrá registrado el usuario
-                if (resultadoFilasSQL != 0)
+                // Obtiene el resultado
+                int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, registrarCmd);
+                
+                // Si es distinto mayor a 0, se habrá registrado el usuario
+                if (resultadoFilasSQL > 0)
                 {
                     return new ResultadoRegistro(ResultadoRegistro.TipoResultado.ACEPTADO, 
                         new Usuario(usuario, contrasenia));
@@ -121,28 +101,12 @@ namespace EasySQL.BBDD
 
         public int ObtenerIDUsuario(Usuario usuario)
         {
-            // SELECT id_usuario FROM usuario
-            // WHERE nombre = AND contrasenia =
-            object resultado = null;
-            using (sqlCon = new SqlConnection(cadenaConexion))
-            {
-                // 1. Crea el comando
-                SqlCommand command = new SqlCommand(obtenerIDQuery, sqlCon);
-                command.Parameters.AddWithValue("@usuario", usuario.Nombre);
-                command.Parameters.AddWithValue("@contrasenia", usuario.Contrasenia);
-                try
-                {
-                    // 2. Abre the la conexión
-                    sqlCon.Open();
-                    // 3. Ejecuta y devuelve un objeto resultado
-                    resultado = command.ExecuteScalar();
-                }
-                catch (SqlException s)
-                {
-                    Console.WriteLine(s);
-                    return -1;
-                }
-            }
+            // Crea el comando
+            SqlCommand obtenerCmd = new SqlCommand(obtenerIDQuery);
+            obtenerCmd.Parameters.AddWithValue("@usuario", usuario.Nombre);
+            obtenerCmd.Parameters.AddWithValue("@contrasenia", usuario.Contrasenia);
+            // Obtiene el resultado
+            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, obtenerCmd);
             // Si el resultado es nulo, no existe el usuario.
             if (resultado == null)
             {
@@ -164,91 +128,46 @@ namespace EasySQL.BBDD
 
         public bool EliminarConexion(Conexion eliminar)
         {
-            int resultadoFilasSQL = 0;
+            // Crea el comando
+            SqlCommand registCommand = new SqlCommand(eliminarConexionQuery);
+            registCommand.Parameters.AddWithValue("@id_conexion", eliminar.ID);
+            // Obtiene resultados
+            int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, registCommand); 
 
-            using (sqlCon = new SqlConnection(cadenaConexion))
-            {
-                // 1. Crea el comando
-                SqlCommand registCommand = new SqlCommand(eliminarConexionQuery, sqlCon);
-                registCommand.Parameters.AddWithValue("@id_conexion", eliminar.ID);
-                try
-                {
-                    // 2. Abre the la conexión
-                    sqlCon.Open();
-                    // 3. Ejecuta y devuelve el número de filas afectadas
-                    resultadoFilasSQL = registCommand.ExecuteNonQuery();
-                }
-                catch (SqlException s)
-                {
-                    Console.WriteLine(s);
-                }
-            }
             // Si es distinto a 0, se eliminado la conexión
             return (resultadoFilasSQL != 0);
-            
         }
 
         public ObservableCollection<Conexion> ObtenerConexionesUsuario(Usuario usuario)
         {
-            /*
-             * SELECT id_conexion, id_tipo_conexion, c.nombre, direccion, puerto, usuario, c.contrasenia 
-             *  FROM conexion as c INNER JOIN usuario on c.id_usuario = usuario.id_usuario
-             */
-            SqlDataReader lector = null;
-            using (sqlCon = new SqlConnection(cadenaConexion))
+            // Crea el comando
+            SqlCommand obtenerConexCmd = new SqlCommand(obtenerConexionesQuery);
+            obtenerConexCmd.Parameters.AddWithValue("@id_usuario", usuario.ID);
+            using (SqlDataReader lector = AyudanteSQL.ExecuteReader(cadenaConexion, obtenerConexCmd))
             {
-                // 1. Crea el comando
-                SqlCommand command = new SqlCommand(obtenerConexionesQuery, sqlCon);
-                command.Parameters.AddWithValue("@id_usuario", usuario.ID);
-                try
+                // Si el lector no es nulo, parsear las conexiones
+                if (lector != null)
                 {
-                    // 2. Abre the la conexión
-                    sqlCon.Open();
-                    // 3. Ejecuta y devuelve un objeto resultado
-                    lector = command.ExecuteReader();
-
-                    // Si el lector no es nulo, parsear las conexiones
-                    if (lector != null)
-                    {
-                        return new ObservableCollection<Conexion>(BBDDProgramaMapeo.ExtraerConexiones(lector, usuario));
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    ObservableCollection<Conexion> retorno = new ObservableCollection<Conexion>(BBDDProgramaMapeo.ExtraerConexiones(lector, usuario));
+                    return retorno;
                 }
-                catch (SqlException s)
+                else
                 {
-                    Console.WriteLine(s);
                     return null;
                 }
             }
-
         }
 
         //// Métodos privados ////
 
         private bool ExisteUsuario(string usuario)
         {
-            object resultado = null;
-            using (sqlCon = new SqlConnection(cadenaConexion))
-            {
-                // 1. Crea el comando
-                SqlCommand command = new SqlCommand(existirQuery, sqlCon);
-                command.Parameters.AddWithValue("@usuario", usuario);
+            // Crea el comando
+            SqlCommand existirCmd = new SqlCommand(existirQuery);
+            existirCmd.Parameters.AddWithValue("@usuario", usuario);
+            // Obtiene resultado
+            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, existirCmd);
 
-                try
-                {
-                    // 2. Abre the la conexión
-                    sqlCon.Open();
-                    // 3. Ejecuta y devuelve un objeto resultado
-                    resultado = command.ExecuteScalar();
-                }
-                catch (SqlException s)
-                {
-                    Console.WriteLine(s);
-                }
-            }
             // Si el resultado es nulo, no existe el usuario.
             return (resultado != null);
         }
