@@ -12,6 +12,16 @@ namespace EasySQL.Ventanas
     public partial class VentanaOperaciones : Window
     {
         private Conexion datosConexion;
+
+        /// <summary>
+        /// Actualiza el título de la pantalla con el nombre e ID del usuario.
+        /// </summary>
+        private void MostrarTitulo()
+        {
+            this.Title += " || Conectado usuario: " + datosConexion.UsuarioConexion +
+                " - " + datosConexion.Direccion + " (" + datosConexion.Nombre + ")";
+        }
+
         /*
          * Botones General
          */

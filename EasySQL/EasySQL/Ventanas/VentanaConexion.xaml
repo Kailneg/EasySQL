@@ -49,6 +49,7 @@
                         <GridViewColumn Header="Dirección" DisplayMemberBinding="{Binding Direccion}"/>
                         <GridViewColumn Header="Tipo Conexión" DisplayMemberBinding="{Binding TipoActual}"/>
                         <GridViewColumn Header="Usuario" DisplayMemberBinding="{Binding UsuarioConexion}"/>
+                        <GridViewColumn Header="Usuario" DisplayMemberBinding="{Binding Puerto}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

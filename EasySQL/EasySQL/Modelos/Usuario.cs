@@ -9,6 +9,7 @@ namespace EasySQL.Modelos
 {
     public class Usuario
     {
+        public static readonly string NombreIntegratedSecurity = "Integrated Security";
         public int ID { get; set; }
         public string Nombre { get; set; }
         public string Contrasenia { get; set; }

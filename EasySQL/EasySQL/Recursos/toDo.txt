@@ -1,1 +1,1 @@
-﻿quitar static a los metodos mostrar mensaje resultadoregistro,login,conexiones
+﻿nombre, direccion, usuario deben admitir espacios

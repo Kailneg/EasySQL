@@ -1,5 +1,6 @@
 ﻿using EasySQL.BBDD;
 using EasySQL.Modelos;
+using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,6 +42,9 @@ namespace EasySQL.Ventanas
             return false;
         }
 
+        /// <summary>
+        /// Actualiza el título de la pantalla con el nombre e ID del usuario.
+        /// </summary>
         private void MostrarTituloUsuario()
         {
             this.Title += " || Conectado usuario: " + usuarioActivo.Nombre
@@ -64,23 +68,13 @@ namespace EasySQL.Ventanas
             rbtnMySQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.MySQL);
         }
 
+        /// <summary>
+        /// Hace una llamada a la BBDD para obtener las conexiones del usuario
+        /// </summary>
+        /// <returns>Una lista observable con las conexiones del usuario</returns>
         private ObservableCollection<Conexion> ObtenerConexionesUsuario()
         {
-
-            // debe llamar a la bbdd y traer una lista con todas las conexiones pobladas
-            // que existan para ese usuario
-            //ObservableCollection<Conexion> listaConexiones = new ObservableCollection<Conexion>
-            //{
-            //    new Conexion() { Nombre = "Estudiantes", Puerto = 42, Direccion = "localhost//Estudiantes",
-            //        TipoActual = Conexion.TipoConexion.SQLServer},
-            //    new Conexion() { Nombre = "Mis pruebas", Puerto = 7, Direccion = "localhost//Pruebas" },
-            //    new Conexion() { Nombre = "Prueba Ejercicio", Puerto = 7, Direccion = "localhost//Ejercicio",
-            //        TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "root", ContraseniaConexion = "root"},
-            //    new Conexion() { Nombre = "Cocina", Puerto = 39, Direccion = "localhost//Cocina",
-            //        TipoActual = Conexion.TipoConexion.MySQL, UsuarioConexion = "cocinero", ContraseniaConexion = "root"},
-            //};
             return BBDDPrograma.ObtenerConexionesUsuario(usuarioActivo);
-            //return listaConexiones;
         }
 
         private void MostarConexionesUsuario()
@@ -92,49 +86,95 @@ namespace EasySQL.Ventanas
 
         private bool GuardarConexion()
         {
-            if (ComprobarCampos())
+            Conexion guardar = ComprobarCampos();
+            if (guardar != null)
             {
                 ResultadoConexion resultado =
-                    BBDDPrograma.RegistrarConexion(conexionActual);
+                    BBDDPrograma.RegistrarConexion(guardar);
                 resultado.MostrarMensaje();
 
                 // Si se guarda, lo almacenamos temporalmente por si se desea acceder directamente
                 if (resultado.ResultadoActual == ResultadoConexion.TipoResultado.ACEPTADO)
                 {
                     conexionActual = resultado.ConexionGuardar;
+                    listaConexiones.Add(conexionActual);
                 }
                 return (resultado.ResultadoActual == ResultadoConexion.TipoResultado.ACEPTADO);
             }
             else
             {
-                MessageBox.Show("Uno o más campos contienen errores");
                 return false;
             }
-        }
-
-        private void LimpiarDatos()
-        {
-            conexionActual = null;
-            txtBoxNombre.Text = "";
-            txtBoxDireccion.Text = "";
-            txtBoxPuerto.Text = "";
-            txtBoxUsuario.Text = "";
-            txtBoxContrasenia.Text = "";
-            chkGuardarContrasenia.IsChecked = false;
-            rbtnMicrosoftSQL.IsChecked = false;
-            rbtnMySQL.IsChecked = false;
         }
 
         /// <summary>
         /// Se comprueban todos los inputs de la ventana y que estos tengan datos correctos.
         /// </summary>
-        /// <returns>Devuelve true si los campos obligatorios tienen valores correctos y los demás
+        /// <returns>Devuelve una Conexion si los campos obligatorios tienen valores correctos y los demás
         /// estén vacíos o con valores correctos.</returns>
-        private bool ComprobarCampos()
+        private Conexion ComprobarCampos()
         {
-            //Campos obligatorios: nombre conexión, dirección, usuario, tipo conexión.
-            Console.Write("ComprobarDatos no implementado");
-            return true;
+            // Campos obligatorios: nombre conexión, dirección, usuario, tipo conexión.
+
+            // El operador ?? operador devuelve el operando izquierdo si no es NULL; 
+            // de lo contrario, devuelve el operando derecho.
+            if ((Comprueba.Nombre(txtBoxNombre.Text) ?? false)
+                && (Comprueba.Direccion(txtBoxDireccion.Text) ?? false)
+                && (Comprueba.Usuario(txtBoxUsuario.Text) ?? false)
+                && (Comprueba.Puerto(txtBoxPuerto.Text)))
+            {
+                string nombre = txtBoxNombre.Text;
+                string direccion = txtBoxDireccion.Text;
+                string usuario = txtBoxUsuario.Text;
+                int puerto = 0;
+                if (!String.IsNullOrWhiteSpace(txtBoxPuerto.Text))
+                    puerto = Int32.Parse(txtBoxPuerto.Text);
+                Conexion.TipoConexion tipo;
+
+                // Comprobando si el tipo de conexión está marcado
+                if (rbtnMicrosoftSQL.IsChecked.Value)
+                {
+                    tipo = Conexion.TipoConexion.MicrosoftSQL;
+                    if (chkIntegratedSecurity.IsChecked.Value)
+                        usuario = Usuario.NombreIntegratedSecurity;
+                }
+                else if (rbtnMySQL.IsChecked.Value) {
+                    tipo = Conexion.TipoConexion.MySQL;
+                }
+                else
+                {
+                    MessageBox.Show("No se ha marcado el tipo de conexión.");
+                    return null;
+                }
+
+                // Si los campos están correctos, mirar si se quiere guardar la contraseña.
+                if (chkGuardarContrasenia.IsChecked.Value)
+                {
+                    if (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false)
+                    {
+                        // Todo correcto, se devuelve una conexion guardando contraseña
+                        string contrasenia = txtBoxContrasenia.Text;
+                        Conexion guardar = new Conexion(nombre, direccion, puerto, usuario,
+                            contrasenia, tipo, usuarioActivo);
+                        return guardar;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Se ha marcado 'guardar contraseña' pero está vacía o con valores nulos.");
+                        return null;
+                    }
+                }
+                else
+                {
+                    // Todo correcto, se devuelve una conexion SIN guardar contraseña
+                    return new Conexion(nombre, direccion, puerto, usuario, tipo, usuarioActivo);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Uno o más campos obligatorios están vacíos o con valores nulos.");
+                return null;
+            }
         }
 
         private void TestConexion()
@@ -144,11 +184,13 @@ namespace EasySQL.Ventanas
 
         private void Conectar()
         {
-            if (ComprobarCampos())
+            if (conexionActual != null)
             {
-                Conexion datosActuales = new Conexion() { Propietario = usuarioActivo };
-                VentanaOperaciones vo = new VentanaOperaciones(datosActuales);
+                VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
                 Manejador.CambiarVentana(this, vo);
+            } else
+            {
+                MessageBox.Show("No existe una conexión válida guardada");
             }
         }
 
@@ -178,6 +220,19 @@ namespace EasySQL.Ventanas
             BBDDPrograma.EliminarConexion(conexionActual);
             LimpiarDatos();
             Utils.Consola.NoImplementado();
+        }
+        
+        private void LimpiarDatos()
+        {
+            conexionActual = null;
+            txtBoxNombre.Text = "";
+            txtBoxDireccion.Text = "";
+            txtBoxPuerto.Text = "";
+            txtBoxUsuario.Text = "";
+            txtBoxContrasenia.Text = "";
+            chkGuardarContrasenia.IsChecked = false;
+            rbtnMicrosoftSQL.IsChecked = false;
+            rbtnMySQL.IsChecked = false;
         }
 
         /// <summary>
@@ -213,12 +268,17 @@ namespace EasySQL.Ventanas
         /// <param name="sender"></param>
         private void IntegratedSecurity(object sender)
         {
-            bool habilitado = !(sender as CheckBox).IsChecked.Value;
-            txtBoxUsuario.IsEnabled = habilitado;
-            txtBoxContrasenia.IsEnabled = habilitado;
-            chkGuardarContrasenia.IsEnabled = habilitado;
-            rbtnMySQL.IsEnabled = habilitado;
+            bool pulsado = (sender as CheckBox).IsChecked.Value;
+            txtBoxUsuario.IsEnabled = !pulsado;
+            txtBoxContrasenia.IsEnabled = !pulsado;
+            chkGuardarContrasenia.IsEnabled = !pulsado;
+            chkGuardarContrasenia.IsChecked = false;
+            rbtnMySQL.IsEnabled = !pulsado;
             rbtnMicrosoftSQL.IsChecked = true;
+            if (pulsado)
+                txtBoxUsuario.Text = Usuario.NombreIntegratedSecurity;
+            else
+                txtBoxUsuario.Text = "";
         }
     }
 }

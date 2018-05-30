@@ -25,6 +25,7 @@ namespace EasySQL.Ventanas
         {
             InitializeComponent();
             this.datosConexion = datosConexion;
+            MostrarTitulo();
         }
 
         private void btnAtras_Click(object sender, RoutedEventArgs e)

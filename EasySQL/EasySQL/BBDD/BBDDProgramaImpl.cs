@@ -14,8 +14,8 @@ namespace EasySQL.BBDD
     {
         private string cadenaConexion;
         
-        private string registrarQuery, existirQuery, loginQuery, obtenerIDQuery, obtenerConexionesQuery,
-            eliminarConexionQuery;
+        private string registrarUsuarioQuery, registrarConexionQuery, existirQuery, loginQuery, obtenerIDUsuarioQuery,
+            obtenerIDConexionQuery, obtenerConexionesQuery, eliminarConexionQuery, obtenerPuertoQuery;
 
         private BBDDProgramaImpl()
         {
@@ -26,12 +26,17 @@ namespace EasySQL.BBDD
                 + "Integrated Security=True";
 
             loginQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario AND contrasenia =@contrasenia";
-            registrarQuery = "INSERT INTO Usuario (nombre, contrasenia) VALUES (@usuario,@contrasenia)";
+            registrarUsuarioQuery = "INSERT INTO Usuario (nombre, contrasenia) VALUES (@usuario,@contrasenia)";
+            registrarConexionQuery = "INSERT INTO Conexion (id_tipo_conexion, id_usuario, nombre, direccion, puerto, usuario, contrasenia)" +
+                " VALUES (@tipo_conexion, @id_usuario, @nombre, @direccion, @puerto, @usuario, @contrasenia)";
             existirQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario";
-            obtenerIDQuery = "SELECT id_usuario FROM Usuario WHERE nombre=@usuario AND contrasenia=@contrasenia";
+            obtenerIDUsuarioQuery = "SELECT id_usuario FROM Usuario WHERE nombre=@usuario AND contrasenia=@contrasenia";
+            obtenerIDConexionQuery = "SELECT id_conexion FROM Conexion WHERE nombre=@nombredir " + 
+                                        "AND direccion=@direccion AND usuario=@usuario";
             obtenerConexionesQuery = "SELECT id_conexion, id_tipo_conexion, nombre, direccion, puerto, usuario, contrasenia " +
                                         "FROM conexion WHERE id_usuario = @id_usuario";
             eliminarConexionQuery = "DELETE FROM Conexion WHERE id_conexion = @id_conexion";
+            obtenerPuertoQuery = "SELECT puerto_defecto FROM tipo_conexion WHERE id_tipo = @id_tipo";
         }
 
         private static BBDDProgramaImpl instancia;
@@ -76,7 +81,7 @@ namespace EasySQL.BBDD
             }
             else
             {
-                SqlCommand registrarCmd = new SqlCommand(registrarQuery);
+                SqlCommand registrarCmd = new SqlCommand(registrarUsuarioQuery);
                 registrarCmd.Parameters.AddWithValue("@usuario", usuario);
                 registrarCmd.Parameters.AddWithValue("@contrasenia", contrasenia);
 
@@ -93,14 +98,13 @@ namespace EasySQL.BBDD
                 {
                     return new ResultadoRegistro(ResultadoRegistro.TipoResultado.ERROR_CONEXION, null);
                 }
-             }
-            
+            }
         }
 
         public int ObtenerIDUsuario(Usuario usuario)
         {
             // Crea el comando
-            SqlCommand obtenerCmd = new SqlCommand(obtenerIDQuery);
+            SqlCommand obtenerCmd = new SqlCommand(obtenerIDUsuarioQuery);
             obtenerCmd.Parameters.AddWithValue("@usuario", usuario.Nombre);
             obtenerCmd.Parameters.AddWithValue("@contrasenia", usuario.Contrasenia);
             // Obtiene el resultado
@@ -115,12 +119,32 @@ namespace EasySQL.BBDD
                 return (int) resultado;
             }
         }
+        
+        public int ObtenerIDConexion(Conexion conexion)
+        {
+            // Crea el comando
+            SqlCommand obtenerIDCmd = new SqlCommand(obtenerIDConexionQuery);
+            obtenerIDCmd.Parameters.AddWithValue("@nombredir", conexion.Nombre);
+            obtenerIDCmd.Parameters.AddWithValue("@direccion", conexion.Direccion);
+            obtenerIDCmd.Parameters.AddWithValue("@usuario", conexion.UsuarioConexion);
+            // Obtiene el resultado
+            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, obtenerIDCmd);
+            // Si el resultado es nulo, no existe la conexion.
+            if (resultado == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return (int)resultado;
+            }
+        }
 
         public ResultadoConexion RegistrarConexion(Conexion guardar)
         {
             // Si el puerto no está relleno, usar el por defecto almacenado en la bbdd
             // INSERT INTO conexion VALUES 
-            // id_conexion, tipo_conexion, id_usuario, nombre, direccion, puerto, usuario, contrasenia, 
+            // tipo_conexion, id_usuario, nombre, direccion, puerto, usuario, contrasenia
             int tipo_conexion = (int)guardar.TipoActual;
             int id_usuario = guardar.Propietario.ID;
             string nombre = guardar.Nombre;
@@ -129,9 +153,39 @@ namespace EasySQL.BBDD
             string contrasenia = guardar.ContraseniaConexion;
             int puerto = guardar.Puerto;
             if (puerto == 0)
-                puerto = obtenerPuertoDefecto(guardar.TipoActual);
-            return null;
+                puerto = ObtenerPuertoDefecto(guardar.TipoActual);
             // La conexion se registra y luego se obtiene el ID de la BBDD en el constructor de Conexion
+            if (ExisteConexion(guardar))
+            {
+                return new ResultadoConexion(ResultadoConexion.TipoResultado.DUPLICADO, null);
+            }
+            else
+            {
+                SqlCommand registrarCmd = new SqlCommand(registrarConexionQuery);
+                // @tipo_conexion, @id_usuario, @nombre, @direccion, @puerto, @usuario, @contrasenia
+                registrarCmd.Parameters.AddWithValue("@tipo_conexion", tipo_conexion);
+                registrarCmd.Parameters.AddWithValue("@id_usuario", id_usuario);
+                registrarCmd.Parameters.AddWithValue("@nombre", nombre);
+                registrarCmd.Parameters.AddWithValue("@direccion", direccion);
+                registrarCmd.Parameters.AddWithValue("@puerto", puerto);
+                registrarCmd.Parameters.AddWithValue("@usuario", usuario);
+                registrarCmd.Parameters.AddWithValue("@contrasenia", contrasenia);
+
+                // Obtiene el resultado
+                int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, registrarCmd);
+
+                // Si es distinto mayor a 0, se habrá registrado la conexion
+                if (resultadoFilasSQL > 0)
+                {
+                    // Devuelve la conexión guardada con su ID asignado
+                    guardar.ID = ObtenerIDConexion(guardar);
+                    return new ResultadoConexion(ResultadoConexion.TipoResultado.ACEPTADO, guardar);
+                }
+                else
+                {
+                    return new ResultadoConexion(ResultadoConexion.TipoResultado.ERROR, null);
+                }
+            }
         }
 
         public bool EliminarConexion(Conexion eliminar)
@@ -179,9 +233,21 @@ namespace EasySQL.BBDD
             return (resultado != null);
         }
 
-        private int obtenerPuertoDefecto(Conexion.TipoConexion tipo)
+        private bool ExisteConexion(Conexion guardar)
         {
-            return 0;
+            int resultado = ObtenerIDConexion(guardar);
+
+            // Si el resultado es distinto a -1, existe la conexion
+            return (resultado != -1);
+        }
+
+        public int ObtenerPuertoDefecto(Conexion.TipoConexion tipo)
+        {
+            // Crea el comando
+            SqlCommand obtenerPuerto = new SqlCommand(obtenerPuertoQuery);
+            obtenerPuerto.Parameters.AddWithValue("@id_tipo", (int)tipo);
+            // Obtiene y devuelve el resultado
+            return (int) AyudanteSQL.ExecuteScalar(cadenaConexion, obtenerPuerto);
         }
 
     }

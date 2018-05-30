@@ -10,14 +10,14 @@ namespace EasySQL.BBDD
 {
     public class ResultadoConexion
     {
-        public enum TipoResultado { ACEPTADO, DUPLICADA, ERROR }
+        public enum TipoResultado { ACEPTADO, DUPLICADO, ERROR }
 
         public TipoResultado ResultadoActual { get; private set; }
         public Conexion ConexionGuardar { get; private set; }
 
         private readonly static string RESPUESTA_ACEPTADO =
             "Se ha almacenado correctamente la conexion";
-        private readonly static string RESPUESTA_DUPLICADA =
+        private readonly static string RESPUESTA_DUPLICADO =
             "La conexión ya se encuentra almacenada en la base de datos.";
         private readonly static string RESPUESTA_ERROR =
             "Se ha producido un error al intentar conectar con la base de datos.";
@@ -35,8 +35,8 @@ namespace EasySQL.BBDD
                 case TipoResultado.ACEPTADO:
                     MessageBox.Show(RESPUESTA_ACEPTADO);
                     break;
-                case TipoResultado.DUPLICADA:
-                    MessageBox.Show(RESPUESTA_DUPLICADA);
+                case TipoResultado.DUPLICADO:
+                    MessageBox.Show(RESPUESTA_DUPLICADO);
                     break;
                 case TipoResultado.ERROR:
                     MessageBox.Show(RESPUESTA_ERROR);
