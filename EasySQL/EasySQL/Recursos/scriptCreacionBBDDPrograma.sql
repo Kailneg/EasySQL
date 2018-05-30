@@ -12,10 +12,8 @@ GO
 ALTER TABLE [dbo].[usuario] DROP CONSTRAINT [DF_usuario_fecha_creacion]
 GO
 
-
 DROP TABLE [dbo].[usuario]
 GO
-
 
 SET ANSI_NULLS ON
 GO
@@ -44,10 +42,8 @@ GO
 USE [usuarios]
 GO
 
-
 DROP TABLE [dbo].[tipo_conexion]
 GO
-
 
 SET ANSI_NULLS ON
 GO
@@ -112,6 +108,7 @@ GO
 
 ALTER TABLE [dbo].[conexion]  WITH CHECK ADD  CONSTRAINT [FK_conexion_tipoconexion] FOREIGN KEY([id_tipo_conexion])
 REFERENCES [dbo].[tipo_conexion] ([id_tipo])
+ON UPDATE CASCADE
 GO
 
 ALTER TABLE [dbo].[conexion] CHECK CONSTRAINT [FK_conexion_tipoconexion]
@@ -119,6 +116,7 @@ GO
 
 ALTER TABLE [dbo].[conexion]  WITH CHECK ADD  CONSTRAINT [FK_conexion_usuario] FOREIGN KEY([id_usuario])
 REFERENCES [dbo].[usuario] ([id_usuario])
+ON UPDATE CASCADE
 GO
 
 ALTER TABLE [dbo].[conexion] CHECK CONSTRAINT [FK_conexion_usuario]
