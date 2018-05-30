@@ -1,0 +1,22 @@
+﻿
+
+Collapse ALL
+Ctrl MO
+
+UnCollapse
+Ctrl ML
+
+
+
+        //for (int i = 0; i < lector.FieldCount; i++)
+        //{
+        //    Console.WriteLine(lector[i]);
+        //    Console.Write(SqlReader.GetName(col).ToString());         // Gets the column name
+        //    Console.Write(SqlReader.GetFieldType(col).ToString());    // Gets the column type
+        //    Console.Write(SqlReader.GetDataTypeName(col).ToString()); // Gets the column database type
+        //}
+        SqlDataReader dr db.ExecuteReader(dbCommand);
+...
+        DataTable dt = new DataTable();
+            dt.Load(dr);
+        datagrid1.ItemsSource = dt.DefaultView;

@@ -7,10 +7,3 @@ Root1234
 MYSQL Server:
 root
 root
-
-
-Collapse ALL
-Ctrl MO
-
-UnCollapse
-Ctrl ML

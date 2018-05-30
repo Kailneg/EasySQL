@@ -42,13 +42,5 @@ namespace EasySQL.BBDD
             }
             return conexiones;
         }
-
-        //for (int i = 0; i < lector.FieldCount; i++)
-        //{
-        //    Console.WriteLine(lector[i]);
-        //    Console.Write(SqlReader.GetName(col).ToString());         // Gets the column name
-        //    Console.Write(SqlReader.GetFieldType(col).ToString());    // Gets the column type
-        //    Console.Write(SqlReader.GetDataTypeName(col).ToString()); // Gets the column database type
-        //}
     }
 }
