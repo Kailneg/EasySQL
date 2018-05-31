@@ -218,9 +218,12 @@ namespace EasySQL.Ventanas
         /// </summary>
         private void ListaBorrar()
         {
-            listaConexiones.Remove(conexionActual);
-            BBDDPrograma.EliminarConexion(conexionActual);
-            LimpiarDatos();
+            if (conexionActual != null)
+            {
+                listaConexiones.Remove(conexionActual);
+                BBDDPrograma.EliminarConexion(conexionActual);
+                LimpiarDatos();
+            }
         }
         
         private void LimpiarDatos()
