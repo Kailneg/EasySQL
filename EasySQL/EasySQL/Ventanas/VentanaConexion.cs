@@ -77,10 +77,11 @@ namespace EasySQL.Ventanas
             return BBDDPrograma.ObtenerConexionesUsuario(usuarioActivo);
         }
 
+        /// <summary>
+        /// Muestra en el ListView cada una de las conexiones existentes en conexionesUsuario
+        /// </summary>
         private void MostarConexionesUsuario()
         {
-            // Listview listaConexiones
-            // Debe mostrar en el ListView cada una de las conexiones existentes en conexionesUsuario
             listViewConexiones.ItemsSource = listaConexiones;
         }
 
@@ -207,6 +208,7 @@ namespace EasySQL.Ventanas
         {
             // Debe traer de nuevo las conexiones del usuario de la bbdd
             // Reasigna las conexiones al listView para reflejar los cambios.
+            listaConexiones = ObtenerConexionesUsuario();
             MostarConexionesUsuario();
         }
 
@@ -219,7 +221,6 @@ namespace EasySQL.Ventanas
             listaConexiones.Remove(conexionActual);
             BBDDPrograma.EliminarConexion(conexionActual);
             LimpiarDatos();
-            Utils.Consola.NoImplementado();
         }
         
         private void LimpiarDatos()
@@ -239,14 +240,30 @@ namespace EasySQL.Ventanas
         /// Ordena alfabéticamente según "Nombre" la lista de conexiones.
         /// En caso de no existir conexiones, lanza un aviso.
         /// </summary>
-        private void ListaOrdenar()
+        private void ListaOrdenarNombre()
         {
             if (listViewConexiones.Items.Count > 0)
             {
-
                 listaConexiones = new ObservableCollection<Conexion>(listaConexiones.OrderBy(c => c.Nombre));
-                ListaActualizar();
+                MostarConexionesUsuario();
             } else
+            {
+                MessageBox.Show("No existen conexiones a ordenar");
+            }
+        }
+
+        /// <summary>
+        /// Ordena numéricamente según "ID" la lista de conexiones.
+        /// En caso de no existir conexiones, lanza un aviso.
+        /// </summary>
+        private void ListaOrdenarID()
+        {
+            if (listViewConexiones.Items.Count > 0)
+            {
+                listaConexiones = new ObservableCollection<Conexion>(listaConexiones.OrderBy(c => c.ID));
+                MostarConexionesUsuario();
+            }
+            else
             {
                 MessageBox.Show("No existen conexiones a ordenar");
             }

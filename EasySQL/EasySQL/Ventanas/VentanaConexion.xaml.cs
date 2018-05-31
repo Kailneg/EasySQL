@@ -69,9 +69,14 @@ namespace EasySQL.Ventanas
             ListaBorrar();
         }
 
-        private void btnListaOrdenar_Click(object sender, RoutedEventArgs e)
+        private void btnListaOrdenarID_Click(object sender, RoutedEventArgs e)
         {
-            ListaOrdenar();
+            ListaOrdenarID();
+        }
+
+        private void btnListaOrdenarNombre_Click(object sender, RoutedEventArgs e)
+        {
+            ListaOrdenarNombre();
         }
 
         private void txtBoxNombre_LostFocus(object sender, RoutedEventArgs e)
@@ -113,5 +118,6 @@ namespace EasySQL.Ventanas
         {
             IntegratedSecurity(sender);
         }
+
     }
 }
