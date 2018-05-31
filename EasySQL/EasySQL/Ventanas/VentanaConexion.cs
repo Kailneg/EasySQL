@@ -18,6 +18,7 @@ namespace EasySQL.Ventanas
         private Usuario usuarioActivo;
         private ObservableCollection<Conexion> listaConexiones;
         private Conexion conexionActual;
+        private bool modoInvitado;
 
         private void ComprobacionInicial(Usuario usuario)
         {
@@ -26,8 +27,11 @@ namespace EasySQL.Ventanas
                 listaConexiones = ObtenerConexionesUsuario();
                 if (listaConexiones != null)
                 {
-                    MostarConexionesUsuario();
+                    RefrescarConexionesListview();
                 }
+            } else
+            {
+                ModoInvitado();
             }
             
         }
@@ -37,19 +41,32 @@ namespace EasySQL.Ventanas
             if (usuario != null)
             {
                 usuarioActivo = usuario;
-                MostrarTituloUsuario();
+                MostrarTitulo(" || Conectado usuario: " + usuarioActivo.Nombre
+                    + " con ID: " + usuarioActivo.ID);
                 return true;
             }
             return false;
         }
 
+        private void ModoInvitado()
+        {
+            modoInvitado = true;
+            MostrarTitulo(" || Conectado como invitado");
+            btnListaActualizar.IsEnabled = false;
+            btnListaOrdenarID.IsEnabled = false;
+            btnListaOrdenarNombre.IsEnabled = false;
+            btnListaBorrar.IsEnabled = false;
+            btnGuardar.IsEnabled = false;
+            listViewConexiones.IsEnabled = false;
+            lblListaConexiones.IsEnabled = false;
+        }
+
         /// <summary>
         /// Actualiza el título de la pantalla con el nombre e ID del usuario.
         /// </summary>
-        private void MostrarTituloUsuario()
+        private void MostrarTitulo(string titulo)
         {
-            this.Title += " || Conectado usuario: " + usuarioActivo.Nombre
-                + " con ID: " + usuarioActivo.ID;
+            this.Title += titulo;
         }
 
         /// <summary>
@@ -81,7 +98,7 @@ namespace EasySQL.Ventanas
         /// <summary>
         /// Muestra en el ListView cada una de las conexiones existentes en conexionesUsuario
         /// </summary>
-        private void MostarConexionesUsuario()
+        private void RefrescarConexionesListview()
         {
             listViewConexiones.ItemsSource = listaConexiones;
         }
@@ -91,17 +108,25 @@ namespace EasySQL.Ventanas
             Conexion guardar = ComprobarCampos();
             if (guardar != null)
             {
-                ResultadoConexion resultado =
-                    BBDDPrograma.RegistrarConexion(guardar);
-                resultado.MostrarMensaje();
-
-                // Si se guarda, lo almacenamos temporalmente por si se desea acceder directamente
-                if (resultado.ResultadoActual == ResultadoConexion.TipoResultado.ACEPTADO)
+                if (!modoInvitado)
                 {
-                    conexionActual = resultado.ConexionGuardar;
-                    listaConexiones.Add(conexionActual);
+                    ResultadoConexion resultado =
+                        BBDDPrograma.RegistrarConexion(guardar);
+                    resultado.MostrarMensaje();
+
+                    // Si se guarda, lo almacenamos temporalmente por si se desea acceder directamente
+                    if (resultado.ResultadoActual == ResultadoConexion.TipoResultado.ACEPTADO)
+                    {
+                        conexionActual = resultado.ConexionGuardar;
+                        listaConexiones.Add(conexionActual);
+                    }
+                    return (resultado.ResultadoActual == ResultadoConexion.TipoResultado.ACEPTADO);
                 }
-                return (resultado.ResultadoActual == ResultadoConexion.TipoResultado.ACEPTADO);
+                else
+                {
+                    conexionActual = guardar;
+                    return true;
+                }
             }
             else
             {
@@ -181,6 +206,7 @@ namespace EasySQL.Ventanas
 
         private void TestConexion()
         {
+            conexionActual = ComprobarCampos();
             if (conexionActual != null)
             {
                 string testQuery = "CREATE DATABASE miPrueba2";
@@ -196,13 +222,27 @@ namespace EasySQL.Ventanas
 
         private void Conectar()
         {
-            if (conexionActual != null)
+            // Si existe una conexión elegida correcta, o se está en modo invitado
+            // y los inputs tienen los datos de una conexion correcta, cambiar ventana
+            if (!modoInvitado)
             {
-                VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
-                Manejador.CambiarVentana(this, vo);
-            } else
+                if (conexionActual != null)
+                {
+                    VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
+                    Manejador.CambiarVentana(this, vo);
+                }
+                else
+                {
+                    MessageBox.Show("No existe una conexión válida guardada");
+                }
+            }
+            else
             {
-                MessageBox.Show("No existe una conexión válida guardada");
+                if (modoInvitado && (conexionActual = ComprobarCampos()) != null)
+                {
+                    VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
+                    Manejador.CambiarVentana(this, vo);
+                }
             }
         }
 
@@ -220,7 +260,7 @@ namespace EasySQL.Ventanas
             // Debe traer de nuevo las conexiones del usuario de la bbdd
             // Reasigna las conexiones al listView para reflejar los cambios.
             listaConexiones = ObtenerConexionesUsuario();
-            MostarConexionesUsuario();
+            RefrescarConexionesListview();
         }
 
         /// <summary>
@@ -264,7 +304,7 @@ namespace EasySQL.Ventanas
             if (listViewConexiones.Items.Count > 0)
             {
                 listaConexiones = new ObservableCollection<Conexion>(listaConexiones.OrderBy(c => c.Nombre));
-                MostarConexionesUsuario();
+                RefrescarConexionesListview();
             } else
             {
                 MessageBox.Show("No existen conexiones a ordenar");
@@ -280,7 +320,7 @@ namespace EasySQL.Ventanas
             if (listViewConexiones.Items.Count > 0)
             {
                 listaConexiones = new ObservableCollection<Conexion>(listaConexiones.OrderBy(c => c.ID));
-                MostarConexionesUsuario();
+                RefrescarConexionesListview();
             }
             else
             {

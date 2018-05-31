@@ -65,6 +65,7 @@ namespace EasySQL.Ventanas
 
         private void btnInvitado_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("Aviso: funcionalidades de guardado de conexiones no están disponibles en modo invitado.");
             VentanaConexion vc = new VentanaConexion(null);
             Manejador.CambiarVentana(this, vc);
         }

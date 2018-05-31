@@ -43,7 +43,7 @@
                     <ColumnDefinition Width="6*"></ColumnDefinition>
                     <ColumnDefinition Width="4*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label VerticalAlignment="Center" Grid.Column="0">Lista Conexiones</Label>
+                <Label x:Name="lblListaConexiones" VerticalAlignment="Center" Grid.Column="0">Lista Conexiones</Label>
                 <Button x:Name="btnListaActualizar" Grid.Column="1" Click="btnListaActualizar_Click">Actualizar</Button>
             </Grid>
             <ListView x:Name="listViewConexiones" Grid.Row="1" SelectionChanged="listViewConexiones_SelectionChanged" SelectionMode="Single">
