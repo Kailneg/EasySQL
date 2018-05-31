@@ -183,13 +183,13 @@ namespace EasySQL.Ventanas
         {
             if (conexionActual != null)
             {
-                string testQuery = "CREATE DATABASE miPrueba";
+                string testQuery = "CREATE DATABASE miPrueba2";
                 // Hacer conexion test creando una DB
                 SqlCommand testCmd = new SqlCommand(testQuery);
-
+                string cadenaConexion = Conexion.ObtenerCadenaConexion(conexionActual);
                 // Obtiene el resultado
-                int resultadoFilasSQL = 
-                    AyudanteSQL.ExecuteNonQuery(Conexion.ObtenerCadenaConexion(conexionActual), testCmd);
+
+                int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, testCmd);
 
             }
         }

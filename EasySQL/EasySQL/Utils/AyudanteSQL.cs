@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EasySQL.Utils
 {
@@ -11,6 +12,8 @@ namespace EasySQL.Utils
     {
         public static readonly int ERROR = Int32.MinValue;
         private static SqlConnection sqlCon;
+        private static readonly string MSJ_ERROR =
+            "Error en la operación, compruebe los datos o la conexión con la base de datos.";
 
         public static object ExecuteScalar(string cadenaConexion, SqlCommand comando)
         {
@@ -26,7 +29,13 @@ namespace EasySQL.Utils
                 }
                 catch (SqlException s)
                 {
-                    Console.WriteLine(s);
+                    MessageBox.Show(s.Message);
+                    return ERROR;
+                }
+                catch (Exception s)
+                {
+                    MessageBox.Show(MSJ_ERROR);
+                    Console.WriteLine(s.Message);
                     return ERROR;
                 }
             }
@@ -46,7 +55,13 @@ namespace EasySQL.Utils
                 }
                 catch (SqlException s)
                 {
-                    Console.WriteLine(s);
+                    MessageBox.Show(s.Message);
+                    return ERROR;
+                }
+                catch (Exception s)
+                {
+                    MessageBox.Show(MSJ_ERROR);
+                    Console.WriteLine(s.Message);
                     return ERROR;
                 }
             }
@@ -54,10 +69,24 @@ namespace EasySQL.Utils
 
         public static SqlDataReader ExecuteReader(string cadenaConexion, SqlCommand comando)
         {
-            SqlConnection sqlCon = new SqlConnection(cadenaConexion);
-            sqlCon.Open();
-            comando.Connection = sqlCon;
-            return comando.ExecuteReader();
+            try
+            {
+                SqlConnection sqlCon = new SqlConnection(cadenaConexion);
+                sqlCon.Open();
+                comando.Connection = sqlCon;
+                return comando.ExecuteReader();
+            }
+            catch (SqlException s)
+            {
+                MessageBox.Show(s.Message);
+                return null;
+            }
+            catch (Exception s)
+            {
+                MessageBox.Show(MSJ_ERROR);
+                Console.WriteLine(s.Message);
+                return null;
+            }
         }
     }
 }

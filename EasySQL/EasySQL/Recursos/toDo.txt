@@ -1,1 +1,1 @@
-﻿nombre, direccion, usuario deben admitir espacios
+﻿direccion debe escribirse: localhost\SQLALE
