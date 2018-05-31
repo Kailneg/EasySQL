@@ -1,4 +1,5 @@
 ﻿using EasySQL.BBDD;
+using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -19,6 +20,17 @@ namespace EasySQL.Modelos
         public string UsuarioConexion { get; set; }
         public string ContraseniaConexion { get; set; }
         public Usuario Propietario { get; set; }
+        public string CadenaConexion {
+            get
+            {
+                if (TipoActual == TipoConexion.MicrosoftSQL)
+                    return ObtenerCadenaConexionSQL();
+                else if (TipoActual == TipoConexion.MySQL)
+                    return ObtenerCadenaConexionMySQL();
+                else
+                    return null;
+            }
+        }
 
         /// <summary>
         /// Constructor vacío, usado a la hora de mapear desde BBDD
@@ -52,20 +64,40 @@ namespace EasySQL.Modelos
         /// Acepta un objeto tipo conexión y crea una cadena de conexión bien formada
         /// </summary>
         /// <returns>Cadena de conexión válida</returns>
-        public static string ObtenerCadenaConexion(Conexion c)
+        private string ObtenerCadenaConexionSQL()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 
-            builder.DataSource = c.Direccion;
+            builder.DataSource = Direccion;
             // builder.InitialCatalog = "usuarios";
-            if (c.UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
+            if (UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
             {
                 builder.IntegratedSecurity = true;
             }
             else
             {
-                builder.UserID = c.UsuarioConexion;
-                builder.Password = c.ContraseniaConexion;
+                builder.UserID = UsuarioConexion;
+                builder.Password = ContraseniaConexion;
+            }
+
+            return builder.ToString();
+        }
+
+        private string ObtenerCadenaConexionMySQL()
+        {
+            Consola.NoImplementado();
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+
+            builder.DataSource = Direccion;
+            // builder.InitialCatalog = "usuarios";
+            if (UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
+            {
+                builder.IntegratedSecurity = true;
+            }
+            else
+            {
+                builder.UserID = UsuarioConexion;
+                builder.Password = ContraseniaConexion;
             }
 
             return builder.ToString();

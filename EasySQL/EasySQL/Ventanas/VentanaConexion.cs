@@ -209,10 +209,8 @@ namespace EasySQL.Ventanas
             conexionActual = ComprobarCampos();
             if (conexionActual != null)
             {
-                // Crea cadena conexión
-                string cadenaConexion = Conexion.ObtenerCadenaConexion(conexionActual);
                 // Obtiene el resultado
-                bool retorno = AyudanteSQL.ExecuteTest(cadenaConexion);
+                bool retorno = Ayudante.ExecuteTest(conexionActual);
 
                 if (retorno)
                     MessageBox.Show("Conexión correcta.");
