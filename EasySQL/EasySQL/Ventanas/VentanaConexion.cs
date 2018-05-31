@@ -204,19 +204,27 @@ namespace EasySQL.Ventanas
             }
         }
 
-        private void TestConexion()
+        private bool TestConexion()
         {
             conexionActual = ComprobarCampos();
             if (conexionActual != null)
             {
-                string testQuery = "CREATE DATABASE miPrueba2";
-                // Hacer conexion test creando una DB
-                SqlCommand testCmd = new SqlCommand(testQuery);
+                // Crea cadena conexión
                 string cadenaConexion = Conexion.ObtenerCadenaConexion(conexionActual);
                 // Obtiene el resultado
+                bool retorno = AyudanteSQL.ExecuteTest(cadenaConexion);
 
-                int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, testCmd);
-
+                if (retorno)
+                    MessageBox.Show("Conexión correcta.");
+                else
+                    MessageBox.Show("Conexión fallida");
+                return retorno;
+                
+            }
+            else
+            {
+                MessageBox.Show("No existe conexión actual guardada correcta.");
+                return false;
             }
         }
 
@@ -228,8 +236,11 @@ namespace EasySQL.Ventanas
             {
                 if (conexionActual != null)
                 {
-                    VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
-                    Manejador.CambiarVentana(this, vo);
+                    if (TestConexion())
+                    {
+                        VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
+                        Manejador.CambiarVentana(this, vo);
+                    }
                 }
                 else
                 {
@@ -240,8 +251,11 @@ namespace EasySQL.Ventanas
             {
                 if (modoInvitado && (conexionActual = ComprobarCampos()) != null)
                 {
-                    VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
-                    Manejador.CambiarVentana(this, vo);
+                    if (TestConexion())
+                    {
+                        VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
+                        Manejador.CambiarVentana(this, vo);
+                    }
                 }
             }
         }

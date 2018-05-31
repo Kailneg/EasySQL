@@ -15,6 +15,31 @@ namespace EasySQL.Utils
         private static readonly string MSJ_ERROR =
             "Error en la operación, compruebe los datos o la conexión con la base de datos.";
 
+        public static bool ExecuteTest(string cadenaConexion)
+        {
+            using (sqlCon = new SqlConnection(cadenaConexion))
+            {
+                try
+                {
+                    // Abre y cierra la conexión, si no salta excepción, la conexión es correcta.
+                    sqlCon.Open();
+                    sqlCon.Close();
+                    return true;
+                }
+                catch (SqlException s)
+                {
+                    MessageBox.Show(s.Message);
+                    return false;
+                }
+                catch (Exception s)
+                {
+                    MessageBox.Show(MSJ_ERROR);
+                    Console.WriteLine(s.Message);
+                    return false;
+                }
+            }
+        }
+
         public static object ExecuteScalar(string cadenaConexion, SqlCommand comando)
         {
             using (sqlCon = new SqlConnection(cadenaConexion))
