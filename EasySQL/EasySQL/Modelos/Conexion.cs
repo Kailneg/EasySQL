@@ -44,6 +44,7 @@ namespace EasySQL.Modelos
             ContraseniaConexion = contrasenia;
             TipoActual = tipo;
             Propietario = propietario;
+            Puerto = puerto;
         }
     }
 }
