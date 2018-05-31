@@ -11,46 +11,59 @@ namespace EasySQL.Utils
     {
         private static readonly int LONGITUD_NOMBRE = 30;
         private static readonly int LONGITUD_DIRECCION = 50;
-        private static readonly int LONGITUD_USUARIO = 50;
-        private static readonly int LONGITUD_CONTRASENIA = 50;
+        private static readonly int LONGITUD_USUARIO_PROGRAMA = 30;
+        private static readonly int LONGITUD_CONTRASENIA_PROGRAMA = 30;
+        private static readonly int LONGITUD_USUARIO_CONEXION = 50;
+        private static readonly int LONGITUD_CONTRASENIA_CONEXION = 50;
+        private static readonly int LONGITUD_MINIMA = 0;
+        private static readonly int LONGITUD_MINIMA_CONTRASENIA_CONEXION = 4;
 
-        public static bool? Nombre(string cadena)
+        public static bool Nombre(string cadena)
+        {
+            return (cadena.Length > LONGITUD_MINIMA && cadena.Length < LONGITUD_NOMBRE);
+        }
+
+        public static bool Direccion(string cadena)
+        {
+            return (cadena.Length > LONGITUD_MINIMA && cadena.Length < LONGITUD_NOMBRE);
+        }
+
+        public static bool? Puerto(string cadena)
         {
             if (cadena.Length == 0)
                 return null;
-            else
-                return SoloLetras(cadena, LONGITUD_NOMBRE);
-        }
-
-        public static bool? Direccion(string cadena)
-        {
-            if (cadena.Length == 0)
-                return null;
-            else
-                return SoloLetras(cadena, LONGITUD_DIRECCION);
-        }
-
-        public static bool Puerto(string cadena)
-        {
-            if (cadena.Length == 0)
-                return true;
             else
                 return SoloNumeros(cadena);
         }
 
-        public static bool? Usuario(string cadena)
+        public static bool? UsuarioPrograma(string cadena)
         {
             if (cadena.Length == 0)
                 return null;
             else
-                return SoloLetras(cadena, LONGITUD_USUARIO);
+                return SoloLetras(cadena, LONGITUD_USUARIO_PROGRAMA);
         }
-        public static bool? Contrasenia(string cadena)
+        
+        public static bool? ContraseniaPrograma(string cadena)
         {
             if (cadena.Length == 0)
                 return null;
             else
-                return SoloLetras(cadena, LONGITUD_CONTRASENIA);
+                return SoloLetras(cadena, LONGITUD_CONTRASENIA_PROGRAMA);
+        }
+
+        public static bool UsuarioConexion(string cadena)
+        {
+            return (cadena.Length > LONGITUD_MINIMA && cadena.Length < LONGITUD_USUARIO_CONEXION);
+        }
+
+        public static bool? ContraseniaConexion(string cadena)
+        {
+            if (cadena.Length == 0)
+                return null;
+            else
+                return (cadena.Length > LONGITUD_MINIMA_CONTRASENIA_CONEXION 
+                    && cadena.Length < LONGITUD_CONTRASENIA_CONEXION);
         }
 
         public static bool SoloNumeros(string cadena)

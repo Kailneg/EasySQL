@@ -4,6 +4,7 @@ using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -119,10 +120,10 @@ namespace EasySQL.Ventanas
 
             // El operador ?? operador devuelve el operando izquierdo si no es NULL; 
             // de lo contrario, devuelve el operando derecho.
-            if ((Comprueba.Nombre(txtBoxNombre.Text) ?? false)
-                && (Comprueba.Direccion(txtBoxDireccion.Text) ?? false)
-                && (Comprueba.Usuario(txtBoxUsuario.Text) ?? false)
-                && (Comprueba.Puerto(txtBoxPuerto.Text)))
+            if ((Comprueba.Nombre(txtBoxNombre.Text))
+                && (Comprueba.Direccion(txtBoxDireccion.Text))
+                && (Comprueba.UsuarioConexion(txtBoxUsuario.Text))
+                && (Comprueba.Puerto(txtBoxPuerto.Text) ?? true))
             {
                 string nombre = txtBoxNombre.Text;
                 string direccion = txtBoxDireccion.Text;
@@ -151,7 +152,7 @@ namespace EasySQL.Ventanas
                 // Si los campos están correctos, mirar si se quiere guardar la contraseña.
                 if (chkGuardarContrasenia.IsChecked.Value)
                 {
-                    if (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false)
+                    if (Comprueba.ContraseniaPrograma(txtBoxContrasenia.Text) ?? false)
                     {
                         // Todo correcto, se devuelve una conexion guardando contraseña
                         string contrasenia = txtBoxContrasenia.Text;
@@ -180,7 +181,17 @@ namespace EasySQL.Ventanas
 
         private void TestConexion()
         {
-            Console.Write("ComprobarConexion no implementado");
+            if (conexionActual != null)
+            {
+                string testQuery = "CREATE DATABASE miPrueba";
+                // Hacer conexion test creando una DB
+                SqlCommand testCmd = new SqlCommand(testQuery);
+
+                // Obtiene el resultado
+                int resultadoFilasSQL = 
+                    AyudanteSQL.ExecuteNonQuery(Conexion.ObtenerCadenaConexion(conexionActual), testCmd);
+
+            }
         }
 
         private void Conectar()
@@ -237,6 +248,11 @@ namespace EasySQL.Ventanas
             chkGuardarContrasenia.IsChecked = false;
             rbtnMicrosoftSQL.IsChecked = false;
             rbtnMySQL.IsChecked = false;
+            Colorea.BordeCorrectoErrorDefecto(txtBoxNombre, null);
+            Colorea.BordeCorrectoErrorDefecto(txtBoxDireccion, null);
+            Colorea.BordeCorrectoErrorDefecto(txtBoxPuerto, null);
+            Colorea.BordeCorrectoErrorDefecto(txtBoxUsuario, null);
+            Colorea.BordeCorrectoErrorDefecto(txtBoxContrasenia, null);
         }
 
         /// <summary>
@@ -277,6 +293,7 @@ namespace EasySQL.Ventanas
             Conexion nueva = (sender as ListView).SelectedItem as Conexion;
             if (nueva != null)
             {
+                LimpiarDatos();
                 ActualizarConexionActual(nueva);
             }
         }
@@ -296,9 +313,19 @@ namespace EasySQL.Ventanas
             rbtnMySQL.IsEnabled = !pulsado;
             rbtnMicrosoftSQL.IsChecked = true;
             if (pulsado)
+            {
                 txtBoxUsuario.Text = Usuario.NombreIntegratedSecurity;
+                txtBoxContrasenia.Text = "";
+                Colorea.BordeCorrectoError(txtBoxUsuario, true);
+                Colorea.BordeCorrectoError(txtBoxContrasenia, true);
+            }
             else
+            {
                 txtBoxUsuario.Text = "";
+                txtBoxContrasenia.Text = "";
+                Colorea.BordeCorrectoError(txtBoxUsuario, false);
+                Colorea.BordeCorrectoErrorDefecto(txtBoxContrasenia, null);
+            }
         }
     }
 }

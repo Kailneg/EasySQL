@@ -1,6 +1,7 @@
 ﻿using EasySQL.BBDD;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,29 @@ namespace EasySQL.Modelos
             TipoActual = tipo;
             Propietario = propietario;
             Puerto = puerto;
+        }
+
+        /// <summary>
+        /// Acepta un objeto tipo conexión y crea una cadena de conexión bien formada
+        /// </summary>
+        /// <returns>Cadena de conexión válida</returns>
+        public static string ObtenerCadenaConexion(Conexion c)
+        {
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+
+            builder.DataSource = c.Direccion;
+            //builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";
+            if (c.UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
+            {
+                builder.IntegratedSecurity = true;
+            }
+            else
+            {
+                builder.UserID = c.UsuarioConexion;
+                builder.Password = c.ContraseniaConexion;
+            }
+
+            return builder.ToString();
         }
     }
 }

@@ -151,9 +151,9 @@ namespace EasySQL.BBDD
             string direccion = guardar.Direccion;
             string usuario = guardar.UsuarioConexion;
             string contrasenia = guardar.ContraseniaConexion;
+            if (guardar.Puerto == 0)
+                guardar.Puerto = ObtenerPuertoDefecto(guardar.TipoActual);
             int puerto = guardar.Puerto;
-            if (puerto == 0)
-                puerto = ObtenerPuertoDefecto(guardar.TipoActual);
             // La conexion se registra y luego se obtiene el ID de la BBDD en el constructor de Conexion
             if (ExisteConexion(guardar))
             {

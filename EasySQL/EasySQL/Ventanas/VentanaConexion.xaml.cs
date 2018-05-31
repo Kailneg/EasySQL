@@ -94,19 +94,19 @@ namespace EasySQL.Ventanas
         private void txtBoxPuerto_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.SoloNumeros(datos.Text));
+            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.Puerto(datos.Text));
         }
 
         private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoError(datos, Comprueba.Usuario(datos.Text));
+            Colorea.BordeCorrectoError(datos, Comprueba.UsuarioConexion(datos.Text));
         }
 
         private void txtBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoError(datos, Comprueba.Contrasenia(datos.Text));
+            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.ContraseniaConexion(datos.Text));
         }
 
         private void listViewConexiones_SelectionChanged(object sender, SelectionChangedEventArgs e)

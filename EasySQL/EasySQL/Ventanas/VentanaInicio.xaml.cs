@@ -78,19 +78,19 @@ namespace EasySQL.Ventanas
         private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.Usuario(datos.Text));
+            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.UsuarioPrograma(datos.Text));
         }
 
         private void txtBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.Contrasenia(datos.Text));
+            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.ContraseniaPrograma(datos.Text));
         }
 
         private bool ComprobarCampos()
         {
-            return ((Comprueba.Usuario(txtBoxUsuario.Text) ?? false)
-                && (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false));
+            return ((Comprueba.UsuarioPrograma(txtBoxUsuario.Text) ?? false)
+                && (Comprueba.ContraseniaPrograma(txtBoxContrasenia.Text) ?? false));
         }
     }
 }

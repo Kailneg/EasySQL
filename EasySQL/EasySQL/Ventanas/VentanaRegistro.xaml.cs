@@ -94,13 +94,13 @@ namespace EasySQL.Ventanas
         private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoError(datos, Comprueba.Usuario(datos.Text));
+            Colorea.BordeCorrectoError(datos, Comprueba.UsuarioPrograma(datos.Text));
         }
 
         private void txtBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoError(datos, Comprueba.Usuario(datos.Text));
+            Colorea.BordeCorrectoError(datos, Comprueba.UsuarioPrograma(datos.Text));
         }
 
         private void txtBoxRepetirContrasenia_LostFocus(object sender, RoutedEventArgs e)
@@ -111,14 +111,14 @@ namespace EasySQL.Ventanas
         
         private bool ComprobarCampos()
         {
-            return ((Comprueba.Usuario(txtBoxUsuario.Text) ?? false)
-                && (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false)
+            return ((Comprueba.UsuarioPrograma(txtBoxUsuario.Text) ?? false)
+                && (Comprueba.ContraseniaPrograma(txtBoxContrasenia.Text) ?? false)
                 && ComprobarContrasenias());
         }
         
         private bool ComprobarContrasenias()
         {
-            return (Comprueba.Contrasenia(txtBoxContrasenia.Text) ?? false)
+            return (Comprueba.ContraseniaPrograma(txtBoxContrasenia.Text) ?? false)
                 && txtBoxRepetirContrasenia.Text.Equals(txtBoxContrasenia.Text);
         }
 
