@@ -22,10 +22,12 @@ namespace EasySQL.Ventanas
     /// </summary>
     public partial class VentanaConexion : Window
     {
-        public VentanaConexion(Usuario usuario)
+        public VentanaConexion(Usuario usuario) : this (usuario, null) {}
+
+        public VentanaConexion(Usuario usuario, Conexion conexion)
         {
             InitializeComponent();
-            ComprobacionInicial(usuario);
+            ComprobacionInicial(usuario, conexion);
         }
 
         /*

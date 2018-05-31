@@ -20,10 +20,13 @@ namespace EasySQL.Ventanas
         private Conexion conexionActual;
         private bool modoInvitado;
 
-        private void ComprobacionInicial(Usuario usuario)
+        private void ComprobacionInicial(Usuario usuario, Conexion conexion)
         {
-            if (ComprobarUsuario(usuario))
+            if (usuario != null)
             {
+                usuarioActivo = usuario;
+                MostrarTitulo(" || Conectado usuario: " + usuarioActivo.Nombre
+                    + " con ID: " + usuarioActivo.ID);
                 listaConexiones = ObtenerConexionesUsuario();
                 if (listaConexiones != null)
                 {
@@ -33,19 +36,11 @@ namespace EasySQL.Ventanas
             {
                 ModoInvitado();
             }
-            
-        }
-
-        private bool ComprobarUsuario(Usuario usuario)
-        {
-            if (usuario != null)
+            if (conexion != null)
             {
-                usuarioActivo = usuario;
-                MostrarTitulo(" || Conectado usuario: " + usuarioActivo.Nombre
-                    + " con ID: " + usuarioActivo.ID);
-                return true;
+                conexionActual = conexion;
+                ActualizarConexionActual(conexionActual);
             }
-            return false;
         }
 
         private void ModoInvitado()
@@ -76,6 +71,7 @@ namespace EasySQL.Ventanas
         private void ActualizarConexionActual(Conexion actual)
         {
             conexionActual = actual;
+            lblConexionActual.Content = "Conexión actual: " + actual.Nombre;
             txtBoxNombre.Text = actual.Nombre;
             txtBoxDireccion.Text = actual.Direccion;
             txtBoxPuerto.Text = actual.Puerto.ToString();
@@ -209,6 +205,8 @@ namespace EasySQL.Ventanas
             conexionActual = ComprobarCampos();
             if (conexionActual != null)
             {
+                // Muestra la conexión actual
+                ActualizarConexionActual(conexionActual);
                 // Obtiene el resultado
                 bool retorno = Ayudante.ExecuteTest(conexionActual);
 
@@ -217,7 +215,6 @@ namespace EasySQL.Ventanas
                 else
                     MessageBox.Show("Conexión fallida");
                 return retorno;
-                
             }
             else
             {
