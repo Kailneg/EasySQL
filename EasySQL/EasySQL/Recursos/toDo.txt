@@ -1,1 +1,3 @@
 ﻿direccion debe escribirse: localhost\SQLALE
+
+para conexión test y conx inicial NO HACE FALTA initial catalog :)))

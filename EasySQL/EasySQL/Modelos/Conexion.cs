@@ -57,7 +57,7 @@ namespace EasySQL.Modelos
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 
             builder.DataSource = c.Direccion;
-            builder.InitialCatalog = "usuarios";
+            // builder.InitialCatalog = "usuarios";
             if (c.UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
             {
                 builder.IntegratedSecurity = true;
