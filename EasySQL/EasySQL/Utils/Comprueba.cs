@@ -9,7 +9,7 @@ namespace EasySQL.Utils
 {
     public class Comprueba
     {
-        private static readonly int LONGITUD_NOMBRE = 20;
+        private static readonly int LONGITUD_NOMBRE = 30;
         private static readonly int LONGITUD_DIRECCION = 50;
         private static readonly int LONGITUD_USUARIO = 50;
         private static readonly int LONGITUD_CONTRASENIA = 50;

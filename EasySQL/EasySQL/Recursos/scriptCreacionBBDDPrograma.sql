@@ -23,8 +23,8 @@ GO
 
 CREATE TABLE [dbo].[usuario](
 	[id_usuario] [int] IDENTITY(1,1) NOT NULL,
-	[nombre] [nvarchar](20) NOT NULL,
-	[contrasenia] [nvarchar](20) NOT NULL,
+	[nombre] [nvarchar](30) NOT NULL,
+	[contrasenia] [nvarchar](30) NOT NULL,
 	[fecha_creacion] [datetime] NOT NULL,
  CONSTRAINT [PK_usuario] PRIMARY KEY CLUSTERED 
 (
@@ -53,7 +53,7 @@ GO
 
 CREATE TABLE [dbo].[tipo_conexion](
 	[id_tipo] [int] NOT NULL,
-	[nombre] [nvarchar](20) NOT NULL,
+	[nombre] [nvarchar](30) NOT NULL,
 	[puerto_defecto] [int] NOT NULL,
  CONSTRAINT [PK_tipo_conexion] PRIMARY KEY CLUSTERED 
 (
@@ -90,7 +90,7 @@ CREATE TABLE [dbo].[conexion](
 	[id_conexion] [int] IDENTITY(1,1) NOT NULL,
 	[id_tipo_conexion] [int] NOT NULL,
 	[id_usuario] [int] NOT NULL,
-	[nombre] [nvarchar](20) NOT NULL,
+	[nombre] [nvarchar](30) NOT NULL,
 	[direccion] [nvarchar](50) NOT NULL,
 	[puerto] [int] NOT NULL,
 	[usuario] [nvarchar](50) NOT NULL,
