@@ -34,7 +34,8 @@ namespace EasySQL.Ventanas
         private bool SeleccionCambiada()
         {
             // Comprobar que la base de datos no sea la por defecto
-            if (!cmbBaseDatos.SelectedItem.Equals(CMB_BASEDATOS_DEFECTO)) {
+            if (cmbBaseDatos.SelectedItem != null
+                && !cmbBaseDatos.SelectedItem.Equals(CMB_BASEDATOS_DEFECTO)) {
                 lblBaseDatos.Content = "Base de datos : " + cmbBaseDatos.SelectedItem;
                 return true;
             } else
@@ -42,6 +43,11 @@ namespace EasySQL.Ventanas
                 lblBaseDatos.Content = "Base de datos no elegida";
                 return false;
             }
+        }
+
+        private void MostrarBasesDatos()
+        {
+            //cmbBaseDatos.Items = 
         }
 
         /*

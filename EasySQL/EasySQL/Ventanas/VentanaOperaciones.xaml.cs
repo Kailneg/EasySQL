@@ -1,4 +1,6 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Operaciones.Controlador;
+using EasySQL.Utils;
 using EasySQL.Ventanas.Operaciones;
 using System;
 using System.Collections.Generic;
@@ -21,12 +23,12 @@ namespace EasySQL.Ventanas
     /// </summary>
     public partial class VentanaOperaciones : Window
     {
-        public VentanaOperaciones() : 
+        public VentanaOperaciones() :
             this(
                     new Conexion()
-                    {   Direccion = "localhost/SQLALE",
+                    { Direccion = "localhost\\SQLALE",
                         TipoActual = Conexion.TipoConexion.MicrosoftSQL,
-                        UsuarioConexion = "Integrated Security"
+                        UsuarioConexion = Usuario.NombreIntegratedSecurity
                     }
                 )
         { }
@@ -101,6 +103,14 @@ namespace EasySQL.Ventanas
         private void cmbBaseDatos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SeleccionCambiada();
+        }
+
+        private void cmbBaseDatos_DropDownOpened(object sender, EventArgs e)
+        {
+            cmbBaseDatos.Items.Clear();
+            List<string> nombres_bbdd = Operacion.ObtenerBasesDatos(conexionActual);
+            nombres_bbdd.Insert(0, CMB_BASEDATOS_DEFECTO);
+            Rellena.ComboBox((ComboBox)sender, nombres_bbdd);
         }
     }
 }

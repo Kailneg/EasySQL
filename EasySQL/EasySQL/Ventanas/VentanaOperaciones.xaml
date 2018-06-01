@@ -54,7 +54,7 @@
                 <Label x:Name="lblBaseDatos" Grid.Column="0">Base de datos:</Label>
                 <!--Margen de 1px abajo para corregir error visual-->
                 <ComboBox x:Name="cmbBaseDatos" Grid.Column="1" 
-                          Margin="0 0 0 1" SelectionChanged="cmbBaseDatos_SelectionChanged"></ComboBox>
+                          Margin="0 0 0 1" SelectionChanged="cmbBaseDatos_SelectionChanged" DropDownOpened="cmbBaseDatos_DropDownOpened"/>
             </Grid>
             
             <Label x:Name="lblTipoConexion" Grid.Row="0" Grid.Column="1">Tipo conexión:</Label>
