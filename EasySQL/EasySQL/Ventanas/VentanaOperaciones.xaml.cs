@@ -107,10 +107,7 @@ namespace EasySQL.Ventanas
 
         private void cmbBaseDatos_DropDownOpened(object sender, EventArgs e)
         {
-            cmbBaseDatos.Items.Clear();
-            List<string> nombres_bbdd = Operacion.ObtenerBasesDatos(conexionActual);
-            nombres_bbdd.Insert(0, CMB_BASEDATOS_DEFECTO);
-            Rellena.ComboBox((ComboBox)sender, nombres_bbdd);
+            MostrarBasesDatos();
         }
     }
 }

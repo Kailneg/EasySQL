@@ -1,7 +1,10 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Operaciones.Controlador;
+using EasySQL.Utils;
 using EasySQL.Ventanas.Operaciones;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,7 +50,11 @@ namespace EasySQL.Ventanas
 
         private void MostrarBasesDatos()
         {
-            //cmbBaseDatos.Items = 
+            cmbBaseDatos.Items.Clear();
+            List<string> nombres_bbdd = Operacion.ObtenerBasesDatos(conexionActual);
+            nombres_bbdd.Insert(0, CMB_BASEDATOS_DEFECTO);
+            Rellena.ComboBox(cmbBaseDatos, nombres_bbdd);
+            cmbBaseDatos.SelectedIndex = 0;
         }
 
         /*
@@ -55,13 +62,18 @@ namespace EasySQL.Ventanas
          */
         private void CreateDB()
         {
-            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre de la BBDD a crear:");
+            // 1. Obtener el comando según tipo de conexión
+            DbCommand comando = Operacion.ComandoCreateDatabase(conexionActual);
+            VOperacionGenerica vog = 
+                new VOperacionGenerica("Introduce nombre de la BBDD a crear:", conexionActual, comando);
             vog.ShowDialog();
         }
 
         private void DropDB()
         {
-            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre de la BBDD a eliminar:");
+            DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
+            VOperacionGenerica vog = 
+                new VOperacionGenerica("Introduce nombre de la BBDD a eliminar:", conexionActual, comando);
             vog.ShowDialog();
             Utils.Consola.NoImplementado();
         }
@@ -73,14 +85,18 @@ namespace EasySQL.Ventanas
 
         private void CreateTable()
         {
-            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre de la tabla a crear:");
+            DbCommand comando = Operacion.ComandoCreateTable(conexionActual);
+            VOperacionGenerica vog = 
+                new VOperacionGenerica("Introduce nombre de la tabla a crear:", conexionActual, comando);
             vog.ShowDialog();
             Utils.Consola.NoImplementado();
         }
 
         private void DropTable()
         {
-            VOperacionGenerica vog = new VOperacionGenerica("Introduce nombre de la tabla a crear:");
+            DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
+            VOperacionGenerica vog = 
+                new VOperacionGenerica("Introduce nombre de la tabla a eliminar:", conexionActual, comando);
             vog.ShowDialog();
             Utils.Consola.NoImplementado();
         }

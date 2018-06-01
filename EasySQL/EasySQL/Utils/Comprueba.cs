@@ -25,7 +25,7 @@ namespace EasySQL.Utils
 
         public static bool Direccion(string cadena)
         {
-            return (cadena.Length > LONGITUD_MINIMA && cadena.Length < LONGITUD_NOMBRE);
+            return (cadena.Length > LONGITUD_MINIMA && cadena.Length < LONGITUD_DIRECCION);
         }
 
         public static bool? Puerto(string cadena)

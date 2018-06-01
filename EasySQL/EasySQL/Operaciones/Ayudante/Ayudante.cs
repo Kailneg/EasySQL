@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -24,41 +25,41 @@ namespace EasySQL.Operaciones.Ayudante
             else return false;
         }
 
-        public static object ExecuteScalar(Conexion actual, SqlCommand comando)
+        public static object ExecuteScalar(Conexion actual, DbCommand comando)
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return AyudanteSQL.ExecuteScalar(actual.CadenaConexion, comando);
+                return AyudanteSQL.ExecuteScalar(actual.CadenaConexion, (SqlCommand) comando);
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteScalar(actual.CadenaConexion, comando);
+                return AyudanteMySQL.ExecuteScalar(actual.CadenaConexion, (SqlCommand)comando);
             }
             else return null;
         }
 
-        public static int ExecuteNonQuery(Conexion actual, SqlCommand comando)
+        public static int ExecuteNonQuery(Conexion actual, DbCommand comando)
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return AyudanteSQL.ExecuteNonQuery(actual.CadenaConexion, comando);
+                return AyudanteSQL.ExecuteNonQuery(actual.CadenaConexion, (SqlCommand)comando);
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteNonQuery(actual.CadenaConexion, comando);
+                return AyudanteMySQL.ExecuteNonQuery(actual.CadenaConexion, (SqlCommand)comando);
             }
             else return -1;
         }
 
-        public static IDataReader ExecuteReader(Conexion actual, SqlCommand comando)
+        public static IDataReader ExecuteReader(Conexion actual, DbCommand comando)
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return AyudanteSQL.ExecuteReader(actual.CadenaConexion, comando);
+                return AyudanteSQL.ExecuteReader(actual.CadenaConexion, (SqlCommand)comando);
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteReader(actual.CadenaConexion, comando);
+                return AyudanteMySQL.ExecuteReader(actual.CadenaConexion, (SqlCommand)comando);
             }
             else return null;
         }
