@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace EasySQL.Ventanas
 {
     public partial class VentanaOperaciones : Window
     {
         private Conexion conexionActual;
+        private static readonly string CMB_BASEDATOS_DEFECTO = "Elige base de datos...";
 
         /// <summary>
         /// Actualiza la pantalla con los datos de la conexión.
@@ -24,22 +26,23 @@ namespace EasySQL.Ventanas
             lblBaseDatos.Content += " " + "No elegida";
             lblTipoConexion.Content += " " + conexionActual.TipoActual.ToString();
             lblUsuario.Content += " " + conexionActual.UsuarioConexion;
-        }
-
-        /*
-         * Botones General
-         */
-        private void Atras()
-        {
-            VentanaConexion vc = new VentanaConexion(conexionActual.Propietario, conexionActual);
-            Manejador.CambiarVentana(this, vc);
-        }
-
-        private void Cargar()
-        {
-            Utils.Consola.NoImplementado();
+            cmbBaseDatos.Items.Add(CMB_BASEDATOS_DEFECTO);
+            cmbBaseDatos.SelectedItem = CMB_BASEDATOS_DEFECTO;
+            cmbBaseDatos.Items.Add("bbdd1");
         }
         
+        private bool SeleccionCambiada()
+        {
+            // Comprobar que la base de datos no sea la por defecto
+            if (!cmbBaseDatos.SelectedItem.Equals(CMB_BASEDATOS_DEFECTO)) {
+                lblBaseDatos.Content = "Base de datos : " + cmbBaseDatos.SelectedItem;
+                return true;
+            } else
+            {
+                lblBaseDatos.Content = "Base de datos no elegida";
+                return false;
+            }
+        }
 
         /*
          * Botones DDL
@@ -100,6 +103,21 @@ namespace EasySQL.Ventanas
         }
 
         private void Delete()
+        {
+            Utils.Consola.NoImplementado();
+        }
+        
+
+        /*
+         * Botones General
+         */
+        private void Atras()
+        {
+            VentanaConexion vc = new VentanaConexion(conexionActual.Propietario, conexionActual);
+            Manejador.CambiarVentana(this, vc);
+        }
+
+        private void Cargar()
         {
             Utils.Consola.NoImplementado();
         }

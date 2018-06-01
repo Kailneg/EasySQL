@@ -97,5 +97,10 @@ namespace EasySQL.Ventanas
         {
             Delete();
         }
+
+        private void cmbBaseDatos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SeleccionCambiada();
+        }
     }
 }

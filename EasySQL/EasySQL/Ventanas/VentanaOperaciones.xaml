@@ -40,9 +40,23 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                
             </Grid.ColumnDefinitions>
+            
             <Label x:Name="lblDireccion" Grid.Row="0" Grid.Column="0">Dirección:</Label>
-            <Label x:Name="lblBaseDatos" Grid.Row="1" Grid.Column="0">Base de datos:</Label>
+
+            <!--Grid label BaseDatos-->
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblBaseDatos" Grid.Column="0">Base de datos:</Label>
+                <!--Margen de 1px abajo para corregir error visual-->
+                <ComboBox x:Name="cmbBaseDatos" Grid.Column="1" 
+                          Margin="0 0 0 1" SelectionChanged="cmbBaseDatos_SelectionChanged"></ComboBox>
+            </Grid>
+            
             <Label x:Name="lblTipoConexion" Grid.Row="0" Grid.Column="1">Tipo conexión:</Label>
             <Label x:Name="lblUsuario" Grid.Row="1" Grid.Column="1">Usuario conexión:</Label>
         </Grid>
