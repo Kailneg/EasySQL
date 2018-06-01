@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EasySQL.Modelos;
-using EasySQL.Utils;
+using EasySQL.Operaciones.Ayudante;
 
 namespace EasySQL.BBDD
 {

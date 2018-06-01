@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace EasySQL.Utils
+namespace EasySQL.Operaciones.Ayudante
 {
-    public class AyudanteSQL
+    public class AyudanteMySQL
     {
         public static readonly int ERROR = Int32.MinValue;
         private static SqlConnection sqlCon;

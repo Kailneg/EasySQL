@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasySQL.Utils
+namespace EasySQL.Operaciones.Ayudante
 {
     public class Ayudante
     {

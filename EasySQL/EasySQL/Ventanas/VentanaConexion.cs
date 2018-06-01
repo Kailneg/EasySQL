@@ -1,5 +1,6 @@
 ﻿using EasySQL.BBDD;
 using EasySQL.Modelos;
+using EasySQL.Operaciones.Ayudante;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;

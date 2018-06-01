@@ -62,9 +62,12 @@
     <Compile Include="BBDD\ResultadoRegistro.cs" />
     <Compile Include="Modelos\Conexion.cs" />
     <Compile Include="Modelos\Usuario.cs" />
-    <Compile Include="Utils\Ayudante.cs" />
-    <Compile Include="Utils\AyudanteMySQL.cs" />
-    <Compile Include="Utils\AyudanteSQL.cs" />
+    <Compile Include="Operaciones\Ayudante\Ayudante.cs" />
+    <Compile Include="Operaciones\Ayudante\AyudanteMySQL.cs" />
+    <Compile Include="Operaciones\Ayudante\AyudanteSQL.cs" />
+    <Compile Include="Operaciones\Controlador\MicrosoftSQL\OperacionMicrosoftSQL.cs" />
+    <Compile Include="Operaciones\Controlador\MySQL\OperacionMySQL.cs" />
+    <Compile Include="Operaciones\Controlador\Operacion.cs" />
     <Compile Include="Utils\Colorea.cs" />
     <Compile Include="Utils\Comprueba.cs" />
     <Compile Include="Utils\Consola.cs" />
@@ -161,5 +164,6 @@
     <Content Include="Recursos\scriptInsert2usuarios.sql" />
     <Content Include="Recursos\scriptInsert3ConexionesUsuario1.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
