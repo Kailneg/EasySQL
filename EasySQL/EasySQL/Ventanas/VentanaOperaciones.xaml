@@ -5,45 +5,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas"
         mc:Ignorable="d"
-        Title="Operaciones" Height="450" Width="800">
+        Title="Operaciones" Height="450" MinHeight="400" Width="800" MinWidth="500">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="2"/>
         </Style>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type Separator}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
     <!--Grid General-->
-    <Grid Margin="20">
+    <Grid Margin="10">
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="50px"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="1.5*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="2*"/>
+            <RowDefinition Height="30px"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <!--Grid Botones General-->
-        <Grid Grid.Column="0" Grid.Row="0" >
-
+        <!--Grid Labels InfoConexión-->
+        <Grid Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-
-            <Button x:Name="btnAtras" Content="Atras" Grid.Column="0" Click="btnAtras_Click"/>
-            <Button x:Name="btnCargar" Content="Cargar" Grid.Column="1" Click="btnCargar_Click"/>
-            <Button x:Name="btnGuardar" Content="Guardar" Grid.Column="2" Click="btnGuardar_Click"/>
-            
+            <Label x:Name="lblDireccion" Grid.Row="0" Grid.Column="0">Dirección:</Label>
+            <Label x:Name="lblBaseDatos" Grid.Row="1" Grid.Column="0">Base de datos:</Label>
+            <Label x:Name="lblTipoConexion" Grid.Row="0" Grid.Column="1">Tipo conexión:</Label>
+            <Label x:Name="lblUsuario" Grid.Row="1" Grid.Column="1">Usuario conexión:</Label>
         </Grid>
 
-        <!--Grid Label DDL-->
-        <Grid Grid.Column="0" Grid.Row="1">
 
-            <Label VerticalAlignment="Center">Definición de datos (DDL)</Label>
+        <!--Grid Label DDL-->
+        <Grid Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0">Definición de datos (DDL)</Label>
+            <Separator Grid.Row="1"></Separator>
         </Grid>
 
         <!--Grid Botones DDL-->
@@ -73,8 +85,13 @@
         </Grid>
 
         <!--Grid Label DML-->
-        <Grid Grid.Column="0" Grid.Row="4">
-            <Label VerticalAlignment="Center">Manipulación de datos (DML)</Label>
+        <Grid Grid.Column="0" Grid.Row="4" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0">Manipulación de datos (DML)</Label>
+            <Separator Grid.Row="1"></Separator>
         </Grid>
 
         <!--Grid Botones DML-->
@@ -89,6 +106,21 @@
             <Button x:Name="btnInsert" Content="INSERT" Grid.Column="1" Click="btnInsert_Click"/>
             <Button x:Name="btnUpdate" Content="UPDATE" Grid.Column="2" Click="btnUpdate_Click"/>
             <Button x:Name="btnDelete" Content="DELETE" Grid.Column="3" Click="btnDelete_Click"/>
+        </Grid>
+
+        <!--Grid Botones Inferiores General-->
+        <Grid Grid.Column="0" Grid.Row="7" >
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnAtras" Content="Atras" Grid.Column="0" Click="btnAtras_Click"/>
+            <Button x:Name="btnCargar"  Content="Cargar" Grid.Column="3" Click="btnCargar_Click"/>
+
         </Grid>
     </Grid>
 </Window>

@@ -21,11 +21,20 @@ namespace EasySQL.Ventanas
     /// </summary>
     public partial class VentanaOperaciones : Window
     {
+        public VentanaOperaciones() : 
+            this(
+                    new Conexion()
+                    {   Direccion = "localhost/SQLALE",
+                        TipoActual = Conexion.TipoConexion.MicrosoftSQL,
+                        UsuarioConexion = "Integrated Security"
+                    }
+                )
+        { }
         public VentanaOperaciones(Conexion datosConexion)
         {
             InitializeComponent();
-            this.datosConexion = datosConexion;
-            MostrarTitulo();
+            this.conexionActual = datosConexion;
+            MostrarDatosConexion();
         }
 
         private void btnAtras_Click(object sender, RoutedEventArgs e)
@@ -37,11 +46,6 @@ namespace EasySQL.Ventanas
         {
             Cargar();
             
-        }
-
-        private void btnGuardar_Click(object sender, RoutedEventArgs e)
-        {
-            Guardar();
         }
 
         private void btnCreateDb_Click(object sender, RoutedEventArgs e)

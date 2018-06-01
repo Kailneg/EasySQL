@@ -11,15 +11,19 @@ namespace EasySQL.Ventanas
 {
     public partial class VentanaOperaciones : Window
     {
-        private Conexion datosConexion;
+        private Conexion conexionActual;
 
         /// <summary>
-        /// Actualiza el título de la pantalla con el nombre e ID del usuario.
+        /// Actualiza la pantalla con los datos de la conexión.
         /// </summary>
-        private void MostrarTitulo()
+        private void MostrarDatosConexion()
         {
-            this.Title += " || Conectado usuario: " + datosConexion.UsuarioConexion +
-                " - " + datosConexion.Direccion + " (" + datosConexion.Nombre + ")";
+            this.Title += " || Conectado usuario: " + conexionActual.UsuarioConexion +
+                " - " + conexionActual.Direccion + " (" + conexionActual.Nombre + ")";
+            lblDireccion.Content += " " + conexionActual.Direccion;
+            lblBaseDatos.Content += " " + "No elegida";
+            lblTipoConexion.Content += " " + conexionActual.TipoActual.ToString();
+            lblUsuario.Content += " " + conexionActual.UsuarioConexion;
         }
 
         /*
@@ -27,7 +31,7 @@ namespace EasySQL.Ventanas
          */
         private void Atras()
         {
-            VentanaConexion vc = new VentanaConexion(datosConexion.Propietario, datosConexion);
+            VentanaConexion vc = new VentanaConexion(conexionActual.Propietario, conexionActual);
             Manejador.CambiarVentana(this, vc);
         }
 
@@ -35,11 +39,7 @@ namespace EasySQL.Ventanas
         {
             Utils.Consola.NoImplementado();
         }
-
-        private void Guardar()
-        {
-            Utils.Consola.NoImplementado();
-        }
+        
 
         /*
          * Botones DDL

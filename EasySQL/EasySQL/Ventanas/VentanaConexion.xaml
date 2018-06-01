@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas"
         mc:Ignorable="d"
-        Title="Conexiones" Height="450" Width="800">
+        Title="Conexiones" Height="450" MinHeight="380" Width="800" MinWidth="700">
 
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
@@ -34,9 +34,9 @@
         <!--Grid lista conexiones-->
         <Grid Grid.Column="0" Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="10px"/>
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
 
@@ -53,7 +53,9 @@
                 
             </Grid>
 
-            <Separator Grid.Row="2"></Separator>
+            <Grid Grid.Row="2" VerticalAlignment="Top">
+                <Separator Grid.Row="2" VerticalAlignment="Top"></Separator>
+            </Grid>
             
             <ListView x:Name="listViewConexiones" Grid.Row="3" SelectionChanged="listViewConexiones_SelectionChanged" SelectionMode="Single">
                 <ListView.View>
