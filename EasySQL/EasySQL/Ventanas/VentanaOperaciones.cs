@@ -69,8 +69,8 @@ namespace EasySQL.Ventanas
         {
             // Debo pasar: descripcion, conexión actual, comando.
             DbCommand comando = Operacion.ComandoCreateDatabase(conexionActual);
-            VGenericaDrop vog = 
-                new VGenericaDrop(conexionActual, comando);
+            VCreateDatabase vog = 
+                new VCreateDatabase(conexionActual, comando);
             vog.ShowDialog();
         }
 

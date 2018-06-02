@@ -1,4 +1,4 @@
-﻿<Window x:Class="EasySQL.Ventanas.Operaciones.VGenericaDrop"
+﻿<Window x:Class="EasySQL.Ventanas.Operaciones.VCreateDatabase"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -28,6 +28,6 @@
             <Label>Comando resultante:</Label>
             <Label x:Name="lblComando" Grid.Column="1"></Label>
         </Grid>
-        <Button x:Name="btn" Grid.Row="4" Click="btn_Click" >Ejecutar comando</Button>
+        <Button x:Name="btn" Grid.Row="4" Click="btn_Click" >Enviar</Button>
     </Grid>
 </Window>

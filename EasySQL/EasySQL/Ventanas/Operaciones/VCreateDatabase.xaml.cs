@@ -21,13 +21,13 @@ namespace EasySQL.Ventanas.Operaciones
     /// <summary>
     /// Lógica de interacción para VOperacionGenerica.xaml
     /// </summary>
-    public partial class VGenericaDrop : Window
+    public partial class VCreateDatabase : Window
     {
         private Conexion actual;
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
 
-        public VGenericaDrop(Conexion actual, DbCommand comando)
+        public VCreateDatabase(Conexion actual, DbCommand comando)
         {
             InitializeComponent();
             lblComando.Content = comando.CommandText;
