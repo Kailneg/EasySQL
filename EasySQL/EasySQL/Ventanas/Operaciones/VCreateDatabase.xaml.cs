@@ -21,16 +21,15 @@ namespace EasySQL.Ventanas.Operaciones
     /// <summary>
     /// Lógica de interacción para VOperacionGenerica.xaml
     /// </summary>
-    public partial class VOperacionGenerica : Window
+    public partial class VCreateDatabase : Window
     {
         private Conexion actual;
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
 
-        public VOperacionGenerica(String labelDescripcion, Conexion actual, DbCommand comando)
+        public VCreateDatabase(Conexion actual, DbCommand comando)
         {
             InitializeComponent();
-            lbl.Content = labelDescripcion;
             lblComando.Content = comando.CommandText;
             this.actual = actual;
             this.comandoEnviar = comando;
@@ -43,14 +42,15 @@ namespace EasySQL.Ventanas.Operaciones
             {
                 if (Comprueba.ContieneSeparadorSQL(txtbox.Text))
                 {
-                    comandoEnviar.CommandText = textoComandoOriginal + Comprueba.EliminarResto(txtbox.Text);
                     MessageBox.Show("Detectado separador SQL. Sólo se ejecutará: " + comandoEnviar.CommandText);
                 }
-                else
+                comandoEnviar.CommandText = textoComandoOriginal + Comprueba.EliminarResto(txtbox.Text);
+
+                int resultado = Ayudante.ExecuteNonQuery(actual, comandoEnviar);
+                if (resultado == -1)
                 {
-                    comandoEnviar.CommandText = textoComandoOriginal + txtbox.Text;
+                    MessageBox.Show("Base de datos " + Comprueba.EliminarResto(txtbox.Text) + " creada con éxito.");
                 }
-                Ayudante.ExecuteNonQuery(actual, comandoEnviar);
             } else
             {
                 MessageBox.Show("Debes introducir un nombre");
