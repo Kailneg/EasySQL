@@ -14,15 +14,17 @@ namespace EasySQL.Operaciones.Controlador
 {
     public class Operacion
     {
-        public static List<string> ObtenerBasesDatos(Conexion conexionActual)
+        public const string PARAM = "@param";
+
+        public static DbCommand ComandoShowDatabases(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ObtenerBasesDatos(conexionActual);
+                return OperacionMicrosoftSQL.ComandoShowDatabases();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ObtenerBasesDatos(conexionActual);
+                return null;
             }
             else return null;
         }

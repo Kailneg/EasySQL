@@ -13,68 +13,42 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
 {
     public class OperacionMicrosoftSQL
     {
-        private const string obtenerBBDDs = "SELECT name FROM master.sys.databases";
-        private const string createDatabase = "CREATE DATABASE ";
-        private const string dropDatabase = "DROP DATABASE ";
-        private const string showTables =
-            "SELECT TABLE_NAME FROM <DATABASE_NAME>.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = @param";
-        private const string createTable = "CREATE TABLE ";
-        private const string dropTable = "DROP TABLE ";
-
-        public static List<string> ObtenerBasesDatos(Conexion conexionActual)
+        private const string SHOW_DATABASES = "SELECT name FROM master.sys.databases";
+        private const string CREATE_DATABASE = "CREATE DATABASE ";
+        private const string DROP_DATABASE = "DROP DATABASE ";
+        private const string SHOW_TABLES =
+            "SELECT TABLE_NAME FROM @param.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'";
+        private const string CREATE_TABLE = "CREATE TABLE ";
+        private const string DROP_TABLE = "DROP TABLE ";
+        
+        public static DbCommand ComandoShowDatabases()
         {
-            SqlCommand obtenerBBDDsCmd = new SqlCommand(obtenerBBDDs);
-            List<string> resultados = null;
-
-            // Obtiene el resultado
-            using (SqlDataReader lector = 
-                AyudanteSQL.ExecuteReader(conexionActual.CadenaConexion, obtenerBBDDsCmd))
-            {
-                // Si el resultado es nulo, no existen bases de datos.
-                if (lector != null)
-                {
-                    resultados = ObtenerListaResultados(lector);
-                }
-            }
-            return resultados;
-        }
-
-        private static List<string> ObtenerListaResultados(SqlDataReader lector)
-        {
-            List<string> resultado = new List<string>();
-
-            while (lector.Read())
-            {
-                resultado.Add(lector[0].ToString());
-            }
-            return resultado;
+            return new SqlCommand(SHOW_DATABASES);
         }
 
         public static DbCommand ComandoCreateDatabase()
         {
-            return new SqlCommand(createDatabase);
+            return new SqlCommand(CREATE_DATABASE);
         }
 
         public static DbCommand ComandoDropDatabase()
         {
-            return new SqlCommand(dropDatabase);
+            return new SqlCommand(DROP_DATABASE);
         }
 
         public static DbCommand ComandoCreateTable()
         {
-            return new SqlCommand(createTable);
+            return new SqlCommand(CREATE_TABLE);
         }
 
         public static DbCommand ComandoDropTable()
         {
-            return new SqlCommand(dropTable);
+            return new SqlCommand(DROP_TABLE);
         }
 
         public static DbCommand ComandoShowTables()
         {
-            SqlCommand comando = new SqlCommand(showTables);
-            comando.Parameters.Add("@param", SqlDbType.NVarChar);
-            return comando;
+            return new SqlCommand(SHOW_TABLES);
         }
     }
 }

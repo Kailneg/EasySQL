@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="lbl" Grid.Row="0" VerticalAlignment="Center">Texto</Label>
+        <Label x:Name="lblDescripcion" Grid.Row="0" VerticalAlignment="Center">Texto</Label>
         <Separator Grid.Row="1" VerticalAlignment="Top"></Separator>
         <ComboBox x:Name="cmbDatos" Grid.Row="2" SelectionChanged="cmbDatos_SelectionChanged" DropDownOpened="cmbDatos_DropDownOpened" ></ComboBox>
         <!--Grid labels comando-->

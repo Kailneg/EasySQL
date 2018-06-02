@@ -1,9 +1,11 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Operaciones.Ayudante;
 using EasySQL.Operaciones.Controlador;
 using EasySQL.Utils;
 using EasySQL.Ventanas.Operaciones;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -16,9 +18,8 @@ namespace EasySQL.Ventanas
     public partial class VentanaOperaciones : Window
     {
         private Conexion conexionActual;
+        private const string MSJ_ELEGIR_BBDD = "Debes elegir antes una base de datos.";
         private const string CMB_BASEDATOS_DEFECTO = "Elige base de datos...";
-        private const string DESCRIPCION_DROPDB = "Introduce nombre de la BBDD a eliminar:";
-        private const string DESCRIPCION_DROPTABLE = "Introduce nombre de la tabla a eliminar:";
 
         /// <summary>
         /// Actualiza la pantalla con los datos de la conexión.
@@ -39,8 +40,7 @@ namespace EasySQL.Ventanas
         private bool SeleccionCambiada()
         {
             // Comprobar que la base de datos no sea la por defecto
-            if (cmbBaseDatos.SelectedItem != null
-                && !cmbBaseDatos.SelectedItem.Equals(CMB_BASEDATOS_DEFECTO)) {
+            if (HayBBDDSeleccionada()) {
                 // Actualiza label descriptivo
                 lblBaseDatos.Content = "Base de datos : " + cmbBaseDatos.SelectedItem;
                 // Asigna BBDD
@@ -55,9 +55,20 @@ namespace EasySQL.Ventanas
 
         private void MostrarBasesDatos()
         {
-            cmbBaseDatos.Items.Clear();
-            List<string> nombres_bbdd = Operacion.ObtenerBasesDatos(conexionActual);
+            List<string> nombres_bbdd = new List<string>();
+            // Obtener comando databases
+            DbCommand comando = Operacion.ComandoShowDatabases(conexionActual);
+
+            using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
+            {
+                // Si el resultado es nulo, no existen bases de datos.
+                if (lector != null)
+                {
+                    nombres_bbdd = Ayudante.MapearReaderALista(lector);
+                }
+            }
             nombres_bbdd.Insert(0, CMB_BASEDATOS_DEFECTO);
+            cmbBaseDatos.Items.Clear();
             Rellena.ComboBox(cmbBaseDatos, nombres_bbdd);
             cmbBaseDatos.SelectedIndex = 0;
         }
@@ -76,7 +87,7 @@ namespace EasySQL.Ventanas
             // Debo pasar: descripcion, conexión actual, comando.
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
             VGenericaDrop vod =
-                new VGenericaDrop(DESCRIPCION_DROPDB, conexionActual, comando);
+                new VGenericaDrop(conexionActual, comando);
             vod.ShowDialog();
         }
 
@@ -92,11 +103,18 @@ namespace EasySQL.Ventanas
 
         private void DropTable()
         {
-            // Debo pasar: descripcion, conexión actual, comando.
-            DbCommand comando = Operacion.ComandoDropTable(conexionActual);
-            VGenericaDrop vod =
-                new VGenericaDrop(DESCRIPCION_DROPTABLE, conexionActual, comando);
-            vod.ShowDialog();
+            // Antes comprobar si existe una BBDD seleccionada
+            if (HayBBDDSeleccionada())
+            {
+                DbCommand comando = Operacion.ComandoDropTable(conexionActual);
+                VGenericaDrop vod =
+                    new VGenericaDrop(conexionActual, comando);
+                vod.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(MSJ_ELEGIR_BBDD);
+            }
         }
 
         private void ShowTables()
@@ -140,6 +158,12 @@ namespace EasySQL.Ventanas
         private void Cargar()
         {
             Utils.Consola.NoImplementado();
+        }
+
+        private bool HayBBDDSeleccionada()
+        {
+            return cmbBaseDatos.SelectedItem != null
+                && !cmbBaseDatos.SelectedItem.Equals(CMB_BASEDATOS_DEFECTO);
         }
     }
 }

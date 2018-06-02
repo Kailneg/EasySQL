@@ -4,6 +4,7 @@ using EasySQL.Operaciones.Controlador;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -24,12 +25,15 @@ namespace EasySQL.Ventanas.Operaciones
     /// </summary>
     public partial class VGenericaDrop : Window
     {
+        private const string DESCRIPCION_DATABASE = "Introduce nombre de la BBDD a eliminar:";
+        private const string DESCRIPCION_TABLE = "Introduce nombre de la tabla a eliminar:";
         private const string CMB_OPCION_DEFECTO_DATABASE = "Elige base de datos...";
         private const string CMB_OPCION_DEFECTO_TABLE = "Elige tabla...";
         private const string CLICK_ERROR_DATABASE = "Debes elegir una base de datos";
         private const string CLICK_ERROR_TABLE = "Debes elegir una tabla";
         private const string CLICK_OK_DATABASE = "Base de datos ";
         private const string CLICK_OK_TABLE = "Tabla ";
+        private static string DESCRIPCION;
         private static string CMB_OPCION_DEFECTO;
         private static string CLICK_ERROR;
         private static string CLICK_OK;
@@ -37,35 +41,42 @@ namespace EasySQL.Ventanas.Operaciones
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
         private enum Modo { DROP_DATABASE, DROP_TABLE };
+        private Modo modoActual;
 
-        public VGenericaDrop(string descripcion, Conexion actual, DbCommand comando)
+        public VGenericaDrop(Conexion actual, DbCommand comando)
         {
             InitializeComponent();
-            lbl.Content = descripcion;
             lblComando.Content = comando.CommandText;
             this.conexionActual = actual;
             this.comandoEnviar = comando;
             this.textoComandoOriginal = comando.CommandText;
             this.Title = textoComandoOriginal;
             if (textoComandoOriginal.Contains("DATABASE"))
-                cambiarModo(Modo.DROP_DATABASE);
+                modoActual = Modo.DROP_DATABASE;
             else if (textoComandoOriginal.Contains("TABLE"))
-                cambiarModo(Modo.DROP_TABLE);
+                modoActual = Modo.DROP_TABLE;
+            cambiarModo();
+            lblDescripcion.Content = DESCRIPCION;
+            // Agrega y muestra la opción por defecto en el combobox.
+            cmbDatos.Items.Add(CMB_OPCION_DEFECTO);
+            cmbDatos.SelectedIndex = 0;
         }
 
-        private void cambiarModo(Modo actual)
+        private void cambiarModo()
         {
-            if (actual.Equals(Modo.DROP_DATABASE))
+            if (modoActual.Equals(Modo.DROP_DATABASE))
             {
                 CMB_OPCION_DEFECTO = CMB_OPCION_DEFECTO_DATABASE;
                 CLICK_ERROR = CLICK_ERROR_DATABASE;
                 CLICK_OK = CLICK_OK_DATABASE;
+                DESCRIPCION = DESCRIPCION_DATABASE;
             }
-            else if (actual.Equals(Modo.DROP_TABLE))
+            else if (modoActual.Equals(Modo.DROP_TABLE))
             {
                 CMB_OPCION_DEFECTO = CMB_OPCION_DEFECTO_TABLE;
                 CLICK_ERROR = CLICK_ERROR_TABLE;
                 CLICK_OK = CLICK_OK_TABLE;
+                DESCRIPCION = DESCRIPCION_TABLE;
             }
         }
 
@@ -78,7 +89,7 @@ namespace EasySQL.Ventanas.Operaciones
                 int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
                 if (resultado == -1)
                 {
-                    MessageBox.Show(CLICK_OK + cmbDatos.SelectedItem + " eliminada con con éxito.");
+                    MessageBox.Show(CLICK_OK + "\"" + cmbDatos.SelectedItem + "\"" + " eliminada con con éxito.");
                 }
             }
             else
@@ -95,8 +106,6 @@ namespace EasySQL.Ventanas.Operaciones
             {
                 // Actualiza label descriptivo
                 lblComando.Content = textoComandoOriginal + cmbDatos.SelectedItem;
-                // Asigna nombre SOLO PARA TABLE
-                //conexionActual.BaseDatos = cmbDatos.SelectedItem.ToString();
             }
             else
             {
@@ -106,11 +115,42 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbDatos_DropDownOpened(object sender, EventArgs e)
         {
-            // Mostrar bases de datos
+            List<string> nombres_cmbox = new List<string>();
+
+            // Ejecuta un reader para obtener las bases de datos o tablas pertinentes
+            if (modoActual.Equals(Modo.DROP_DATABASE))
+            {
+                // Obtener comando databases
+                DbCommand comando = Operacion.ComandoShowDatabases(conexionActual);
+
+                using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
+                {
+                    // Si el resultado es nulo, no existen bases de datos.
+                    if (lector != null)
+                    {
+                        nombres_cmbox = Ayudante.MapearReaderALista(lector);
+                    }
+                }
+            }
+            else if (modoActual.Equals(Modo.DROP_TABLE))
+            {
+                // Obtener comando tables, reemplazar el parametro con el nombre de la bbdd actual
+                DbCommand comando = Operacion.ComandoShowTables(conexionActual);
+                comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
+
+                using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
+                {
+                    // Si el resultado es nulo, no existen bases de datos.
+                    if (lector != null)
+                    {
+                        nombres_cmbox = Ayudante.MapearReaderALista(lector);
+                    }
+                }
+            }
+            // Rellena el combobox con las bases de datos o tablas pertinentes
+            nombres_cmbox.Insert(0, CMB_OPCION_DEFECTO);
             cmbDatos.Items.Clear();
-            List<string> nombres_bbdd = Operacion.ObtenerBasesDatos(conexionActual);
-            nombres_bbdd.Insert(0, CMB_OPCION_DEFECTO);
-            Rellena.ComboBox(cmbDatos, nombres_bbdd);
+            Rellena.ComboBox(cmbDatos, nombres_cmbox);
             cmbDatos.SelectedIndex = 0;
         }
     }

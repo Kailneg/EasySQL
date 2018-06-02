@@ -1,0 +1,5 @@
+CREATE TABLE usuario (columna int)
+CREATE TABLE pedido (columna int)
+CREATE TABLE producto (columna int)
+CREATE TABLE telefono (columna int)
+CREATE TABLE trabajador (columna int)

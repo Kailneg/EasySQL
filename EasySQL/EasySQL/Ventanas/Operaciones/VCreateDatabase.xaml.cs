@@ -52,7 +52,7 @@ namespace EasySQL.Ventanas.Operaciones
                 int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
                 if (resultado == -1)
                 {
-                    MessageBox.Show("Base de datos " + Comprueba.EliminarResto(txtbox.Text) + " creada con éxito.");
+                    MessageBox.Show("Base de datos \"" + Comprueba.EliminarResto(txtbox.Text) + "\" creada con éxito.");
                 }
             } else
             {

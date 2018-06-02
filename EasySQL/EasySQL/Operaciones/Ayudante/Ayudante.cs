@@ -63,5 +63,16 @@ namespace EasySQL.Operaciones.Ayudante
             }
             else return null;
         }
+        
+        public static List<string> MapearReaderALista(IDataReader lector)
+        {
+            List<string> resultado = new List<string>();
+
+            while (lector.Read())
+            {
+                resultado.Add(lector[0].ToString());
+            }
+            return resultado;
+        }
     }
 }
