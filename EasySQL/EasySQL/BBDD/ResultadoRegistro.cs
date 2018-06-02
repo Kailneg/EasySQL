@@ -15,11 +15,11 @@ namespace EasySQL.BBDD
         public TipoResultado ResultadoActual { get; private set; }
         public Usuario UsuarioActual { get; private set; }
 
-        private readonly static string RESPUESTA_ACEPTADO =
+        private const string RESPUESTA_ACEPTADO =
             "El usuario se ha registrado correctamente en la base de datos.";
-        private readonly static string RESPUESTA_ERROR =
+        private const string RESPUESTA_ERROR =
             "Ha surgido un error al registrar el usuario.";
-        private readonly static string RESPUESTA_DUPLICADO =
+        private const string RESPUESTA_DUPLICADO =
             "El nombre de usuario elegido ya se encuentra registrado.";
 
         public ResultadoRegistro(TipoResultado resultado, Usuario usuarioLogin)

@@ -15,11 +15,11 @@ namespace EasySQL.BBDD
         public TipoResultado ResultadoActual { get; private set; }
         public Usuario UsuarioActual { get; private set; }
 
-        private readonly static string RESPUESTA_ACEPTADO =
+        private const string RESPUESTA_ACEPTADO =
             "Usuario y contraseña correcto, accediendo...";
-        private readonly static string RESPUESTA_DENEGADO =
+        private const string RESPUESTA_DENEGADO =
             "No existe el usuario o la contraseña no es correcta.";
-        private readonly static string RESPUESTA_ERROR =
+        private const string RESPUESTA_ERROR =
             "Se ha producido un error al intentar conectar con la base de datos.";
 
         public ResultadoLogin(TipoResultado resultado, Usuario usuarioLogin)

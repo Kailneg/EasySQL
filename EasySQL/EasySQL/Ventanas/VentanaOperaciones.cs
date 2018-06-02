@@ -16,9 +16,9 @@ namespace EasySQL.Ventanas
     public partial class VentanaOperaciones : Window
     {
         private Conexion conexionActual;
-        private static readonly string CMB_BASEDATOS_DEFECTO = "Elige base de datos...";
-        private static readonly string DESCRIPCION_DROPDB = "Introduce nombre de la BBDD a eliminar:";
-        private static readonly string DESCRIPCION_DROPTABLE = "Introduce nombre de la tabla a eliminar:";
+        private const string CMB_BASEDATOS_DEFECTO = "Elige base de datos...";
+        private const string DESCRIPCION_DROPDB = "Introduce nombre de la BBDD a eliminar:";
+        private const string DESCRIPCION_DROPTABLE = "Introduce nombre de la tabla a eliminar:";
 
         /// <summary>
         /// Actualiza la pantalla con los datos de la conexión.

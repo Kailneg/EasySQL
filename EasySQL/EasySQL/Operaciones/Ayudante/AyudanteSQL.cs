@@ -10,9 +10,9 @@ namespace EasySQL.Operaciones.Ayudante
 {
     public class AyudanteSQL
     {
-        public static readonly int ERROR = Int32.MinValue;
+        public const int ERROR = Int32.MinValue;
         private static SqlConnection sqlCon;
-        private static readonly string MSJ_ERROR =
+        private const string MSJ_ERROR =
             "Error en la operación, compruebe los datos o la conexión con la base de datos.";
 
         public static bool ExecuteTest(string cadenaConexion)

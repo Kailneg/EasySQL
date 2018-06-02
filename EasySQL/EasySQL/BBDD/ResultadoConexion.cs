@@ -15,11 +15,11 @@ namespace EasySQL.BBDD
         public TipoResultado ResultadoActual { get; private set; }
         public Conexion ConexionGuardar { get; private set; }
 
-        private readonly static string RESPUESTA_ACEPTADO =
+        private const string RESPUESTA_ACEPTADO =
             "Se ha almacenado correctamente la conexion";
-        private readonly static string RESPUESTA_DUPLICADO =
+        private const string RESPUESTA_DUPLICADO =
             "La conexión ya se encuentra almacenada en la base de datos.";
-        private readonly static string RESPUESTA_ERROR =
+        private const string RESPUESTA_ERROR =
             "Se ha producido un error al intentar conectar con la base de datos.";
 
         public ResultadoConexion(TipoResultado resultado, Conexion conexiones)

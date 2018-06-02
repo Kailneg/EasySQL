@@ -13,13 +13,13 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
 {
     public class OperacionMicrosoftSQL
     {
-        private static readonly string obtenerBBDDs = "SELECT name FROM master.sys.databases";
-        private static readonly string createDatabase = "CREATE DATABASE ";
-        private static readonly string dropDatabase = "DROP DATABASE ";
-        private static readonly string showTables =
+        private const string obtenerBBDDs = "SELECT name FROM master.sys.databases";
+        private const string createDatabase = "CREATE DATABASE ";
+        private const string dropDatabase = "DROP DATABASE ";
+        private const string showTables =
             "SELECT TABLE_NAME FROM <DATABASE_NAME>.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = @param";
-        private static readonly string createTable = "CREATE TABLE ";
-        private static readonly string dropTable = "DROP TABLE ";
+        private const string createTable = "CREATE TABLE ";
+        private const string dropTable = "DROP TABLE ";
 
         public static List<string> ObtenerBasesDatos(Conexion conexionActual)
         {
