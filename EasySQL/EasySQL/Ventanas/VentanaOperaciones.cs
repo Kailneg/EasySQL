@@ -67,20 +67,17 @@ namespace EasySQL.Ventanas
          */
         private void CreateDB()
         {
-            // Debo pasar: descripcion, conexión actual, comando.
-            DbCommand comando = Operacion.ComandoCreateDatabase(conexionActual);
-            VCreateDatabase vog = 
-                new VCreateDatabase(conexionActual, comando);
+            VCreateDatabase vog = new VCreateDatabase(conexionActual);
             vog.ShowDialog();
         }
 
         private void DropDB()
         {
+            // Debo pasar: descripcion, conexión actual, comando.
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
-            //VCreateDatabase vog = 
-            //    new VCreateDatabase(DESCRIPCION_DROPDB, conexionActual, comando);
-            //vog.ShowDialog();
-            Utils.Consola.NoImplementado();
+            VGenericaDrop vod =
+                new VGenericaDrop(DESCRIPCION_DROPDB, conexionActual, comando);
+            vod.ShowDialog();
         }
 
         private void ShowDBs()
@@ -95,10 +92,11 @@ namespace EasySQL.Ventanas
 
         private void DropTable()
         {
-            DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
-            //VCreateDatabase vog = 
-            //    new VCreateDatabase(DESCRIPCION_DROPTABLE, conexionActual, comando);
-            //vog.ShowDialog();
+            // Debo pasar: descripcion, conexión actual, comando.
+            DbCommand comando = Operacion.ComandoDropTable(conexionActual);
+            VGenericaDrop vod =
+                new VGenericaDrop(DESCRIPCION_DROPTABLE, conexionActual, comando);
+            vod.ShowDialog();
         }
 
         private void ShowTables()

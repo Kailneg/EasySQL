@@ -1,5 +1,6 @@
 ﻿using EasySQL.Modelos;
 using EasySQL.Operaciones.Ayudante;
+using EasySQL.Operaciones.Controlador;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -23,17 +24,19 @@ namespace EasySQL.Ventanas.Operaciones
     /// </summary>
     public partial class VCreateDatabase : Window
     {
-        private Conexion actual;
+        private Conexion conexionActual;
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
 
-        public VCreateDatabase(Conexion actual, DbCommand comando)
+        public VCreateDatabase(Conexion actual)
         {
             InitializeComponent();
-            lblComando.Content = comando.CommandText;
-            this.actual = actual;
-            this.comandoEnviar = comando;
-            this.textoComandoOriginal = comando.CommandText;
+            this.conexionActual = actual;
+
+            // Obtiene el comando SQL correspondiente
+            this.comandoEnviar = Operacion.ComandoCreateDatabase(actual);
+            lblComando.Content = comandoEnviar.CommandText;
+            this.textoComandoOriginal = comandoEnviar.CommandText;
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)
@@ -46,7 +49,7 @@ namespace EasySQL.Ventanas.Operaciones
                 }
                 comandoEnviar.CommandText = textoComandoOriginal + Comprueba.EliminarResto(txtbox.Text);
 
-                int resultado = Ayudante.ExecuteNonQuery(actual, comandoEnviar);
+                int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
                 if (resultado == -1)
                 {
                     MessageBox.Show("Base de datos " + Comprueba.EliminarResto(txtbox.Text) + " creada con éxito.");
