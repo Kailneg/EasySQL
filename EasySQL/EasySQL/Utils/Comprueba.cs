@@ -17,6 +17,7 @@ namespace EasySQL.Utils
         private static readonly int LONGITUD_CONTRASENIA_CONEXION = 50;
         private static readonly int LONGITUD_MINIMA = 0;
         private static readonly int LONGITUD_MINIMA_CONTRASENIA_CONEXION = 4;
+        private static readonly string SEPARADOR_SQL = ";";
 
         public static bool Nombre(string cadena)
         {
@@ -78,6 +79,21 @@ namespace EasySQL.Utils
                 return new Regex("^[a-zA-Z]+$").IsMatch(cadena);
             }
             else return false;
+        }
+
+        public static string EliminarResto(string parametro)
+        {
+            if (ContieneSeparadorSQL(parametro))
+            {
+                return parametro.Substring(0, parametro.IndexOf(SEPARADOR_SQL) + 1);
+            }
+            return parametro;
+        }
+        
+        public static bool ContieneSeparadorSQL(string parametro)
+        {
+            // Intento inyección SQL
+            return parametro.Contains(SEPARADOR_SQL);
         }
     }
 }

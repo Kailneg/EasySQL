@@ -1,5 +1,6 @@
 ﻿using EasySQL.Modelos;
 using EasySQL.Operaciones.Ayudante;
+using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -23,7 +24,8 @@ namespace EasySQL.Ventanas.Operaciones
     public partial class VOperacionGenerica : Window
     {
         private Conexion actual;
-        private DbCommand comando;
+        private DbCommand comandoEnviar;
+        private string textoComandoOriginal;
 
         public VOperacionGenerica(String labelDescripcion, Conexion actual, DbCommand comando)
         {
@@ -31,22 +33,24 @@ namespace EasySQL.Ventanas.Operaciones
             lbl.Content = labelDescripcion;
             lblComando.Content = comando.CommandText;
             this.actual = actual;
-            this.comando = comando;
+            this.comandoEnviar = comando;
+            this.textoComandoOriginal = comando.CommandText;
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             if (txtbox.Text.Length > 0)
             {
-                if (comando.Parameters.Count > 0)
+                if (Comprueba.ContieneSeparadorSQL(txtbox.Text))
                 {
-                    comando.Parameters["@param"].Value = txtbox.Text;
+                    comandoEnviar.CommandText = textoComandoOriginal + Comprueba.EliminarResto(txtbox.Text);
+                    MessageBox.Show("Detectado separador SQL. Sólo se ejecutará: " + comandoEnviar.CommandText);
                 }
                 else
                 {
-                    comando.CommandText += txtbox.Text;
+                    comandoEnviar.CommandText = textoComandoOriginal + txtbox.Text;
                 }
-                Ayudante.ExecuteNonQuery(actual, comando);
+                Ayudante.ExecuteNonQuery(actual, comandoEnviar);
             } else
             {
                 MessageBox.Show("Debes introducir un nombre");
@@ -55,7 +59,7 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void txtbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            lblComando.Content = comando.CommandText + txtbox.Text;
+            lblComando.Content = textoComandoOriginal + Comprueba.EliminarResto(txtbox.Text);
         }
     }
 }

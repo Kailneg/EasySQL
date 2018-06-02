@@ -15,6 +15,7 @@ namespace EasySQL.Modelos
         public enum TipoConexion { MicrosoftSQL, MySQL };
         public string Nombre { get; set; }
         public string Direccion { get; set; }
+        public string BaseDatos { get; set; }
         public int Puerto { get; set; }
         public TipoConexion TipoActual { get; set; }
         public string UsuarioConexion { get; set; }
@@ -69,7 +70,10 @@ namespace EasySQL.Modelos
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 
             builder.DataSource = Direccion;
-            // builder.InitialCatalog = "usuarios";
+
+            if (BaseDatos != null)
+                builder.InitialCatalog = BaseDatos;
+
             if (UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
             {
                 builder.IntegratedSecurity = true;
@@ -89,7 +93,9 @@ namespace EasySQL.Modelos
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 
             builder.DataSource = Direccion;
-            // builder.InitialCatalog = "usuarios";
+            if (BaseDatos != null)
+                builder.InitialCatalog = BaseDatos;
+
             if (UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
             {
                 builder.IntegratedSecurity = true;

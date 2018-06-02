@@ -17,6 +17,9 @@ namespace EasySQL.Ventanas
     {
         private Conexion conexionActual;
         private static readonly string CMB_BASEDATOS_DEFECTO = "Elige base de datos...";
+        private static readonly string DESCRIPCION_CREATEDB = "Introduce nombre de la BBDD a crear:";
+        private static readonly string DESCRIPCION_DROPDB = "Introduce nombre de la BBDD a eliminar:";
+        private static readonly string DESCRIPCION_DROPTABLE = "Introduce nombre de la tabla a eliminar:";
 
         /// <summary>
         /// Actualiza la pantalla con los datos de la conexión.
@@ -39,7 +42,10 @@ namespace EasySQL.Ventanas
             // Comprobar que la base de datos no sea la por defecto
             if (cmbBaseDatos.SelectedItem != null
                 && !cmbBaseDatos.SelectedItem.Equals(CMB_BASEDATOS_DEFECTO)) {
+                // Actualiza label descriptivo
                 lblBaseDatos.Content = "Base de datos : " + cmbBaseDatos.SelectedItem;
+                // Asigna BBDD
+                conexionActual.BaseDatos = cmbBaseDatos.SelectedItem.ToString();
                 return true;
             } else
             {
@@ -62,10 +68,10 @@ namespace EasySQL.Ventanas
          */
         private void CreateDB()
         {
-            // 1. Obtener el comando según tipo de conexión
+            // Debo pasar: descripcion, conexión actual, comando.
             DbCommand comando = Operacion.ComandoCreateDatabase(conexionActual);
             VOperacionGenerica vog = 
-                new VOperacionGenerica("Introduce nombre de la BBDD a crear:", conexionActual, comando);
+                new VOperacionGenerica(DESCRIPCION_CREATEDB, conexionActual, comando);
             vog.ShowDialog();
         }
 
@@ -73,7 +79,7 @@ namespace EasySQL.Ventanas
         {
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
             VOperacionGenerica vog = 
-                new VOperacionGenerica("Introduce nombre de la BBDD a eliminar:", conexionActual, comando);
+                new VOperacionGenerica(DESCRIPCION_DROPDB, conexionActual, comando);
             vog.ShowDialog();
             Utils.Consola.NoImplementado();
         }
@@ -85,10 +91,6 @@ namespace EasySQL.Ventanas
 
         private void CreateTable()
         {
-            DbCommand comando = Operacion.ComandoCreateTable(conexionActual);
-            VOperacionGenerica vog = 
-                new VOperacionGenerica("Introduce nombre de la tabla a crear:", conexionActual, comando);
-            vog.ShowDialog();
             Utils.Consola.NoImplementado();
         }
 
@@ -96,9 +98,8 @@ namespace EasySQL.Ventanas
         {
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
             VOperacionGenerica vog = 
-                new VOperacionGenerica("Introduce nombre de la tabla a eliminar:", conexionActual, comando);
+                new VOperacionGenerica(DESCRIPCION_DROPTABLE, conexionActual, comando);
             vog.ShowDialog();
-            Utils.Consola.NoImplementado();
         }
 
         private void ShowTables()
