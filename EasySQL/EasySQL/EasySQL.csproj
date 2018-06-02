@@ -73,9 +73,12 @@
     <Compile Include="Utils\Consola.cs" />
     <Compile Include="Utils\Rellena.cs" />
     <Compile Include="Ventanas\Manejador.cs" />
+    <Compile Include="Ventanas\Operaciones\VGenericaDrop.xaml.cs">
+      <DependentUpon>VGenericaDrop.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\VentanaConexion.cs" />
-    <Compile Include="Ventanas\Operaciones\VOperacionGenerica.xaml.cs">
-      <DependentUpon>VOperacionGenerica.xaml</DependentUpon>
+    <Compile Include="Ventanas\Operaciones\VCreateDatabase.xaml.cs">
+      <DependentUpon>VCreateDatabase.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ventanas\Pruebas.xaml.cs">
       <DependentUpon>Pruebas.xaml</DependentUpon>
@@ -93,7 +96,11 @@
     <Compile Include="Ventanas\VentanaRegistro.xaml.cs">
       <DependentUpon>VentanaRegistro.xaml</DependentUpon>
     </Compile>
-    <Page Include="Ventanas\Operaciones\VOperacionGenerica.xaml">
+    <Page Include="Ventanas\Operaciones\VGenericaDrop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\Operaciones\VCreateDatabase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

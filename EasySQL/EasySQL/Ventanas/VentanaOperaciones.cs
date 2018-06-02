@@ -17,7 +17,6 @@ namespace EasySQL.Ventanas
     {
         private Conexion conexionActual;
         private static readonly string CMB_BASEDATOS_DEFECTO = "Elige base de datos...";
-        private static readonly string DESCRIPCION_CREATEDB = "Introduce nombre de la BBDD a crear:";
         private static readonly string DESCRIPCION_DROPDB = "Introduce nombre de la BBDD a eliminar:";
         private static readonly string DESCRIPCION_DROPTABLE = "Introduce nombre de la tabla a eliminar:";
 
@@ -70,17 +69,17 @@ namespace EasySQL.Ventanas
         {
             // Debo pasar: descripcion, conexión actual, comando.
             DbCommand comando = Operacion.ComandoCreateDatabase(conexionActual);
-            VOperacionGenerica vog = 
-                new VOperacionGenerica(DESCRIPCION_CREATEDB, conexionActual, comando);
+            VGenericaDrop vog = 
+                new VGenericaDrop(conexionActual, comando);
             vog.ShowDialog();
         }
 
         private void DropDB()
         {
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
-            VOperacionGenerica vog = 
-                new VOperacionGenerica(DESCRIPCION_DROPDB, conexionActual, comando);
-            vog.ShowDialog();
+            //VCreateDatabase vog = 
+            //    new VCreateDatabase(DESCRIPCION_DROPDB, conexionActual, comando);
+            //vog.ShowDialog();
             Utils.Consola.NoImplementado();
         }
 
@@ -97,9 +96,9 @@ namespace EasySQL.Ventanas
         private void DropTable()
         {
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
-            VOperacionGenerica vog = 
-                new VOperacionGenerica(DESCRIPCION_DROPTABLE, conexionActual, comando);
-            vog.ShowDialog();
+            //VCreateDatabase vog = 
+            //    new VCreateDatabase(DESCRIPCION_DROPTABLE, conexionActual, comando);
+            //vog.ShowDialog();
         }
 
         private void ShowTables()
