@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
         Title="CREATE TABLE" 
-        Height="500" Width="420" MinHeight="350" MinWidth="350">
+        Height="500" Width="420" MinHeight="350" MinWidth="350" KeyUp="Window_KeyUp" PreviewMouseUp="Window_PreviewMouseUp">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -27,7 +27,7 @@
 
         <Label x:Name="lbl" Grid.Row="0" VerticalAlignment="Center">Introduce nombre de la tabla a crear:</Label>
         <Separator Grid.Row="1" VerticalAlignment="Top"></Separator>
-        <TextBox x:Name="txtbox" Grid.Row="2" Padding="0 5" VerticalAlignment="Center" TextChanged="txtbox_TextChanged"></TextBox>
+        <TextBox x:Name="txtbox" Grid.Row="2" Padding="0 5" VerticalAlignment="Center"/>
         <!--Grid elegir cantidad campos-->
         <Grid Grid.Row="3" Margin="0 5">
             <Grid.ColumnDefinitions>

@@ -1,4 +1,5 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Operaciones.Ayudante;
 using EasySQL.Operaciones.Controlador;
 using EasySQL.Utils;
 using System;
@@ -26,6 +27,8 @@ namespace EasySQL.Ventanas.Operaciones
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
+        private const int NUM_COL_MAX = 25;
+        int numColumnas;
 
         public VCreateTable() :
             this(
@@ -50,15 +53,49 @@ namespace EasySQL.Ventanas.Operaciones
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
             //Rellenar ComboBox campos
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= NUM_COL_MAX; i++)
             {
                 cmbCampos.Items.Add(i);
             }
         }
 
-        private void txtbox_TextChanged(object sender, TextChangedEventArgs e)
+        private async void CambioDetectado()
         {
-            lblComando.Content = textoComandoOriginal + Comprueba.EliminarResto(txtbox.Text);
+            // Espera 5ms para que de tiempo a repintar los componentes
+            await Task.Delay(5);
+            // Mirar cada uno de los campos del formulario para escribir el comando SQL resultante.
+            // Comando original: CREATE TABLE 
+            string datos = textoComandoOriginal;
+
+            // Añado nombre tabla -> CREATE TABLE nombre (
+            datos += Comprueba.EliminarResto(txtbox.Text);
+            datos += "(";
+
+            // Añadir cada uno de los valores de los textbox, separado por coma junto al tipo de dato
+            // -> CREATE TABLE nombre (columna1 tipodato1, columna2 tipodato2
+
+            for (int i = 0; i < numColumnas; i++)
+            {
+                // Obtiene cada TextBox y ComboBox de cada fila
+                TextBox txtColumna = stackTextBoxes.Children[i] as TextBox;
+                ComboBox cmbTipoDato = stackComboBoxes.Children[i] as ComboBox;
+
+                datos += Comprueba.EliminarResto(txtColumna.Text);
+                datos += " ";
+                if (cmbTipoDato.SelectedItem != null)
+                    datos += Comprueba.EliminarResto(cmbTipoDato.SelectedItem.ToString());
+                datos += ", ";
+            }
+
+            // Elimina última coma y pone paréntesis de cierre
+            if (datos.Contains(','))
+                datos = datos.Substring(0, datos.LastIndexOf(','));
+            datos += ")";
+
+            // Asigna datos a label y al comando
+            string comandoResultante = Comprueba.EliminarResto(datos);
+            lblComando.Content = comandoResultante;
+            comandoEnviar.CommandText = comandoResultante;
         }
 
         private void cmbCampos_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -67,10 +104,10 @@ namespace EasySQL.Ventanas.Operaciones
 
             if (cmbCampos.SelectedItem != null && cmbCampos.IsMouseCaptured)
             {
-                int numCampos = Int32.Parse(cmbCampos.SelectedItem.ToString());
+                numColumnas = Int32.Parse(cmbCampos.SelectedItem.ToString());
 
                 stackTextBoxes.Children.Clear();
-                for (int i = 0; i < numCampos; i++)
+                for (int i = 0; i < numColumnas; i++)
                 {
                     TextBox campo = new TextBox();
                     campo.Height = 25;
@@ -79,7 +116,7 @@ namespace EasySQL.Ventanas.Operaciones
                 }
 
                 stackComboBoxes.Children.Clear();
-                for (int i = 0; i < numCampos; i++)
+                for (int i = 0; i < numColumnas; i++)
                 {
                     ComboBox combo = new ComboBox();
                     combo.Height = 25;
@@ -96,7 +133,22 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void btnEjecutar_Click(object sender, RoutedEventArgs e)
         {
+            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+            if (resultado == -1)
+            {
+                MessageBox.Show("Tabla \"" + Comprueba.EliminarResto(txtbox.Text) + "\" en base de datos " +
+                    "\"" + conexionActual.BaseDatos +  "\" creada con éxito.");
+            }
+        }
+        
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            CambioDetectado();
+        }
 
+        private void Window_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            CambioDetectado();
         }
     }
 }
