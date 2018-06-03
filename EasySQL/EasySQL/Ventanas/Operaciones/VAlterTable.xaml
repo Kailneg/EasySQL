@@ -22,7 +22,7 @@
 
         <Label x:Name="lblDescripcion" Grid.Row="0" VerticalAlignment="Center">Elige nombre de la tabla a modificar:</Label>
         <Separator Grid.Row="1" VerticalAlignment="Top"></Separator>
-        <ComboBox x:Name="cmbDatos" Grid.Row="2" SelectionChanged="cmbTablas_SelectionChanged" DropDownOpened="cmbTablas_DropDownOpened" ></ComboBox>
+        <ComboBox x:Name="cmbTablas" Grid.Row="2" SelectionChanged="cmbTablas_SelectionChanged" DropDownOpened="cmbTablas_DropDownOpened" ></ComboBox>
 
         <!--Grid elegir tipo operación-->
         <Grid Grid.Row="3" Margin="0 10 0 5">
@@ -40,11 +40,11 @@
                 <ColumnDefinition Width="6*"></ColumnDefinition>
                 <ColumnDefinition Width="4*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">Nombre de la columna:</Label>
-            <Label Grid.Column="1">Tipo de dato:</Label>
+            <Label x:Name="lblNombreColumna" Grid.Column="0" Visibility="Hidden">Nombre de la columna:</Label>
+            <Label x:Name="lblTipoDato" Grid.Column="1" Visibility="Hidden">Tipo de dato:</Label>
         </Grid>
 
-        <Separator Grid.Row="5" VerticalAlignment="Top"></Separator>
+        <Separator x:Name="separador" Grid.Row="5" VerticalAlignment="Top" Visibility="Hidden"></Separator>
 
         <!--Grid tipo operacion-->
         <Grid Grid.Row="6" x:Name="gridTipoOperacion">

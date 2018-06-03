@@ -20,6 +20,8 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
         private const string DROP_DATABASE = "DROP DATABASE ";
         private const string SHOW_TABLES =
             "SELECT TABLE_NAME FROM @param.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'";
+        private const string SHOW_COLUMNS =
+            "SELECT COLUMN_NAME FROM @param.INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '@2param'";
         private const string CREATE_TABLE = "CREATE TABLE ";
         private const string DROP_TABLE = "DROP TABLE ";
         private const string ALTER_TABLE = "ALTER TABLE ";
@@ -57,6 +59,11 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
         public static DbCommand ComandoShowTables()
         {
             return new SqlCommand(SHOW_TABLES);
+        }
+
+        public static DbCommand ComandoShowColumnas()
+        {
+            return new SqlCommand(SHOW_COLUMNS);
         }
     }
 }

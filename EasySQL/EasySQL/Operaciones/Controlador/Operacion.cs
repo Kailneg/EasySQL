@@ -15,6 +15,7 @@ namespace EasySQL.Operaciones.Controlador
     public class Operacion
     {
         public const string PARAM = "@param";
+        public const string PARAM2 = "@2param";
 
         public static string[] TiposDatos(Conexion conexionActual)
         {
@@ -112,6 +113,19 @@ namespace EasySQL.Operaciones.Controlador
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
                 return OperacionMicrosoftSQL.ComandoShowTables();
+            }
+            else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
+            {
+                return null;
+            }
+            else return null;
+        }
+
+        public static DbCommand ComandoShowColumnas(Conexion conexionActual)
+        {
+            if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
+            {
+                return OperacionMicrosoftSQL.ComandoShowColumnas();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {

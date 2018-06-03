@@ -44,8 +44,8 @@ namespace EasySQL.Ventanas.Operaciones
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
             // Agrega y muestra la opción por defecto en el combobox.
-            cmbDatos.Items.Add(CMB_OPCION_DEFECTO);
-            cmbDatos.SelectedIndex = 0;
+            cmbTablas.Items.Add(CMB_OPCION_DEFECTO);
+            cmbTablas.SelectedIndex = 0;
 
             // Agrega tipos operaciones muestra la opción por defecto en el combobox.
             cmbTipoOperacion.Items.Add(CMB_OPERACION_DEFECTO);
@@ -59,7 +59,7 @@ namespace EasySQL.Ventanas.Operaciones
             int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
             if (resultado == -1)
             {
-                MessageBox.Show("Tabla \"" + Comprueba.EliminarResto(cmbDatos.SelectedItem.ToString()) 
+                MessageBox.Show("Tabla \"" + Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) 
                     + "\" en base de datos " + "\"" + conexionActual.BaseDatos + "\" modificada con éxito.");
             }
         }
@@ -67,21 +67,23 @@ namespace EasySQL.Ventanas.Operaciones
         private void cmbTablas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Comprobar que la tabla no sea la por defecto
-            if (cmbDatos.SelectedItem != null
-                && !cmbDatos.SelectedItem.Equals(CMB_OPCION_DEFECTO))
+            if (cmbTablas.SelectedItem != null
+                && !cmbTablas.SelectedItem.Equals(CMB_OPCION_DEFECTO))
             {
                 // Actualiza label descriptivo
-                lblComando.Content = textoComandoOriginal + cmbDatos.SelectedItem;
+                lblComando.Content = textoComandoOriginal + cmbTablas.SelectedItem;
             }
             else
             {
                 lblComando.Content = textoComandoOriginal;
             }
+            cmbTipoOperacion.SelectedIndex = 0;
+            TipoOperacionCambiada();
         }
 
         private void cmbTablas_DropDownOpened(object sender, EventArgs e)
         {
-            List<string> nombres_cmbox = new List<string>();
+            List<string> nombresTablas = new List<string>();
 
             // Ejecuta un reader para obtener las o tablas pertinentes
            
@@ -94,17 +96,23 @@ namespace EasySQL.Ventanas.Operaciones
                 // Si el resultado es nulo, no existen bases de datos.
                 if (lector != null)
                 {
-                    nombres_cmbox = Ayudante.MapearReaderALista(lector);
+                    nombresTablas = Ayudante.MapearReaderALista(lector);
                 }
             }
             // Rellena el combobox con las bases de datos o tablas pertinentes
-            nombres_cmbox.Insert(0, CMB_OPCION_DEFECTO);
-            cmbDatos.Items.Clear();
-            Rellena.ComboBox(cmbDatos, nombres_cmbox);
-            cmbDatos.SelectedIndex = 0;
+            nombresTablas.Insert(0, CMB_OPCION_DEFECTO);
+            cmbTablas.Items.Clear();
+            Rellena.ComboBox(cmbTablas, nombresTablas);
+            cmbTablas.SelectedIndex = 0;
         }
 
         private void cmbTipoOperacion_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TipoOperacionCambiada();
+            
+        }
+
+        private void TipoOperacionCambiada()
         {
             // Comprobar que la tabla no sea la por defecto
             if (cmbTipoOperacion.SelectedItem != null
@@ -123,6 +131,10 @@ namespace EasySQL.Ventanas.Operaciones
             }
             else
             {
+                // Se ocultan labels
+                lblNombreColumna.Visibility = Visibility.Hidden;
+                lblTipoDato.Visibility = Visibility.Hidden;
+                separador.Visibility = Visibility.Hidden;
                 // Se elimina posible eleccion anterior
                 gridTipoOperacion.Children.Clear();
             }
@@ -130,6 +142,11 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void OperacionAñadir()
         {
+            // Se muestran labels
+            lblNombreColumna.Visibility = Visibility.Visible;
+            lblTipoDato.Visibility = Visibility.Visible;
+            separador.Visibility = Visibility.Visible;
+
             // Se crean los controles dinámicos
             TextBox campo = new TextBox();
             campo.Height = 25;
@@ -165,10 +182,15 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void OperacionEliminar()
         {
+            // Se muestan labels
+            lblNombreColumna.Visibility = Visibility.Visible;
+            lblTipoDato.Visibility = Visibility.Hidden;
+            separador.Visibility = Visibility.Visible;
+
             // Se crean los controles dinámicos
             ComboBox combo = new ComboBox();
             combo.Height = 25;
-            foreach (var tipoDato in Operacion.TiposDatos(conexionActual))
+            foreach (var tipoDato in ObtenerColumnas())
             {
                 combo.Items.Add(tipoDato);
             }
@@ -189,6 +211,29 @@ namespace EasySQL.Ventanas.Operaciones
 
             // Se añaden los elementos al Grid
             gridTipoOperacion.Children.Add(combo);
+        }
+
+        private List<string> ObtenerColumnas()
+        {
+            List<string> nombresColumnas = new List<string>();
+
+            // Ejecuta un reader para obtener los nombres de columnas
+
+            // Obtener comando tables, reemplazar el parametro con el nombre de la bbdd actual
+            DbCommand comando = Operacion.ComandoShowColumnas(conexionActual);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM2, cmbTablas.SelectedItem.ToString());
+
+            using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
+            {
+                // Si el resultado es nulo, no existen bases de datos.
+                if (lector != null)
+                {
+                    nombresColumnas = Ayudante.MapearReaderALista(lector);
+                }
+            }
+            
+            return nombresColumnas;
         }
     }
 }
