@@ -18,6 +18,8 @@
             <RowDefinition Height="10px"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10px"/>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -33,22 +35,23 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label>Elige cantidad campos:</Label>
-            <ComboBox x:Name="cmbCampos" Grid.Column="1">
-                <ComboBoxItem IsSelected="True">1</ComboBoxItem>
-                <ComboBoxItem>2</ComboBoxItem>
-                <ComboBoxItem>3</ComboBoxItem>
-                <ComboBoxItem>4</ComboBoxItem>
-                <ComboBoxItem>5</ComboBoxItem>
-                <ComboBoxItem>6</ComboBoxItem>
-                <ComboBoxItem>7</ComboBoxItem>
-                <ComboBoxItem>8</ComboBoxItem>
-                <ComboBoxItem>9</ComboBoxItem>
-                <ComboBoxItem>10</ComboBoxItem>
-            </ComboBox>
+            <ComboBox x:Name="cmbCampos" Grid.Column="1" Height="26" VerticalAlignment="Bottom" SelectionChanged="cmbCampos_SelectionChanged"/>
         </Grid>
+
+        <!--Grid labels campos-->
+        <Grid Grid.Row="4" Margin="0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Nombre de la columna:</Label>
+            <Label Grid.Column="1">Tipo de dato:</Label>
+        </Grid>
+
+        <Separator Grid.Row="5" VerticalAlignment="Top"></Separator>
         
         <!--Zona scroll campos-->
-        <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="6" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"></ColumnDefinition>
@@ -56,35 +59,19 @@
                 </Grid.ColumnDefinitions>
                 <!--Stack Panel Izquierdo: TextBoxes-->
                 <StackPanel x:Name="stackTextBoxes" Orientation="Vertical" Grid.Column="0">
-                    <TextBox Height="25" Margin="0 5">ASD</TextBox>
-                    <TextBox Height="25" Margin="0 5">ASD</TextBox>
-                    <TextBox Height="25" Margin="0 5">ASD</TextBox>
-                    <TextBox Height="25" Margin="0 5">ASD</TextBox>
-                    <TextBox Height="25" Margin="0 5">ASD</TextBox>
-                    <TextBox Height="25" Margin="0 5">ASD</TextBox>
-                    <TextBox Height="25" Margin="0 5">ASD</TextBox>
-                    <TextBox Height="25" Margin="0 5">ASD</TextBox>
-                    <TextBox Height="25" Margin="0 5">ASD</TextBox>
+                    <!--<TextBox Height="25" Margin="0 5">ASD</TextBox>-->
                 </StackPanel>
                 
                 <!--Stack Panel Derecho: ComboBoxes-->
                 <StackPanel x:Name="stackComboBoxes" Orientation="Vertical" Grid.Column="1">
-                    <ComboBox Height="25" Margin="0 5">ASD</ComboBox>
-                    <ComboBox Height="25" Margin="0 5">ASD</ComboBox>
-                    <ComboBox Height="25" Margin="0 5">ASD</ComboBox>
-                    <ComboBox Height="25" Margin="0 5">ASD</ComboBox>
-                    <ComboBox Height="25" Margin="0 5">ASD</ComboBox>
-                    <ComboBox Height="25" Margin="0 5">ASD</ComboBox>
-                    <ComboBox Height="25" Margin="0 5">ASD</ComboBox>
-                    <ComboBox Height="25" Margin="0 5">ASD</ComboBox>
-                    <ComboBox Height="25" Margin="0 5">ASD</ComboBox>
+                    <!--<ComboBox Height="25" Margin="0 5">ASD</ComboBox>-->
                 </StackPanel>
             </Grid>
         </ScrollViewer>
         
         <!--Grid labels comando-->
 
-        <Grid Grid.Row="5" Margin="0 10">
+        <Grid Grid.Row="7" Margin="0 10">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
             <DockPanel>
                 <Label>Comando resultante:</Label>
@@ -92,6 +79,6 @@
             </DockPanel>
             </ScrollViewer>
         </Grid>
-        <Button x:Name="btnEjecutar" Grid.Row="6" Click="btnEjecutar_Click">Ejecutar Comando</Button>
+        <Button x:Name="btnEjecutar" Grid.Row="8" Click="btnEjecutar_Click">Ejecutar Comando</Button>
     </Grid>
 </Window>

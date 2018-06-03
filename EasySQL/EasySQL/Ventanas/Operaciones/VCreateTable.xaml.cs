@@ -48,11 +48,50 @@ namespace EasySQL.Ventanas.Operaciones
             this.comandoEnviar = Operacion.ComandoCreateTable(actual);
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
+
+            //Rellenar ComboBox campos
+            for (int i = 1; i <= 10; i++)
+            {
+                cmbCampos.Items.Add(i);
+            }
         }
 
         private void txtbox_TextChanged(object sender, TextChangedEventArgs e)
         {
             lblComando.Content = textoComandoOriginal + Comprueba.EliminarResto(txtbox.Text);
+        }
+
+        private void cmbCampos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Por cada uno de los campos a añadir, añadir tantos textboxes como sean necesarios.
+
+            if (cmbCampos.SelectedItem != null && cmbCampos.IsMouseCaptured)
+            {
+                int numCampos = Int32.Parse(cmbCampos.SelectedItem.ToString());
+
+                stackTextBoxes.Children.Clear();
+                for (int i = 0; i < numCampos; i++)
+                {
+                    TextBox campo = new TextBox();
+                    campo.Height = 25;
+                    campo.Margin = new Thickness(0, 5, 0, 5);
+                    stackTextBoxes.Children.Add(campo);
+                }
+
+                stackComboBoxes.Children.Clear();
+                for (int i = 0; i < numCampos; i++)
+                {
+                    ComboBox combo = new ComboBox();
+                    combo.Height = 25;
+                    combo.Margin = new Thickness(0, 5, 0, 5);
+                    foreach (var tipoDato in Operacion.TiposDatos(conexionActual))
+                    {
+                        combo.Items.Add(tipoDato);
+                    }
+                    stackComboBoxes.Children.Add(combo);
+                }
+            }
+            
         }
 
         private void btnEjecutar_Click(object sender, RoutedEventArgs e)

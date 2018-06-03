@@ -16,6 +16,19 @@ namespace EasySQL.Operaciones.Controlador
     {
         public const string PARAM = "@param";
 
+        public static string[] TiposDatos(Conexion conexionActual)
+        {
+            if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
+            {
+                return OperacionMicrosoftSQL.TIPOS_DATOS;
+            }
+            else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
+            {
+                return null;
+            }
+            else return null;
+        }
+
         public static DbCommand ComandoShowDatabases(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)

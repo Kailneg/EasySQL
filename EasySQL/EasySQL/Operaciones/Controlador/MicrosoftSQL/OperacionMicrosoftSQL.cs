@@ -13,6 +13,8 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
 {
     public class OperacionMicrosoftSQL
     {
+        public static readonly string[] TIPOS_DATOS = 
+            { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(MAX)", "DATETIME"  };
         private const string SHOW_DATABASES = "SELECT name FROM master.sys.databases";
         private const string CREATE_DATABASE = "CREATE DATABASE ";
         private const string DROP_DATABASE = "DROP DATABASE ";
