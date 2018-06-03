@@ -23,6 +23,9 @@ namespace EasySQL.Ventanas
     /// </summary>
     public partial class VentanaOperaciones : Window
     {
+        /// <summary>
+        /// Constructor para pruebas
+        /// </summary>
         public VentanaOperaciones() :
             this(
                     new Conexion()

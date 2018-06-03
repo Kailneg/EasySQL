@@ -84,7 +84,7 @@ namespace EasySQL.Ventanas
 
         private void DropDB()
         {
-            // Debo pasar: descripcion, conexión actual, comando.
+            // Debo pasar: conexión actual, comando.
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
             VGenericaDrop vod =
                 new VGenericaDrop(conexionActual, comando);
@@ -98,7 +98,16 @@ namespace EasySQL.Ventanas
 
         private void CreateTable()
         {
-            Utils.Consola.NoImplementado();
+            // Antes comprobar si existe una BBDD seleccionada
+            if (HayBBDDSeleccionada())
+            {
+                VCreateTable vct = new VCreateTable(conexionActual);
+                vct.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(MSJ_ELEGIR_BBDD);
+            }
         }
 
         private void DropTable()
