@@ -126,6 +126,21 @@ namespace EasySQL.Ventanas
             }
         }
 
+        private void AlterTable()
+        {
+            // Antes comprobar si existe una BBDD seleccionada
+            if (HayBBDDSeleccionada())
+            {
+                DbCommand comando = Operacion.ComandoAlterTable(conexionActual);
+                VAlterTable vat = new VAlterTable(conexionActual);
+                vat.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(MSJ_ELEGIR_BBDD);
+            }
+        }
+
         private void ShowTables()
         {
             Utils.Consola.NoImplementado();

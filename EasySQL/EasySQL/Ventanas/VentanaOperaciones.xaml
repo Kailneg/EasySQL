@@ -91,11 +91,13 @@
         <!--Grid Botones DDL-->
         <Grid Grid.Column="0" Grid.Row="3">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="btnShowDbs" Content="SHOW DATABASES" Grid.Column="0" Click="btnShowDbs_Click"/>
-            <Button x:Name="btnShowTables" Content="SHOW TABLES" Grid.Column="1" Click="btnShowTables_Click"/>
+            <Button x:Name="btnAlterTable" Content="ALTER TABLE" Grid.Column="1" Click="btnAlterTable_Click"/>
+            <Button x:Name="btnShowTables" Content="SHOW TABLES" Grid.Column="2" Click="btnShowTables_Click"/>
         </Grid>
 
         <!--Grid Label DML-->

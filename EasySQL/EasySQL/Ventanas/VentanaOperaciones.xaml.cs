@@ -78,6 +78,11 @@ namespace EasySQL.Ventanas
             DropTable();
         }
 
+        private void btnAlterTable_Click(object sender, RoutedEventArgs e)
+        {
+            AlterTable();
+        }
+
         private void btnShowTables_Click(object sender, RoutedEventArgs e)
         {
             ShowTables();
@@ -112,5 +117,6 @@ namespace EasySQL.Ventanas
         {
             MostrarBasesDatos();
         }
+
     }
 }

@@ -25,8 +25,8 @@ namespace EasySQL.Ventanas.Operaciones
     /// </summary>
     public partial class VGenericaDrop : Window
     {
-        private const string DESCRIPCION_DATABASE = "Introduce nombre de la BBDD a eliminar:";
-        private const string DESCRIPCION_TABLE = "Introduce nombre de la tabla a eliminar:";
+        private const string DESCRIPCION_DATABASE = "Elige nombre de la BBDD a eliminar:";
+        private const string DESCRIPCION_TABLE = "Elige nombre de la tabla a eliminar:";
         private const string CMB_OPCION_DEFECTO_DATABASE = "Elige base de datos...";
         private const string CMB_OPCION_DEFECTO_TABLE = "Elige tabla...";
         private const string CLICK_ERROR_DATABASE = "Debes elegir una base de datos";
