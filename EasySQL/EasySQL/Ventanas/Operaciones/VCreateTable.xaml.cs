@@ -30,18 +30,6 @@ namespace EasySQL.Ventanas.Operaciones
         private const int NUM_COL_MAX = 25;
         int numColumnas;
 
-        public VCreateTable() :
-            this(
-                    new Conexion()
-                    {
-                        Direccion = "localhost\\SQLALE",
-                        TipoActual = Conexion.TipoConexion.MicrosoftSQL,
-                        UsuarioConexion = Usuario.NombreIntegratedSecurity,
-                        BaseDatos = "Pruebas"
-                    }
-                )
-        { }
-
         public VCreateTable(Conexion actual)
         {
             InitializeComponent();
