@@ -31,6 +31,8 @@ namespace EasySQL.Ventanas.Operaciones
         private const string CMB_OPERACION_ELIMINAR = "Eliminar columna";
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
+        private TextBox txtBoxGenerado;
+        private ComboBox cmbGenerado;
         private string textoComandoOriginal;
 
         public VAlterTable(Conexion actual)
@@ -67,18 +69,22 @@ namespace EasySQL.Ventanas.Operaciones
         private void cmbTablas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Comprobar que la tabla no sea la por defecto
-            if (cmbTablas.SelectedItem != null
-                && !cmbTablas.SelectedItem.Equals(CMB_OPCION_DEFECTO))
+            if (!elegidaTablaDefecto())
             {
-                // Actualiza label descriptivo
-                lblComando.Content = textoComandoOriginal + cmbTablas.SelectedItem;
+                DatosCambiados();
             }
             else
             {
+                // Si no, resetea el label
                 lblComando.Content = textoComandoOriginal;
             }
             cmbTipoOperacion.SelectedIndex = 0;
             TipoOperacionCambiada();
+        }
+
+        private bool elegidaTablaDefecto() {
+            return cmbTablas.SelectedItem != null
+                && cmbTablas.SelectedItem.Equals(CMB_OPCION_DEFECTO);
         }
 
         private void cmbTablas_DropDownOpened(object sender, EventArgs e)
@@ -109,7 +115,16 @@ namespace EasySQL.Ventanas.Operaciones
         private void cmbTipoOperacion_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TipoOperacionCambiada();
-            
+        }
+
+        private void cmbGenerado_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DatosCambiados();
+        }
+
+        private void txtBoxGenerado_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DatosCambiados();
         }
 
         private void TipoOperacionCambiada()
@@ -136,8 +151,11 @@ namespace EasySQL.Ventanas.Operaciones
                 lblTipoDato.Visibility = Visibility.Hidden;
                 separador.Visibility = Visibility.Hidden;
                 // Se elimina posible eleccion anterior
+                txtBoxGenerado = null;
+                cmbGenerado = null;
                 gridTipoOperacion.Children.Clear();
             }
+            DatosCambiados();
         }
 
         private void OperacionAñadir()
@@ -148,15 +166,19 @@ namespace EasySQL.Ventanas.Operaciones
             separador.Visibility = Visibility.Visible;
 
             // Se crean los controles dinámicos
-            TextBox campo = new TextBox();
-            campo.Height = 25;
-            
-            ComboBox combo = new ComboBox();
-            combo.Height = 25;
+            txtBoxGenerado = new TextBox();
+            txtBoxGenerado.Height = 25;
+
+            cmbGenerado = new ComboBox();
+            cmbGenerado.Height = 25;
             foreach (var tipoDato in Operacion.TiposDatos(conexionActual))
             {
-                combo.Items.Add(tipoDato);
+                cmbGenerado.Items.Add(tipoDato);
             }
+
+            // Se asignan eventos a los controles dinámicos
+            txtBoxGenerado.TextChanged += txtBoxGenerado_TextChanged;
+            cmbGenerado.SelectionChanged += cmbGenerado_SelectionChanged;
 
             // Se resetea el grid que los contiene
             gridTipoOperacion.Children.Clear();
@@ -172,12 +194,12 @@ namespace EasySQL.Ventanas.Operaciones
             gridTipoOperacion.ColumnDefinitions.Add(gridCol2);
 
             // Se asignan posiciones de los elementos
-            Grid.SetColumn(campo, 0);
-            Grid.SetColumn(combo, 1);
+            Grid.SetColumn(txtBoxGenerado, 0);
+            Grid.SetColumn(cmbGenerado, 1);
 
             // Se añaden los elementos al Grid
-            gridTipoOperacion.Children.Add(campo);
-            gridTipoOperacion.Children.Add(combo);
+            gridTipoOperacion.Children.Add(txtBoxGenerado);
+            gridTipoOperacion.Children.Add(cmbGenerado);
         }
 
         private void OperacionEliminar()
@@ -188,14 +210,18 @@ namespace EasySQL.Ventanas.Operaciones
             separador.Visibility = Visibility.Visible;
 
             // Se crean los controles dinámicos
-            ComboBox combo = new ComboBox();
-            combo.Height = 25;
+            cmbGenerado = new ComboBox();
+            cmbGenerado.Height = 25;
             foreach (var tipoDato in ObtenerColumnas())
             {
-                combo.Items.Add(tipoDato);
+                cmbGenerado.Items.Add(tipoDato);
             }
 
+            // Se asigna evento al control dinámico
+            cmbGenerado.SelectionChanged += cmbGenerado_SelectionChanged;
+
             // Se resetea el grid que los contiene
+            txtBoxGenerado = null;
             gridTipoOperacion.Children.Clear();
             gridTipoOperacion.ColumnDefinitions.Clear();
 
@@ -206,11 +232,61 @@ namespace EasySQL.Ventanas.Operaciones
             gridTipoOperacion.ColumnDefinitions.Add(gridCol1);
 
             // Se asignan posiciones de los elementos
-            Grid.SetColumn(combo, 0);
-            Grid.SetColumn(combo, 1);
+            Grid.SetColumn(cmbGenerado, 0);
 
             // Se añaden los elementos al Grid
-            gridTipoOperacion.Children.Add(combo);
+            gridTipoOperacion.Children.Add(cmbGenerado);
+        }
+
+        private void DatosCambiados()
+        {
+            // Comando actual: ALTER TABLE
+            // Obtiene nombre tabla
+            if (!elegidaTablaDefecto())
+            {
+                comandoEnviar.CommandText = textoComandoOriginal + cmbTablas.SelectedItem;
+                lblComando.Content = comandoEnviar.CommandText;
+                // Comando actual: ALTER TABLE <nombre_tabla>
+                // Operación añadir
+                if (txtBoxGenerado != null)
+                {
+                    // Obtiene tipo operación
+                    comandoEnviar.CommandText += " ADD ";
+                    lblComando.Content = comandoEnviar.CommandText;
+                    // Comprobar que la opcion no sea la por defecto
+
+                    // Obtiene nombre columna y tipo dato
+                    string columna = Comprueba.EliminarResto(txtBoxGenerado.Text);
+                    string tipoDato = "";
+                    if (cmbGenerado.SelectedItem != null)
+                    {
+                        tipoDato = cmbGenerado.SelectedItem.ToString();
+                    }
+                    comandoEnviar.CommandText += columna + " " + tipoDato;
+                    lblComando.Content = comandoEnviar.CommandText;
+                }
+                // Operacion eliminar
+                else if (cmbGenerado != null)
+                {
+                    // Obtiene tipo operación
+                    comandoEnviar.CommandText += " DROP COLUMN ";
+                    lblComando.Content = comandoEnviar.CommandText;
+                    // Comprobar que la opcion no sea la por defecto
+                    if (cmbGenerado.SelectedItem != null)
+                    {
+                        // Obtiene nombre columna
+                        comandoEnviar.CommandText += cmbGenerado.SelectedItem.ToString();
+                        lblComando.Content = comandoEnviar.CommandText;
+                    }
+                }
+            }
+            // Ninguna operación seleccionada
+            else
+            {
+                // Comando actual: ALTER TABLE
+                comandoEnviar.CommandText = textoComandoOriginal;
+                lblComando.Content = comandoEnviar.CommandText;
+            }
         }
 
         private List<string> ObtenerColumnas()

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
         Title="ALTER TABLE" 
-        Height="350" Width="400" MinHeight="180" MaxHeight="600" MinWidth="200">
+        Height="350" Width="400" MinHeight="320" MaxHeight="600" MinWidth="280">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -54,14 +54,14 @@
             </Grid.ColumnDefinitions>
         </Grid>
 
-        <!--Grid labels comando-->
-        <Grid Grid.Row="7">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Label>Comando resultante:</Label>
-            <Label x:Name="lblComando" Grid.Column="1"></Label>
+        <!--Grid labels comando resultante-->
+        <Grid Grid.Row="7" Margin="0 10">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <DockPanel>
+                    <Label>Comando resultante:</Label>
+                    <Label x:Name="lblComando"></Label>
+                </DockPanel>
+            </ScrollViewer>
         </Grid>
         <Button x:Name="btn" Grid.Row="8" Click="btn_Click">Ejecutar comando</Button>
     </Grid>

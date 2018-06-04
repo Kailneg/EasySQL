@@ -69,7 +69,7 @@
             </Grid>
         </ScrollViewer>
         
-        <!--Grid labels comando-->
+        <!--Grid labels comando resultante-->
         <Grid Grid.Row="7" Margin="0 10">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
             <DockPanel>
