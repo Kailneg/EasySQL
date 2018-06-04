@@ -75,6 +75,7 @@ namespace EasySQL.Ventanas.Operaciones
             // Si no, resetea el label
             comandoEnviar.CommandText = textoComandoOriginal + cmbTablas.SelectedItem.ToString();
             lblComando.Content = comandoEnviar.CommandText;
+            cmbNumCondiciones.SelectedIndex = 0;
         }
 
         private void cmbTabla_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -82,6 +83,7 @@ namespace EasySQL.Ventanas.Operaciones
             // Comprobar que la tabla no sea la por defecto
             if (!Comprueba.ElegidaOpcionDefecto(cmbTablas, CMB_OPCION_DEFECTO))
             {
+                // Se refleja la elección de la nueva tabla
                 DatosCambiados();
             }
             else
@@ -129,9 +131,128 @@ namespace EasySQL.Ventanas.Operaciones
             }
         }
 
+        private void ModificarNumCondiciones()
+        {
+            int numCondiciones = (int)cmbNumCondiciones.SelectedItem;
+            string[] tipos_operadores = Operacion.TIPOS_OPERADORES;
+            string[] tipos_operadores_union = Operacion.TIPOS_OPERADORES_UNION;
+            List<string> nombre_columnas = ObtenerColumnas();
+
+            // Se vacía de contenido el stackpanel
+            stackCondiciones.Children.Clear();
+
+            // Por cada condicion generar 1 Grid (2combos 1 textbox) 1Combo
+            Grid contenedorSuperior;
+            ComboBox cmbColumna;
+            ComboBox cmbOperadores;
+            TextBox txtValor;
+            ComboBox cmbAndOr;
+
+            for (int i = 0; i < numCondiciones; i++)
+            {
+                // GRID PADRE
+                contenedorSuperior = new Grid();
+                // Se le asignan las columnas 4* 2* 5*
+                ColumnDefinition gridCol1 = new ColumnDefinition();
+                gridCol1.Width = new GridLength(4, GridUnitType.Star);
+                ColumnDefinition gridCol2 = new ColumnDefinition();
+                gridCol2.Width = new GridLength(2, GridUnitType.Star);
+                ColumnDefinition gridCol3 = new ColumnDefinition();
+                gridCol3.Width = new GridLength(5, GridUnitType.Star);
+
+                contenedorSuperior.ColumnDefinitions.Add(gridCol1);
+                contenedorSuperior.ColumnDefinitions.Add(gridCol2);
+                contenedorSuperior.ColumnDefinitions.Add(gridCol3);
+
+                // CMB COLUMNA
+                cmbColumna = new ComboBox();
+                cmbColumna.Height = 25;
+                foreach (var nombre in nombre_columnas)
+                {
+                    cmbColumna.Items.Add(nombre);
+                }
+                
+                // CMB OPERADORES
+                cmbOperadores = new ComboBox();
+                cmbOperadores.Height = 25;
+                cmbOperadores.Margin = new Thickness(0, 5, 0, 5);
+                foreach (var tipoDato in tipos_operadores)
+                {
+                    cmbOperadores.Items.Add(tipoDato);
+                }
+
+                // TXTVALOR
+                txtValor = new TextBox();
+                cmbOperadores.Height = 25;
+                
+                // CMB AND OR
+                cmbAndOr = new ComboBox();
+                cmbAndOr.Margin = new Thickness(0, 5, 0, 5);
+                cmbAndOr.HorizontalContentAlignment = HorizontalAlignment.Center;
+                foreach (var tipoDato in tipos_operadores_union)
+                {
+                    cmbAndOr.Items.Add(tipoDato);
+                }
+
+                // Se asignan posiciones para los hijos del grid padre
+                Grid.SetColumn(cmbColumna, 0);
+                Grid.SetColumn(cmbOperadores, 1);
+                Grid.SetColumn(txtValor, 2);
+
+                // Se asignan eventos a los controles dinámicos
+                cmbColumna.SelectionChanged += cmbGenerado_SelectionChanged;
+                cmbOperadores.SelectionChanged += cmbGenerado_SelectionChanged;
+                txtValor.TextChanged += txtGenerado_TextChanged;
+                cmbAndOr.SelectionChanged += cmbGenerado_SelectionChanged;
+
+                // Se añaden los elementos a sus respectivas posiciones
+                contenedorSuperior.Children.Add(cmbColumna);
+                contenedorSuperior.Children.Add(cmbOperadores);
+                contenedorSuperior.Children.Add(txtValor);
+
+                stackCondiciones.Children.Add(contenedorSuperior);
+                stackCondiciones.Children.Add(cmbAndOr);
+            }
+        }
+
+        private List<string> ObtenerColumnas()
+        {
+            List<string> nombresColumnas = new List<string>();
+
+            // Ejecuta un reader para obtener los nombres de columnas
+
+            // Obtener comando tables, reemplazar el parametro con el nombre de la bbdd actual
+            DbCommand comando = Operacion.ComandoShowColumnas(conexionActual);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM2, cmbTablas.SelectedItem.ToString());
+
+            using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
+            {
+                // Si el resultado es nulo, no existen bases de datos.
+                if (lector != null)
+                {
+                    nombresColumnas = Ayudante.MapearReaderALista(lector);
+                }
+            }
+
+            return nombresColumnas;
+        }
+
         private void cmbNumCondiciones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (cmbNumCondiciones.SelectedItem != null)
+                ModificarNumCondiciones();
         }
+
+        private void cmbGenerado_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DatosCambiados();
+        }
+
+        private void txtGenerado_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DatosCambiados();
+        }
+
     }
 }

@@ -18,6 +18,7 @@ namespace EasySQL.Operaciones.Controlador
         public const string PARAM2 = "@2param";
         public static readonly string[] TIPOS_OPERADORES 
             = { "=", "<>", ">", "<", ">=", "<=", "LIKE", "IN" };
+        public static readonly string[] TIPOS_OPERADORES_UNION = { "AND", "OR" };
 
         public static string[] TiposDatos(Conexion conexionActual)
         {
@@ -140,7 +141,7 @@ namespace EasySQL.Operaciones.Controlador
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoAlterTable();
+                return OperacionMicrosoftSQL.ComandoDeleteFrom();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
