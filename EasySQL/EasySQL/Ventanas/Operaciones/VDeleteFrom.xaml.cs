@@ -75,7 +75,6 @@ namespace EasySQL.Ventanas.Operaciones
             // Si no, resetea el label
             comandoEnviar.CommandText = textoComandoOriginal + cmbTablas.SelectedItem.ToString();
             lblComando.Content = comandoEnviar.CommandText;
-            cmbNumCondiciones.SelectedIndex = 0;
         }
 
         private void cmbTabla_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -85,10 +84,13 @@ namespace EasySQL.Ventanas.Operaciones
             {
                 // Se refleja la elección de la nueva tabla
                 DatosCambiados();
+                ModificarNumCondiciones();
             }
             else
             {
                 // Si no, resetea el label
+                cmbNumCondiciones.SelectedIndex = 0;
+                stackCondiciones.Children.Clear();
                 lblComando.Content = textoComandoOriginal;
             }
         }
@@ -240,8 +242,12 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbNumCondiciones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbNumCondiciones.SelectedItem != null)
+            if (!Comprueba.ElegidaOpcionDefecto(cmbTablas, CMB_OPCION_DEFECTO))
+            {
+                // Se refleja la elección de la nueva tabla
+                DatosCambiados();
                 ModificarNumCondiciones();
+            }
         }
 
         private void cmbGenerado_SelectionChanged(object sender, SelectionChangedEventArgs e)
