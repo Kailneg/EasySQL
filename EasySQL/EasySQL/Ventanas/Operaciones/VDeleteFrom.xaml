@@ -10,13 +10,22 @@
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="25px"/>
         </Style>
     </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="10px"/>
+            <!--Combo Tablas-->
             <RowDefinition Height="25px"/>
+            <!--Grid elegir campos-->
+            <RowDefinition Height="auto"/>
+            <!--Grid labels definicion campos-->
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/> <!--Separator-->
+            <!--Grid campos condiciones-->
+            <RowDefinition Height="*"/>
             <!--Grid labels comando resultante-->
             <RowDefinition Height="auto"/>
             <!--Boton ejecutar-->
@@ -27,8 +36,46 @@
         <Separator Grid.Row="1" VerticalAlignment="Top"></Separator>
         <ComboBox x:Name="cmbTablas" Grid.Row="2" SelectionChanged="cmbTabla_SelectionChanged"  DropDownOpened="cmbTabla_DropDownOpened"></ComboBox>
 
+        <!--Grid elegir campos-->
+        <Grid Grid.Row="3" Margin="0 10 0 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label>Elige cantidad condiciones WHERE:</Label>
+            <ComboBox x:Name="cmbNumCondiciones" Grid.Column="1" SelectionChanged="cmbNumCondiciones_SelectionChanged"/>
+        </Grid>
+
+        <!--Grid labels campos-->
+        <Grid Grid.Row="4" Margin="0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Nombre de la columna:</Label>
+            <Label Grid.Column="1">Operador:</Label>
+            <Label Grid.Column="2">Valor:</Label>
+        </Grid>
+
+        <Separator Grid.Row="5" VerticalAlignment="Top"></Separator>
+        
+        <!--Grid campos operaciones-->
+        <StackPanel x:Name="stackCondiciones" Grid.Row="6" Orientation="Vertical">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="5*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0">Nombre de la columna:</ComboBox>
+                <ComboBox Grid.Column="1" Margin="5 0">Operador:</ComboBox>
+                <TextBox Grid.Column="2">Valor:</TextBox>
+            </Grid>
+        </StackPanel>
+
         <!--Grid labels comando resultante-->
-        <Grid Grid.Row="3" Margin="0 10">
+        <Grid Grid.Row="7" Margin="0 10">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                 <DockPanel>
                     <Label>Comando resultante:</Label>
@@ -36,6 +83,6 @@
                 </DockPanel>
             </ScrollViewer>
         </Grid>
-        <Button x:Name="btn" Grid.Row="4" Click="btn_Click">Ejecutar comando</Button>
+        <Button x:Name="btn" Grid.Row="8" Click="btn_Click">Ejecutar comando</Button>
     </Grid>
 </Window>

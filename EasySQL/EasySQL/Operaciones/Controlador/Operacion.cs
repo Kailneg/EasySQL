@@ -16,6 +16,8 @@ namespace EasySQL.Operaciones.Controlador
     {
         public const string PARAM = "@param";
         public const string PARAM2 = "@2param";
+        public static readonly string[] TIPOS_OPERADORES 
+            = { "=", "<>", ">", "<", ">=", "<=", "LIKE", "IN" };
 
         public static string[] TiposDatos(Conexion conexionActual)
         {

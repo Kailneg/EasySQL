@@ -26,6 +26,7 @@ namespace EasySQL.Ventanas.Operaciones
     public partial class VDeleteFrom : Window
     {
         private const string CMB_OPCION_DEFECTO = "Elige tabla...";
+        private const int NUM_CONDICIONES_MAX = 10;
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
         private TextBox txtBoxGenerado;
@@ -57,9 +58,16 @@ namespace EasySQL.Ventanas.Operaciones
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
-            // Agrega y muestra la opción por defecto en el combobox.
+            // Agrega y muestra la opción por defecto en el combobox Tablas.
             cmbTablas.Items.Add(CMB_OPCION_DEFECTO);
             cmbTablas.SelectedIndex = 0;
+
+            // Agrega valores y muestra la opción por defecto en el combobox numCondiciones.
+            for (int i = 0; i < NUM_CONDICIONES_MAX; i++)
+            {
+                cmbNumCondiciones.Items.Add(i);
+            }
+            cmbNumCondiciones.SelectedIndex = 0;
         }
 
         private void DatosCambiados()
@@ -119,6 +127,11 @@ namespace EasySQL.Ventanas.Operaciones
                     "\" en base de datos " + "\"" + conexionActual.BaseDatos + 
                     "\" modificada con éxito.");
             }
+        }
+
+        private void cmbNumCondiciones_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
