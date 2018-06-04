@@ -16,7 +16,9 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="10px"/>
             <RowDefinition Height="25px"/>
+            <!--Grid labels comando resultante-->
             <RowDefinition Height="auto"/>
+            <!--Boton ejecutar-->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 

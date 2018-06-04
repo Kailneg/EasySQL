@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace EasySQL.Utils
 {
@@ -94,6 +95,12 @@ namespace EasySQL.Utils
         {
             // Intento inyección SQL
             return parametro.Contains(SEPARADOR_SQL);
+        }
+
+        public static bool ElegidaOpcionDefecto(ComboBox combo, string opcionDefecto)
+        {
+            return combo.SelectedItem == null
+                || combo.SelectedItem.Equals(opcionDefecto);
         }
     }
 }

@@ -81,6 +81,9 @@
     <Compile Include="Ventanas\Operaciones\VAlterTable.xaml.cs">
       <DependentUpon>VAlterTable.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\Operaciones\VDeleteFrom.xaml.cs">
+      <DependentUpon>VDeleteFrom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\Operaciones\VGenericaDrop.xaml.cs">
       <DependentUpon>VGenericaDrop.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,10 @@
     <Page Include="Ventanas\Operaciones\VAlterTable.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ventanas\Operaciones\VDeleteFrom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ventanas\Operaciones\VGenericaDrop.xaml">
       <Generator>MSBuild:Compile</Generator>
