@@ -75,12 +75,29 @@ namespace EasySQL.Ventanas.Operaciones
             stackCondiciones.Children.Clear();
             // Comprobar que la tabla no sea la por defecto
             if (!Comprueba.ElegidaOpcionDefecto(cmbTablas, CMB_OPCION_DEFECTO))
-                comandoEnviar.CommandText = textoComandoOriginal + cmbTablas.SelectedItem.ToString();
+                ModificarComando(cmbTablas.SelectedItem.ToString(), "");
             else
-                comandoEnviar.CommandText = textoComandoOriginal;
+                ModificarComando("", "");
+        }
 
+        private void ModificarComando(string tabla, string datos)
+        {
+            string comando = textoComandoOriginal;
+            comando = comando.Replace(Operacion.PARAM, tabla);
+            // Se trata de un DELETE * FROM
+            if (String.IsNullOrWhiteSpace(datos))
+            {
+                comando = comando.Replace("WHERE", "");
+            }
+            else
+            {
+
+            }
+            comando += datos;
+
+            comandoEnviar.CommandText = comando;
             // Muestra el contenido del comando actual en el label
-            lblComando.Content = comandoEnviar.CommandText;
+            lblComando.Content = comando;
         }
 
         private void GenerarCamposCondiciones()
@@ -174,10 +191,12 @@ namespace EasySQL.Ventanas.Operaciones
                 stackCondiciones.Children.RemoveAt(tamanio - 1);
         }
 
-        private void ExtraerCondicionesGeneradas()
+        private async void ExtraerCondicionesGeneradas()
         {
+            // Espera 5ms para que de tiempo a repintar los componentes
+            await Task.Delay(5);
             // Comprobar los campos de las condiciones generados y extraer datos
-            string datos = "WHERE ";
+            string datos = "";
             var generados = stackCondiciones.Children;
 
             // Por cada condicion existente, extraerlas y emparejarlas con un AND u OR
@@ -188,7 +207,6 @@ namespace EasySQL.Ventanas.Operaciones
             // +cmbAndOr[i]
             for (int i = 0; i < generados.Count; i++)
             {
-                string columna, operador, valor, andOr;
                 if (generados[i] is Grid)
                 {
                     Grid grid = generados[i] as Grid;
@@ -196,29 +214,46 @@ namespace EasySQL.Ventanas.Operaciones
                     ComboBox cmbOperadores = grid.Children[1] as ComboBox;
                     TextBox txtValor = grid.Children[2] as TextBox;
 
-                    // Test
-                    Console.WriteLine(cmbColumna.SelectedItem?.ToString());
-                    Console.WriteLine(cmbOperadores.SelectedItem?.ToString());
-                    Console.WriteLine(txtValor.Text?.ToString());
+                    // Datos
+                    datos += cmbColumna.SelectedItem?.ToString() + " ";
+                    datos += cmbOperadores.SelectedItem?.ToString() + " ";
+                    datos += txtValor.Text?.ToString() + " ";
                 }
                 else if (generados[i] is ComboBox)
                 {
                     ComboBox cmbAndOr = generados[i] as ComboBox;
-                    Console.WriteLine(cmbAndOr.SelectedItem?.ToString());
+                    datos += cmbAndOr.SelectedItem?.ToString() + " ";
                 }
             }
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
         }
+
+        
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
+            // Comprobación WHERE
+            if (!comandoEnviar.CommandText.Contains("WHERE"))
+            {
+                MessageBoxResult opcionElegida = MessageBox.Show("No se han elegido condiciones. \r\n" +
+                    "Se realizará un borrado TOTAL de TODAS las filas. ¿Continuar?",
+                    "Peligro", MessageBoxButton.YesNo, MessageBoxImage.Stop);
+
+                if (opcionElegida.Equals(MessageBoxResult.No))
+                    return;
+            }
             int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
-            if (resultado == -1)
+            if (resultado > 0)
             {
                 MessageBox.Show(
-                    "Datos de la tabla \"" +
+                    resultado + " filas de la tabla \"" +
                     Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) +
                     "\" en base de datos " + "\"" + conexionActual.BaseDatos +
-                    "\" modificada con éxito.");
+                    "\" eliminadas con éxito.");
+            }
+            else
+            {
+                MessageBox.Show("Ninguna fila afectada.");
             }
         }
 
@@ -244,7 +279,8 @@ namespace EasySQL.Ventanas.Operaciones
             {
                 // Si hay tabla elegida, se muestan los campos correspondientes
                 GenerarCamposCondiciones();
-            }
+                ModificarComando(cmbTablas.SelectedItem?.ToString(), "");
+            } 
         }
 
         private void cmbGenerado_SelectionChanged(object sender, SelectionChangedEventArgs e)

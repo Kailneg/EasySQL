@@ -25,7 +25,7 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
         private const string CREATE_TABLE = "CREATE TABLE ";
         private const string DROP_TABLE = "DROP TABLE ";
         private const string ALTER_TABLE = "ALTER TABLE ";
-        private const string DELETE_FROM = "DELETE FROM ";
+        private const string DELETE_FROM = "DELETE FROM @param WHERE ";
 
         public static DbCommand ComandoShowDatabases()
         {
