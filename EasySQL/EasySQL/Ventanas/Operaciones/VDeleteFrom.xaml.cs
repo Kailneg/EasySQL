@@ -168,6 +168,45 @@ namespace EasySQL.Ventanas.Operaciones
                 stackCondiciones.Children.Add(contenedorSuperior);
                 stackCondiciones.Children.Add(cmbAndOr);
             }
+            // Elimina el último ComboBox AND OR
+            int tamanio = stackCondiciones.Children.Count;
+            if (tamanio > 0)
+                stackCondiciones.Children.RemoveAt(tamanio - 1);
+        }
+
+        private void ExtraerCondicionesGeneradas()
+        {
+            // Comprobar los campos de las condiciones generados y extraer datos
+            string datos = "WHERE ";
+            var generados = stackCondiciones.Children;
+
+            // Por cada condicion existente, extraerlas y emparejarlas con un AND u OR
+            // +Grid[i]
+            //  -cmbColumna[i][0]
+            //  -cmbOperadores[i][1]
+            //  -txtValor[i][2]
+            // +cmbAndOr[i]
+            for (int i = 0; i < generados.Count; i++)
+            {
+                string columna, operador, valor, andOr;
+                if (generados[i] is Grid)
+                {
+                    Grid grid = generados[i] as Grid;
+                    ComboBox cmbColumna = grid.Children[0] as ComboBox;
+                    ComboBox cmbOperadores = grid.Children[1] as ComboBox;
+                    TextBox txtValor = grid.Children[2] as TextBox;
+
+                    // Test
+                    Console.WriteLine(cmbColumna.SelectedItem?.ToString());
+                    Console.WriteLine(cmbOperadores.SelectedItem?.ToString());
+                    Console.WriteLine(txtValor.Text?.ToString());
+                }
+                else if (generados[i] is ComboBox)
+                {
+                    ComboBox cmbAndOr = generados[i] as ComboBox;
+                    Console.WriteLine(cmbAndOr.SelectedItem?.ToString());
+                }
+            }
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)
@@ -210,12 +249,12 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbGenerado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ReestablecerCampos();
+            ExtraerCondicionesGeneradas();
         }
 
         private void txtGenerado_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ReestablecerCampos();
+            ExtraerCondicionesGeneradas();
         }
 
     }
