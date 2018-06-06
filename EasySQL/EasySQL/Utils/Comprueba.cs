@@ -97,10 +97,5 @@ namespace EasySQL.Utils
             return parametro.Contains(SEPARADOR_SQL);
         }
 
-        public static bool ElegidaOpcionDefecto(ComboBox combo, string opcionDefecto)
-        {
-            return combo.SelectedItem == null
-                || combo.SelectedItem.Equals(opcionDefecto);
-        }
     }
 }
