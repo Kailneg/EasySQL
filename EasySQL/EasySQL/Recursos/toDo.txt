@@ -1,5 +1,7 @@
 ﻿direccion debe escribirse: localhost\SQLALE
 
-para conexión test y conx inicial NO HACE FALTA initial catalog :)))
-
 puerto no se está cogiendo en modo Invitado, ni se envía en la connectionString
+
+alter table no refresca nombre columnas una vez eliminadas
+
+Bug no permite borrar base de datos: posible conexion abierta.
