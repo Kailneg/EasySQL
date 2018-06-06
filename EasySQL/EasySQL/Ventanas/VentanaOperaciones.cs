@@ -48,6 +48,8 @@ namespace EasySQL.Ventanas
                 return true;
             } else
             {
+                // libera BBDD
+                conexionActual.BaseDatos = null;
                 lblBaseDatos.Content = "Base de datos no elegida";
                 return false;
             }
@@ -55,18 +57,8 @@ namespace EasySQL.Ventanas
 
         private void MostrarBasesDatos()
         {
-            List<string> nombres_bbdd = new List<string>();
-            // Obtener comando databases
-            DbCommand comando = Operacion.ComandoShowDatabases(conexionActual);
-
-            using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
-            {
-                // Si el resultado es nulo, no existen bases de datos.
-                if (lector != null)
-                {
-                    nombres_bbdd = Ayudante.MapearReaderALista(lector);
-                }
-            }
+            List<string> nombres_bbdd =
+                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderBasesDatos(conexionActual));
             nombres_bbdd.Insert(0, CMB_BASEDATOS_DEFECTO);
             cmbBaseDatos.Items.Clear();
             Rellena.ComboBox(cmbBaseDatos, nombres_bbdd);
@@ -131,7 +123,6 @@ namespace EasySQL.Ventanas
             // Antes comprobar si existe una BBDD seleccionada
             if (HayBBDDSeleccionada())
             {
-                DbCommand comando = Operacion.ComandoAlterTable(conexionActual);
                 VAlterTable vat = new VAlterTable(conexionActual);
                 vat.ShowDialog();
             }
@@ -166,7 +157,16 @@ namespace EasySQL.Ventanas
 
         private void Delete()
         {
-            Utils.Consola.NoImplementado();
+            // Antes comprobar si existe una BBDD seleccionada
+            if (HayBBDDSeleccionada())
+            {
+                VDeleteFrom vdf = new VDeleteFrom(conexionActual);
+                vdf.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(MSJ_ELEGIR_BBDD);
+            }
         }
         
 

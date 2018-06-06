@@ -29,8 +29,6 @@ namespace EasySQL.Ventanas.Operaciones
         private const int NUM_CONDICIONES_MAX = 10;
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
-        private TextBox txtBoxGenerado;
-        private ComboBox cmbGenerado;
         private string textoComandoOriginal;
 
         /// <summary>
@@ -70,75 +68,30 @@ namespace EasySQL.Ventanas.Operaciones
             cmbNumCondiciones.SelectedIndex = 0;
         }
 
-        private void DatosCambiados()
+        private void ReestablecerCampos()
         {
             // Si no, resetea el label
-            comandoEnviar.CommandText = textoComandoOriginal + cmbTablas.SelectedItem.ToString();
+            cmbNumCondiciones.SelectedIndex = 0;
+            stackCondiciones.Children.Clear();
+            // Comprobar que la tabla no sea la por defecto
+            if (!Comprueba.ElegidaOpcionDefecto(cmbTablas, CMB_OPCION_DEFECTO))
+                comandoEnviar.CommandText = textoComandoOriginal + cmbTablas.SelectedItem.ToString();
+            else
+                comandoEnviar.CommandText = textoComandoOriginal;
+
+            // Muestra el contenido del comando actual en el label
             lblComando.Content = comandoEnviar.CommandText;
         }
 
-        private void cmbTabla_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Comprobar que la tabla no sea la por defecto
-            if (!Comprueba.ElegidaOpcionDefecto(cmbTablas, CMB_OPCION_DEFECTO))
-            {
-                // Se refleja la elección de la nueva tabla
-                DatosCambiados();
-                ModificarNumCondiciones();
-            }
-            else
-            {
-                // Si no, resetea el label
-                cmbNumCondiciones.SelectedIndex = 0;
-                stackCondiciones.Children.Clear();
-                lblComando.Content = textoComandoOriginal;
-            }
-        }
-
-        private void cmbTabla_DropDownOpened(object sender, EventArgs e)
-        {
-            List<string> nombresTablas = new List<string>();
-
-            // Ejecuta un reader para obtener las o tablas pertinentes
-
-            // Obtener comando tables, reemplazar el parametro con el nombre de la bbdd actual
-            DbCommand comando = Operacion.ComandoShowTables(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
-
-            using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
-            {
-                // Si el resultado es nulo, no existen bases de datos.
-                if (lector != null)
-                {
-                    nombresTablas = Ayudante.MapearReaderALista(lector);
-                }
-            }
-            // Rellena el combobox con las bases de datos o tablas pertinentes
-            nombresTablas.Insert(0, CMB_OPCION_DEFECTO);
-            cmbTablas.Items.Clear();
-            Rellena.ComboBox(cmbTablas, nombresTablas);
-            cmbTablas.SelectedIndex = 0;
-        }
-
-        private void btn_Click(object sender, RoutedEventArgs e)
-        {
-            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
-            if (resultado == -1)
-            {
-                MessageBox.Show(
-                    "Datos de la tabla \"" + 
-                    Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) +
-                    "\" en base de datos " + "\"" + conexionActual.BaseDatos + 
-                    "\" modificada con éxito.");
-            }
-        }
-
-        private void ModificarNumCondiciones()
+        private void GenerarCamposCondiciones()
         {
             int numCondiciones = (int)cmbNumCondiciones.SelectedItem;
             string[] tipos_operadores = Operacion.TIPOS_OPERADORES;
             string[] tipos_operadores_union = Operacion.TIPOS_OPERADORES_UNION;
-            List<string> nombre_columnas = ObtenerColumnas();
+            string nombreTabla = cmbTablas.SelectedItem.ToString();
+            List<string> nombre_columnas =
+                Ayudante.MapearReaderALista(
+                    Ayudante.ObtenerReaderColumnas(conexionActual, nombreTabla));
 
             // Se vacía de contenido el stackpanel
             stackCondiciones.Children.Clear();
@@ -173,7 +126,7 @@ namespace EasySQL.Ventanas.Operaciones
                 {
                     cmbColumna.Items.Add(nombre);
                 }
-                
+
                 // CMB OPERADORES
                 cmbOperadores = new ComboBox();
                 cmbOperadores.Height = 25;
@@ -186,7 +139,7 @@ namespace EasySQL.Ventanas.Operaciones
                 // TXTVALOR
                 txtValor = new TextBox();
                 cmbOperadores.Height = 25;
-                
+
                 // CMB AND OR
                 cmbAndOr = new ComboBox();
                 cmbAndOr.Margin = new Thickness(0, 5, 0, 5);
@@ -217,47 +170,52 @@ namespace EasySQL.Ventanas.Operaciones
             }
         }
 
-        private List<string> ObtenerColumnas()
+        private void btn_Click(object sender, RoutedEventArgs e)
         {
-            List<string> nombresColumnas = new List<string>();
-
-            // Ejecuta un reader para obtener los nombres de columnas
-
-            // Obtener comando tables, reemplazar el parametro con el nombre de la bbdd actual
-            DbCommand comando = Operacion.ComandoShowColumnas(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM2, cmbTablas.SelectedItem.ToString());
-
-            using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
+            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+            if (resultado == -1)
             {
-                // Si el resultado es nulo, no existen bases de datos.
-                if (lector != null)
-                {
-                    nombresColumnas = Ayudante.MapearReaderALista(lector);
-                }
+                MessageBox.Show(
+                    "Datos de la tabla \"" +
+                    Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) +
+                    "\" en base de datos " + "\"" + conexionActual.BaseDatos +
+                    "\" modificada con éxito.");
             }
+        }
 
-            return nombresColumnas;
+        private void cmbTabla_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ReestablecerCampos();
+        }
+
+        private void cmbTabla_DropDownOpened(object sender, EventArgs e)
+        {
+            List<string> nombresTablas =
+                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderTablas(conexionActual));
+            // Rellena el combobox con las bases de datos o tablas pertinentes
+            nombresTablas.Insert(0, CMB_OPCION_DEFECTO);
+            cmbTablas.Items.Clear();
+            Rellena.ComboBox(cmbTablas, nombresTablas);
+            cmbTablas.SelectedIndex = 0;
         }
 
         private void cmbNumCondiciones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!Comprueba.ElegidaOpcionDefecto(cmbTablas, CMB_OPCION_DEFECTO))
             {
-                // Se refleja la elección de la nueva tabla
-                DatosCambiados();
-                ModificarNumCondiciones();
+                // Si hay tabla elegida, se muestan los campos correspondientes
+                GenerarCamposCondiciones();
             }
         }
 
         private void cmbGenerado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DatosCambiados();
+            ReestablecerCampos();
         }
 
         private void txtGenerado_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DatosCambiados();
+            ReestablecerCampos();
         }
 
     }

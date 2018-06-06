@@ -93,6 +93,7 @@ namespace EasySQL.Ventanas.Operaciones
             if (cmbCampos.SelectedItem != null && cmbCampos.IsMouseCaptured)
             {
                 numColumnas = Int32.Parse(cmbCampos.SelectedItem.ToString());
+                string[] tiposDatos = Operacion.TiposDatos(conexionActual);
 
                 stackTextBoxes.Children.Clear();
                 for (int i = 0; i < numColumnas; i++)
@@ -109,7 +110,7 @@ namespace EasySQL.Ventanas.Operaciones
                     ComboBox combo = new ComboBox();
                     combo.Height = 25;
                     combo.Margin = new Thickness(0, 5, 0, 5);
-                    foreach (var tipoDato in Operacion.TiposDatos(conexionActual))
+                    foreach (var tipoDato in tiposDatos)
                     {
                         combo.Items.Add(tipoDato);
                     }

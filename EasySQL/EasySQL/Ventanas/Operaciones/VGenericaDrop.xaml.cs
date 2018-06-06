@@ -115,42 +115,25 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbDatos_DropDownOpened(object sender, EventArgs e)
         {
-            List<string> nombres_cmbox = new List<string>();
+            List<string> nombresCmb = new List<string>();
 
             // Ejecuta un reader para obtener las bases de datos o tablas pertinentes
             if (modoActual.Equals(Modo.DROP_DATABASE))
             {
-                // Obtener comando databases
-                DbCommand comando = Operacion.ComandoShowDatabases(conexionActual);
-
-                using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
-                {
-                    // Si el resultado es nulo, no existen bases de datos.
-                    if (lector != null)
-                    {
-                        nombres_cmbox = Ayudante.MapearReaderALista(lector);
-                    }
-                }
+                // Obtener lista nombres BBDD
+                nombresCmb = Ayudante.MapearReaderALista(
+                    Ayudante.ObtenerReaderBasesDatos(conexionActual));
             }
             else if (modoActual.Equals(Modo.DROP_TABLE))
             {
-                // Obtener comando tables, reemplazar el parametro con el nombre de la bbdd actual
-                DbCommand comando = Operacion.ComandoShowTables(conexionActual);
-                comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
-
-                using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
-                {
-                    // Si el resultado es nulo, no existen bases de datos.
-                    if (lector != null)
-                    {
-                        nombres_cmbox = Ayudante.MapearReaderALista(lector);
-                    }
-                }
+                // Obtener lista nombres tablas
+                nombresCmb = Ayudante.MapearReaderALista(
+                    Ayudante.ObtenerReaderTablas(conexionActual));
             }
             // Rellena el combobox con las bases de datos o tablas pertinentes
-            nombres_cmbox.Insert(0, CMB_OPCION_DEFECTO);
+            nombresCmb.Insert(0, CMB_OPCION_DEFECTO);
             cmbDatos.Items.Clear();
-            Rellena.ComboBox(cmbDatos, nombres_cmbox);
+            Rellena.ComboBox(cmbDatos, nombresCmb);
             cmbDatos.SelectedIndex = 0;
         }
     }

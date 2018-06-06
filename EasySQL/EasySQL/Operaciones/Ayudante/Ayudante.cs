@@ -1,4 +1,5 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Operaciones.Controlador;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -63,14 +64,62 @@ namespace EasySQL.Operaciones.Ayudante
             }
             else return null;
         }
-        
+
+        /// <summary>
+        /// Ejecuta un reader para obtener los nombres de bases de datos.
+        /// </summary>
+        /// <param name="conexionActual">La conexión activa del momento.</param>
+        /// <returns>Un objeto IDataReader con los datos pertinentes</returns>
+        public static IDataReader ObtenerReaderBasesDatos(Conexion conexionActual)
+        {
+            // Obtener comando BBDDs
+            DbCommand comando = Operacion.ComandoShowDatabases(conexionActual);
+            return ExecuteReader(conexionActual, comando);
+        }
+
+        /// <summary>
+        /// Ejecuta un reader para obtener los nombres de tablas.
+        /// </summary>
+        /// <param name="conexionActual">La conexión activa del momento.</param>
+        /// <returns>Un objeto IDataReader con los datos pertinentes</returns>
+        public static IDataReader ObtenerReaderTablas(Conexion conexionActual)
+        {
+            // Obtener comando tablas, reemplazar los parámetros de BBDD y nombreTabla
+            DbCommand comando = Operacion.ComandoShowTables(conexionActual);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
+            return ExecuteReader(conexionActual, comando);
+        }
+
+        /// <summary>
+        /// Ejecuta un reader para obtener los nombres de columnas.
+        /// </summary>
+        /// <param name="conexionActual">La conexión activa del momento.</param>
+        /// <param name="nombreTabla">Nombre de la tabla de la que se quieren las columnas</param>
+        /// <returns>Un objeto IDataReader con los datos pertinentes</returns>
+        public static IDataReader ObtenerReaderColumnas(Conexion conexionActual, string nombreTabla)
+        {
+            // Obtener comando columnas, reemplazar los parámetros de BBDD y nombreTabla
+            DbCommand comando = Operacion.ComandoShowColumnas(conexionActual);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM2, nombreTabla);
+            return ExecuteReader(conexionActual, comando);
+        }
+
         public static List<string> MapearReaderALista(IDataReader lector)
         {
             List<string> resultado = new List<string>();
 
-            while (lector.Read())
+            if (lector != null)
             {
-                resultado.Add(lector[0].ToString());
+                using (lector)
+                {
+                    while (lector.Read())
+                    {
+                        resultado.Add(lector[0].ToString());
+                    }
+                    lector.Close();
+                }
+                lector = null;
             }
             return resultado;
         }

@@ -99,7 +99,7 @@ namespace EasySQL.Operaciones.Ayudante
                 SqlConnection sqlCon = new SqlConnection(cadenaConexion);
                 sqlCon.Open();
                 comando.Connection = sqlCon;
-                return comando.ExecuteReader();
+                return comando.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
             }
             catch (SqlException s)
             {

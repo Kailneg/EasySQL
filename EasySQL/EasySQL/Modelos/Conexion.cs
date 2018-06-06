@@ -73,6 +73,8 @@ namespace EasySQL.Modelos
 
             if (BaseDatos != null)
                 builder.InitialCatalog = BaseDatos;
+            else
+                builder.InitialCatalog = "";
 
             if (UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
             {
@@ -95,6 +97,8 @@ namespace EasySQL.Modelos
             builder.DataSource = Direccion;
             if (BaseDatos != null)
                 builder.InitialCatalog = BaseDatos;
+            else
+                builder.InitialCatalog = "";
 
             if (UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
             {

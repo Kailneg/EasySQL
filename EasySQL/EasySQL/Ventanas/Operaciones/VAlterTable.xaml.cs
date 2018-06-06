@@ -89,22 +89,9 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbTablas_DropDownOpened(object sender, EventArgs e)
         {
-            List<string> nombresTablas = new List<string>();
+            List<string> nombresTablas =
+                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderTablas(conexionActual));
 
-            // Ejecuta un reader para obtener las o tablas pertinentes
-           
-            // Obtener comando tables, reemplazar el parametro con el nombre de la bbdd actual
-            DbCommand comando = Operacion.ComandoShowTables(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
-
-            using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
-            {
-                // Si el resultado es nulo, no existen bases de datos.
-                if (lector != null)
-                {
-                    nombresTablas = Ayudante.MapearReaderALista(lector);
-                }
-            }
             // Rellena el combobox con las bases de datos o tablas pertinentes
             nombresTablas.Insert(0, CMB_OPCION_DEFECTO);
             cmbTablas.Items.Clear();
@@ -164,6 +151,7 @@ namespace EasySQL.Ventanas.Operaciones
             lblNombreColumna.Visibility = Visibility.Visible;
             lblTipoDato.Visibility = Visibility.Visible;
             separador.Visibility = Visibility.Visible;
+            string[] tiposDatos = Operacion.TiposDatos(conexionActual);
 
             // Se crean los controles dinámicos
             txtBoxGenerado = new TextBox();
@@ -171,7 +159,7 @@ namespace EasySQL.Ventanas.Operaciones
 
             cmbGenerado = new ComboBox();
             cmbGenerado.Height = 25;
-            foreach (var tipoDato in Operacion.TiposDatos(conexionActual))
+            foreach (var tipoDato in tiposDatos)
             {
                 cmbGenerado.Items.Add(tipoDato);
             }
@@ -208,11 +196,14 @@ namespace EasySQL.Ventanas.Operaciones
             lblNombreColumna.Visibility = Visibility.Visible;
             lblTipoDato.Visibility = Visibility.Hidden;
             separador.Visibility = Visibility.Visible;
+            string nombreTabla = cmbTablas.SelectedItem.ToString();
+            List<string> nombresColumnas =
+                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderColumnas(conexionActual, nombreTabla));
 
             // Se crean los controles dinámicos
             cmbGenerado = new ComboBox();
             cmbGenerado.Height = 25;
-            foreach (var tipoDato in ObtenerColumnas())
+            foreach (var tipoDato in nombresColumnas)
             {
                 cmbGenerado.Items.Add(tipoDato);
             }
@@ -287,29 +278,6 @@ namespace EasySQL.Ventanas.Operaciones
                 comandoEnviar.CommandText = textoComandoOriginal;
                 lblComando.Content = comandoEnviar.CommandText;
             }
-        }
-
-        private List<string> ObtenerColumnas()
-        {
-            List<string> nombresColumnas = new List<string>();
-
-            // Ejecuta un reader para obtener los nombres de columnas
-
-            // Obtener comando tables, reemplazar el parametro con el nombre de la bbdd actual
-            DbCommand comando = Operacion.ComandoShowColumnas(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM2, cmbTablas.SelectedItem.ToString());
-
-            using (IDataReader lector = Ayudante.ExecuteReader(conexionActual, comando))
-            {
-                // Si el resultado es nulo, no existen bases de datos.
-                if (lector != null)
-                {
-                    nombresColumnas = Ayudante.MapearReaderALista(lector);
-                }
-            }
-            
-            return nombresColumnas;
         }
     }
 }
