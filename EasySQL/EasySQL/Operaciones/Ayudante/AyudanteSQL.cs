@@ -11,13 +11,13 @@ namespace EasySQL.Operaciones.Ayudante
     public class AyudanteSQL
     {
         public const int ERROR = Int32.MinValue;
-        private static SqlConnection sqlCon;
         private const string MSJ_ERROR =
             "Error en la operación, compruebe los datos o la conexión con la base de datos.";
+        private static SqlConnection sqlConnReader;
 
         public static bool ExecuteTest(string cadenaConexion)
         {
-            using (sqlCon = new SqlConnection(cadenaConexion))
+            using (SqlConnection sqlCon = new SqlConnection(cadenaConexion))
             {
                 try
                 {
@@ -42,7 +42,7 @@ namespace EasySQL.Operaciones.Ayudante
 
         public static object ExecuteScalar(string cadenaConexion, SqlCommand comando)
         {
-            using (sqlCon = new SqlConnection(cadenaConexion))
+            using (SqlConnection sqlCon = new SqlConnection(cadenaConexion))
             {
                 try
                 {
@@ -68,7 +68,7 @@ namespace EasySQL.Operaciones.Ayudante
 
         public static int ExecuteNonQuery(string cadenaConexion, SqlCommand comando)
         {
-            using (sqlCon = new SqlConnection(cadenaConexion))
+            using (SqlConnection sqlCon = new SqlConnection(cadenaConexion))
             {
                 try
                 {
@@ -96,9 +96,9 @@ namespace EasySQL.Operaciones.Ayudante
         {
             try
             {
-                SqlConnection sqlCon = new SqlConnection(cadenaConexion);
-                sqlCon.Open();
-                comando.Connection = sqlCon;
+                sqlConnReader = new SqlConnection(cadenaConexion);
+                sqlConnReader.Open();
+                comando.Connection = sqlConnReader;
                 return comando.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
             }
             catch (SqlException s)

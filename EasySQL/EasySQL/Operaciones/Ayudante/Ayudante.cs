@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EasySQL.Operaciones.Ayudante
 {
-    public class Ayudante
+    public static class Ayudante
     {
         public static bool ExecuteTest(Conexion actual)
         {
@@ -74,6 +74,9 @@ namespace EasySQL.Operaciones.Ayudante
         {
             // Obtener comando BBDDs
             DbCommand comando = Operacion.ComandoShowDatabases(conexionActual);
+            // Comprobación que evita conexiones redundantes
+            if (conexionActual.BaseDatos != null)
+                conexionActual.BaseDatos = null;
             return ExecuteReader(conexionActual, comando);
         }
 

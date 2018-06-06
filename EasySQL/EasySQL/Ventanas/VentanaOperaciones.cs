@@ -57,8 +57,8 @@ namespace EasySQL.Ventanas
 
         private void MostrarBasesDatos()
         {
-            List<string> nombres_bbdd =
-                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderBasesDatos(conexionActual));
+            List<string> nombres_bbdd = 
+                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderBasesDatos(conexionActual));  
             nombres_bbdd.Insert(0, CMB_BASEDATOS_DEFECTO);
             cmbBaseDatos.Items.Clear();
             Rellena.ComboBox(cmbBaseDatos, nombres_bbdd);
@@ -76,7 +76,12 @@ namespace EasySQL.Ventanas
 
         private void DropDB()
         {
-            // Debo pasar: conexión actual, comando.
+            if (HayBBDDSeleccionada())
+            {
+                cmbBaseDatos.SelectedIndex = 0;
+                SeleccionCambiada();
+                MessageBox.Show("Deseleccionada BBDD elegida");
+            }
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
             VGenericaDrop vod =
                 new VGenericaDrop(conexionActual, comando);
