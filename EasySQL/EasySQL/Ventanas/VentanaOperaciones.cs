@@ -157,7 +157,16 @@ namespace EasySQL.Ventanas
 
         private void Update()
         {
-            Utils.Consola.NoImplementado();
+            // Antes comprobar si existe una BBDD seleccionada
+            if (HayBBDDSeleccionada())
+            {
+                VUpdate vu = new VUpdate(conexionActual);
+                vu.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(MSJ_ELEGIR_BBDD);
+            }
         }
 
         private void Delete()

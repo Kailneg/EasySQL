@@ -17,18 +17,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="10px"/>
-            <!--Combo Tablas-->
+            <!--2Combo Tablas-->
             <RowDefinition Height="25px"/>
-            <!--Grid elegir campos-->
+            <!--3Grid elegir campos-->
             <RowDefinition Height="auto"/>
-            <!--Grid labels definicion campos-->
+            <!--4Grid labels definicion campos-->
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/> <!--Separator-->
-            <!--Grid campos condiciones-->
+            <RowDefinition Height="auto"/> <!--5Separator-->
+            <!--6Grid campos condiciones-->
             <RowDefinition Height="4*"/>
-            <!--Grid labels comando resultante-->
+            <!--7Grid labels comando resultante-->
             <RowDefinition Height="auto"/>
-            <!--Boton ejecutar-->
+            <!--8Boton ejecutar-->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 

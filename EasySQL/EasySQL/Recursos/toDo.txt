@@ -9,3 +9,9 @@ comprobar guardado contraseña y recuperación cuando checkbox contraseña marca
 añadir radiobutton PK a create table
 
 condiciones where generadas, no borrar contenido existente
+
+mirar doble espacio WHERE en VUpdate VDelete
+
+añadir opcion "" a cmbAndOr where
+
+VGenerica drop sacar comando desde cambiarModo, no desde constructor.

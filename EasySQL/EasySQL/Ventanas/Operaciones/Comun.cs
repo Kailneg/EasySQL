@@ -139,7 +139,7 @@ namespace EasySQL.Ventanas.Operaciones
             // Espera 5ms para que de tiempo a repintar los componentes
             await Task.Delay(5);
             // Comprobar los campos de las condiciones generados y extraer datos
-            string datos = "";
+            string datos = " WHERE ";
             var generados = contenedor.Children;
 
             // Por cada condicion existente, extraerlas y emparejarlas con un AND u OR

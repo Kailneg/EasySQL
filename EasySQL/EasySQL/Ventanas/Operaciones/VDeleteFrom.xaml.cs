@@ -26,7 +26,7 @@ namespace EasySQL.Ventanas.Operaciones
     public partial class VDeleteFrom : Window
     {
         private const string CMB_OPCION_DEFECTO = "Elige tabla...";
-        private const int NUM_CONDICIONES_MAX = 10;
+        private const int NUM_CONDICIONES_MAX = 16;
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
@@ -84,47 +84,13 @@ namespace EasySQL.Ventanas.Operaciones
         {
             string comando = textoComandoOriginal;
             comando = comando.Replace(Operacion.PARAM, tabla);
-            // Se trata de un DELETE * FROM
-            if (String.IsNullOrWhiteSpace(datos))
-            {
-                comando = comando.Replace("WHERE", "");
-            }
-            else
-            {
-                comando += datos;
-            }
+            comando += datos;
             
             comandoEnviar.CommandText = comando;
             // Muestra el contenido del comando actual en el label
             lblComando.Content = comando;
         }
 
-        private void btn_Click(object sender, RoutedEventArgs e)
-        {
-            // Comprobación WHERE
-            if (!comandoEnviar.CommandText.Contains("WHERE"))
-            {
-                MessageBoxResult opcionElegida = MessageBox.Show("No se han elegido condiciones. \r\n" +
-                    "Se realizará un borrado TOTAL de TODAS las filas. ¿Continuar?",
-                    "Peligro", MessageBoxButton.YesNo, MessageBoxImage.Stop);
-
-                if (opcionElegida.Equals(MessageBoxResult.No))
-                    return;
-            }
-            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
-            if (resultado > 0)
-            {
-                MessageBox.Show(
-                    resultado + " filas de la tabla \"" +
-                    Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) +
-                    "\" en base de datos " + "\"" + conexionActual.BaseDatos +
-                    "\" eliminadas con éxito.");
-            }
-            else
-            {
-                MessageBox.Show("Ninguna fila afectada.");
-            }
-        }
 
         private void cmbTabla_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -162,5 +128,31 @@ namespace EasySQL.Ventanas.Operaciones
             ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
         }
 
+        private void btn_Click(object sender, RoutedEventArgs e)
+        {
+            // Comprobación WHERE
+            if (!comandoEnviar.CommandText.Contains("WHERE"))
+            {
+                MessageBoxResult opcionElegida = MessageBox.Show("No se han elegido condiciones. \r\n" +
+                    "Se realizará un borrado TOTAL de TODAS las filas. ¿Continuar?",
+                    "Peligro", MessageBoxButton.YesNo, MessageBoxImage.Stop);
+
+                if (opcionElegida.Equals(MessageBoxResult.No))
+                    return;
+            }
+            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+            if (resultado > 0)
+            {
+                MessageBox.Show(
+                    resultado + " filas de la tabla \"" +
+                    Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) +
+                    "\" en base de datos " + "\"" + conexionActual.BaseDatos +
+                    "\" eliminadas con éxito.");
+            }
+            else
+            {
+                MessageBox.Show("Ninguna fila afectada.");
+            }
+        }
     }
 }

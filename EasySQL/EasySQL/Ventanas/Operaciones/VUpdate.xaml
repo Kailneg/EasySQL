@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
         Title="UPDATE" 
-        Height="500" Width="500" MinHeight="350" MinWidth="420">
+        Height="650" Width="500" MinHeight="500" MinWidth="420">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -21,14 +21,24 @@
             <RowDefinition Height="25px"/>
             <!--3Label Elige campos a actualizar-->
             <RowDefinition Height="auto"/>
-            
             <!--4Grid Nombre columna tipo dato valor-->
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/> <!--5Separator-->
             <!--6Zona scroll campos-->
             <RowDefinition Height="4*"/>
-            
-            
+            <!--7Grid elegir campos-->
+            <RowDefinition Height="auto"/>
+            <!--8Grid labels definicion campos-->
+            <RowDefinition Height="auto"/>
+            <!--9Separator-->
+            <RowDefinition Height="auto"/>
+            <!--10Grid campos condiciones-->
+            <RowDefinition Height="5*"/>
+            <!--11Grid labels comando resultante-->
+            <RowDefinition Height="auto"/>
+            <!--12Boton ejecutar-->
+            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
         <Label x:Name="lblDescripcion" Grid.Row="0" VerticalAlignment="Center">Elige tabla de la que eliminar datos:</Label>
@@ -64,13 +74,67 @@
                         <ColumnDefinition Width="2*"></ColumnDefinition>
                         <ColumnDefinition Width="5*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></CheckBox>
+                    <!--<CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></CheckBox>
                     <TextBox Grid.Column="1" IsReadOnly="True">Nombre de la columna:</TextBox>
                     <TextBox Grid.Column="2" IsReadOnly="True" Margin="5 0">Tipo Dato:</TextBox>
-                    <TextBox Grid.Column="3">Valor:</TextBox>
+                    <TextBox Grid.Column="3">Valor:</TextBox>-->
                 </Grid>
             </StackPanel>
         </ScrollViewer>
 
+        <!--Grid elegir campos-->
+        <Grid Grid.Row="7" Margin="0 10 0 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label>Elige cantidad condiciones WHERE:</Label>
+            <ComboBox x:Name="cmbNumCondiciones" Grid.Column="1" SelectionChanged="cmbNumCondiciones_SelectionChanged"/>
+        </Grid>
+
+        <!--Grid labels campos-->
+        <Grid Grid.Row="8" Margin="0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Nombre columna:</Label>
+            <Label Grid.Column="1">Operador:</Label>
+            <Label Grid.Column="2">Valor:</Label>
+        </Grid>
+
+        <Separator Grid.Row="9" VerticalAlignment="Top"></Separator>
+
+        <!--Zona scroll condiciones-->
+        <ScrollViewer Grid.Row="10" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="stackCondiciones" Grid.Row="6" Orientation="Vertical">
+                <!--<Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Column="0">Nombre de la columna:</ComboBox>
+                    <ComboBox Grid.Column="1" Margin="5 0">Operador:</ComboBox>
+                    <TextBox Grid.Column="2">Valor:</TextBox>
+                </Grid>
+                <ComboBox Margin="0 5" HorizontalContentAlignment="Center">
+                    <ComboBoxItem>And</ComboBoxItem>
+                    <ComboBoxItem>Or</ComboBoxItem>
+                </ComboBox>-->
+            </StackPanel>
+        </ScrollViewer>
+
+        <!--Grid labels comando resultante-->
+        <Grid Grid.Row="11" Margin="0 10">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <DockPanel>
+                    <Label>Comando resultante:</Label>
+                    <Label x:Name="lblComando"></Label>
+                </DockPanel>
+            </ScrollViewer>
+        </Grid>
+        <Button x:Name="btn" Grid.Row="12" Click="btn_Click">Ejecutar comando</Button>
     </Grid>
 </Window>
