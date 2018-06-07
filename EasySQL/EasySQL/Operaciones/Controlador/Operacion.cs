@@ -138,6 +138,19 @@ namespace EasySQL.Operaciones.Controlador
             else return null;
         }
 
+        public static DbCommand ComandoShowTiposDatosColumnas(Conexion conexionActual)
+        {
+            if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
+            {
+                return OperacionMicrosoftSQL.ComandoShowTiposDatosColumnas();
+            }
+            else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
+            {
+                return null;
+            }
+            else return null;
+        }
+
         public static DbCommand ComandoDeleteFrom(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)

@@ -170,5 +170,84 @@ namespace EasySQL.Ventanas.Operaciones
             if (tamanio > 0)
                 contenedor.Children.RemoveAt(tamanio - 1);
         }
+
+        public static void GenerarCamposColumnas(StackPanel contenedor, Conexion actual, string nombreTabla,
+            Action<object, RoutedEventArgs> handlerEventosCheckboxs, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
+        {
+            List<string> nombre_columnas =
+                Ayudante.MapearReaderALista(
+                    Ayudante.ObtenerReaderColumnas(actual, nombreTabla));
+            List<string> tipo_datos =
+                Ayudante.MapearReaderALista(
+                    Ayudante.ObtenerReaderTiposDatosColumnas(actual, nombreTabla));
+
+            int numCamposGenerar = nombre_columnas.Count;
+
+            // Se vacía de contenido el stackpanel
+            contenedor.Children.Clear();
+
+            for (int i = 0; i < numCamposGenerar; i++)
+            {
+                // GRID PADRE
+                Grid contenedorHijo = new Grid();
+                contenedorHijo.Margin = new Thickness(0, 5, 0, 0);
+                // Se le asignan las columnas 1* 4* 2* 5*
+                ColumnDefinition gridCol0 = new ColumnDefinition();
+                gridCol0.Width = new GridLength(1, GridUnitType.Star);
+                ColumnDefinition gridCol1 = new ColumnDefinition();
+                gridCol1.Width = new GridLength(4, GridUnitType.Star);
+                ColumnDefinition gridCol2 = new ColumnDefinition();
+                gridCol2.Width = new GridLength(2, GridUnitType.Star);
+                ColumnDefinition gridCol3 = new ColumnDefinition();
+                gridCol3.Width = new GridLength(5, GridUnitType.Star);
+
+                contenedorHijo.ColumnDefinitions.Add(gridCol0);
+                contenedorHijo.ColumnDefinitions.Add(gridCol1);
+                contenedorHijo.ColumnDefinitions.Add(gridCol2);
+                contenedorHijo.ColumnDefinitions.Add(gridCol3);
+
+                // CHK ELEGIR
+                CheckBox chkElegir = new CheckBox();
+                chkElegir.HorizontalAlignment = HorizontalAlignment.Center;
+                chkElegir.VerticalAlignment = VerticalAlignment.Center;
+
+                // TXT COLUMNA
+                TextBox txtColumna = new TextBox();
+                txtColumna.Height = 25;
+                txtColumna.IsReadOnly = true;
+                txtColumna.Text = nombre_columnas[i];
+
+                // TXT TIPOS DATOS
+                TextBox txtTipoDato = new TextBox();
+                txtTipoDato.Height = 25;
+                txtTipoDato.IsReadOnly = true;
+                txtTipoDato.Text = tipo_datos[i];
+                txtTipoDato.Margin = new Thickness(5, 0, 5, 0);
+
+                // TXT VALOR
+                TextBox txtValor = new TextBox();
+                txtTipoDato.Height = 25;
+
+                // Se asignan posiciones para los hijos del grid padre
+                Grid.SetColumn(chkElegir, 0);
+                Grid.SetColumn(txtColumna, 1);
+                Grid.SetColumn(txtTipoDato, 2);
+                Grid.SetColumn(txtValor, 3);
+
+                // Se asignan eventos a los controles dinámicos
+                chkElegir.Checked += new RoutedEventHandler(handlerEventosCheckboxs);
+                txtColumna.TextChanged += new TextChangedEventHandler(handlerEventosTextboxs);
+                txtTipoDato.TextChanged += new TextChangedEventHandler(handlerEventosTextboxs);
+                txtValor.TextChanged += new TextChangedEventHandler(handlerEventosTextboxs);
+
+                // Se añaden los elementos a sus respectivas posiciones
+                contenedorHijo.Children.Add(chkElegir);
+                contenedorHijo.Children.Add(txtColumna);
+                contenedorHijo.Children.Add(txtTipoDato);
+                contenedorHijo.Children.Add(txtValor);
+
+                contenedor.Children.Add(contenedorHijo);
+            }
+        }
     }
 }
