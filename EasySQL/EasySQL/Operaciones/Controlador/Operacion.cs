@@ -163,5 +163,18 @@ namespace EasySQL.Operaciones.Controlador
             }
             else return null;
         }
+
+        public static DbCommand ComandoUpdate(Conexion conexionActual)
+        {
+            if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
+            {
+                return OperacionMicrosoftSQL.ComandoUpdate();
+            }
+            else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
+            {
+                return null;
+            }
+            else return null;
+        }
     }
 }

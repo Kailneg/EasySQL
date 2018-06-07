@@ -45,6 +45,8 @@
                 <ColumnDefinition Width="2*"></ColumnDefinition>
                 <ColumnDefinition Width="5*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <CheckBox x:Name="chkMarcarTodos" Grid.Column="0" 
+                      VerticalAlignment="Center" HorizontalAlignment="Center" Click="chkMarcarTodos_Click"></CheckBox>
             <Label Grid.Column="1">Nombre columna:</Label>
             <Label Grid.Column="2">Tipo dato:</Label>
             <Label Grid.Column="3">Valor:</Label>

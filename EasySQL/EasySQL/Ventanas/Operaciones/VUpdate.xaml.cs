@@ -48,7 +48,7 @@ namespace EasySQL.Ventanas.Operaciones
             this.conexionActual = actual;
             this.Title += " || Base de datos \"" + actual.BaseDatos + "\"";
             // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = Operacion.ComandoDeleteFrom(actual);
+            this.comandoEnviar = Operacion.ComandoUpdate(actual);
             //lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
@@ -59,7 +59,6 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbTabla_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             //ReestablecerCampos();
             if (!Comun.ElegidaTablaDefecto(cmbTablas))
             {
@@ -86,18 +85,34 @@ namespace EasySQL.Ventanas.Operaciones
         //        ModificarComando("", "");
         //}
 
+        private void ModificarComando(string tabla, string datos)
+        {
+            string comando = textoComandoOriginal;
+            comando = comando.Replace(Operacion.PARAM, tabla);
+            comando += datos;
+
+            comandoEnviar.CommandText = comando;
+            Console.WriteLine(comando);
+            // Muestra el contenido del comando actual en el label
+            //lblComando.Content = comando;
+        }
+
         private async void chkGenerado_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            //string datos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
-            //ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
-            Console.WriteLine("Checkbox: " + ((CheckBox)sender).IsChecked.Value);
+            string datos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
         }
 
         private async void txtGenerado_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //string datos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
-            //ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
-            Console.WriteLine("Textbox: " + ((TextBox)sender).Text);
+            string datos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
+        }
+
+        private void chkMarcarTodos_Click(object sender, RoutedEventArgs e)
+        {
+            bool marcado = chkMarcarTodos.IsChecked.Value;
+            Comun.MarcarTodosCamposColumnas(stackCamposActualizar, marcado);
         }
     }
 }
