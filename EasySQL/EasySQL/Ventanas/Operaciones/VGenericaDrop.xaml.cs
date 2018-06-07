@@ -27,14 +27,11 @@ namespace EasySQL.Ventanas.Operaciones
     {
         private const string DESCRIPCION_DATABASE = "Elige nombre de la BBDD a eliminar:";
         private const string DESCRIPCION_TABLE = "Elige nombre de la tabla a eliminar:";
-        private const string CMB_OPCION_DEFECTO_DATABASE = "Elige base de datos...";
-        private const string CMB_OPCION_DEFECTO_TABLE = "Elige tabla...";
         private const string CLICK_ERROR_DATABASE = "Debes elegir una base de datos";
         private const string CLICK_ERROR_TABLE = "Debes elegir una tabla";
         private const string CLICK_OK_DATABASE = "Base de datos ";
         private const string CLICK_OK_TABLE = "Tabla ";
         private static string DESCRIPCION;
-        private static string CMB_OPCION_DEFECTO;
         private static string CLICK_ERROR;
         private static string CLICK_OK;
         private Conexion conexionActual;
@@ -57,33 +54,29 @@ namespace EasySQL.Ventanas.Operaciones
                 modoActual = Modo.DROP_TABLE;
             cambiarModo();
             lblDescripcion.Content = DESCRIPCION;
-            // Agrega y muestra la opción por defecto en el combobox.
-            cmbDatos.Items.Add(CMB_OPCION_DEFECTO);
-            cmbDatos.SelectedIndex = 0;
         }
 
         private void cambiarModo()
         {
             if (modoActual.Equals(Modo.DROP_DATABASE))
             {
-                CMB_OPCION_DEFECTO = CMB_OPCION_DEFECTO_DATABASE;
                 CLICK_ERROR = CLICK_ERROR_DATABASE;
                 CLICK_OK = CLICK_OK_DATABASE;
                 DESCRIPCION = DESCRIPCION_DATABASE;
+                Comun.RellenarComboBasesDatos(conexionActual, cmbDatos);
             }
             else if (modoActual.Equals(Modo.DROP_TABLE))
             {
-                CMB_OPCION_DEFECTO = CMB_OPCION_DEFECTO_TABLE;
                 CLICK_ERROR = CLICK_ERROR_TABLE;
                 CLICK_OK = CLICK_OK_TABLE;
                 DESCRIPCION = DESCRIPCION_TABLE;
+                Comun.RellenarComboTablas(conexionActual, cmbDatos);
             }
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbDatos.SelectedItem != null
-                   && !cmbDatos.SelectedItem.Equals(CMB_OPCION_DEFECTO))
+            if (!Comun.ElegidaTablaDefecto(cmbDatos) && !Comun.ElegidaBaseDatosDefecto(cmbDatos))
             {
                 comandoEnviar.CommandText = textoComandoOriginal + cmbDatos.SelectedItem;
                 int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
@@ -100,11 +93,11 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbDatos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Comprobar que la base de datos no sea la por defecto
-            if (cmbDatos.SelectedItem != null
-                && !cmbDatos.SelectedItem.Equals(CMB_OPCION_DEFECTO))
+            ComboBox datos = (ComboBox)sender;
+
+            // Comprobar que la base de datos no sea la por defecto, actualizar label
+            if (!Comun.ElegidaTablaDefecto(datos) && !Comun.ElegidaBaseDatosDefecto(datos))
             {
-                // Actualiza label descriptivo
                 lblComando.Content = textoComandoOriginal + cmbDatos.SelectedItem;
             }
             else
@@ -115,26 +108,16 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbDatos_DropDownOpened(object sender, EventArgs e)
         {
-            List<string> nombresCmb = new List<string>();
-
-            // Ejecuta un reader para obtener las bases de datos o tablas pertinentes
+            ComboBox aRellenar = (ComboBox)sender;
+            // Dependiendo del modo actual, el combo se rellenará con tablas o BBDD
             if (modoActual.Equals(Modo.DROP_DATABASE))
             {
-                // Obtener lista nombres BBDD
-                nombresCmb = Ayudante.MapearReaderALista(
-                    Ayudante.ObtenerReaderBasesDatos(conexionActual));
+                Comun.RellenarComboBasesDatos(conexionActual, aRellenar);
             }
             else if (modoActual.Equals(Modo.DROP_TABLE))
             {
-                // Obtener lista nombres tablas
-                nombresCmb = Ayudante.MapearReaderALista(
-                    Ayudante.ObtenerReaderTablas(conexionActual));
+                Comun.RellenarComboTablas(conexionActual, aRellenar);
             }
-            // Rellena el combobox con las bases de datos o tablas pertinentes
-            nombresCmb.Insert(0, CMB_OPCION_DEFECTO);
-            cmbDatos.Items.Clear();
-            Rellena.ComboBox(cmbDatos, nombresCmb);
-            cmbDatos.SelectedIndex = 0;
         }
     }
 }

@@ -69,7 +69,7 @@ namespace EasySQL.Ventanas.Operaciones
         private void cmbTablas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Comprobar que la tabla no sea la por defecto
-            if (!elegidaTablaDefecto())
+            if (!Comun.ElegidaTablaDefecto(cmbTablas))
             {
                 DatosCambiados();
             }
@@ -82,21 +82,9 @@ namespace EasySQL.Ventanas.Operaciones
             TipoOperacionCambiada();
         }
 
-        private bool elegidaTablaDefecto() {
-            return cmbTablas.SelectedItem != null
-                && cmbTablas.SelectedItem.Equals(CMB_OPCION_DEFECTO);
-        }
-
         private void cmbTablas_DropDownOpened(object sender, EventArgs e)
         {
-            List<string> nombresTablas =
-                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderTablas(conexionActual));
-
-            // Rellena el combobox con las bases de datos o tablas pertinentes
-            nombresTablas.Insert(0, CMB_OPCION_DEFECTO);
-            cmbTablas.Items.Clear();
-            Rellena.ComboBox(cmbTablas, nombresTablas);
-            cmbTablas.SelectedIndex = 0;
+            Comun.RellenarComboTablas(conexionActual, (ComboBox)sender);
         }
 
         private void cmbTipoOperacion_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -233,7 +221,7 @@ namespace EasySQL.Ventanas.Operaciones
         {
             // Comando actual: ALTER TABLE
             // Obtiene nombre tabla
-            if (!elegidaTablaDefecto())
+            if (!Comun.ElegidaTablaDefecto(cmbTablas))
             {
                 comandoEnviar.CommandText = textoComandoOriginal + cmbTablas.SelectedItem;
                 lblComando.Content = comandoEnviar.CommandText;

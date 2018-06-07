@@ -14,12 +14,19 @@ namespace EasySQL.Ventanas.Operaciones
 {
     public class Comun
     {
-        private const string CMB_OPCION_DEFECTO = "Elige tabla...";
+        private const string CMB_OPCION_DEFECTO_DATABASE = "Elige base de datos...";
+        private const string CMB_OPCION_DEFECTO_TABLE = "Elige tabla...";
 
         public static bool ElegidaTablaDefecto(ComboBox combo)
         {
             return combo.SelectedItem == null
-                || combo.SelectedItem.Equals(CMB_OPCION_DEFECTO);
+                || combo.SelectedItem.Equals(CMB_OPCION_DEFECTO_TABLE);
+        }
+
+        public static bool ElegidaBaseDatosDefecto(ComboBox combo)
+        {
+            return combo.SelectedItem == null
+                || combo.SelectedItem.Equals(CMB_OPCION_DEFECTO_DATABASE);
         }
 
         public static void RellenarComboTablas(Conexion actual, ComboBox aRellenar)
@@ -27,9 +34,20 @@ namespace EasySQL.Ventanas.Operaciones
             List<string> nombresTablas =
                 Ayudante.MapearReaderALista(Ayudante.ObtenerReaderTablas(actual));
             // Rellena el combobox con las bases de datos o tablas pertinentes
-            nombresTablas.Insert(0, CMB_OPCION_DEFECTO);
+            nombresTablas.Insert(0, CMB_OPCION_DEFECTO_TABLE);
             aRellenar.Items.Clear();
             Rellena.ComboBox(aRellenar, nombresTablas);
+            aRellenar.SelectedIndex = 0;
+        }
+
+        public static void RellenarComboBasesDatos(Conexion actual, ComboBox aRellenar)
+        {
+            List<string> nombresBBDD =
+                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderBasesDatos(actual));
+            // Rellena el combobox con las bases de datos o tablas pertinentes
+            nombresBBDD.Insert(0, CMB_OPCION_DEFECTO_DATABASE);
+            aRellenar.Items.Clear();
+            Rellena.ComboBox(aRellenar, nombresBBDD);
             aRellenar.SelectedIndex = 0;
         }
 
