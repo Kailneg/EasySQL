@@ -4,4 +4,10 @@ puerto no se está cogiendo en modo Invitado, ni se envía en la connectionStrin
 
 alter table no refresca nombre columnas una vez eliminadas
 
-Bug no permite borrar base de datos: posible conexion abierta.
+cambiar textbox contraseñas a passwordsboxes
+
+comprobar guardado contraseña y recuperación cuando checkbox contraseña marcado
+
+añadir radiobutton PK a create table
+
+condiciones where generadas, no borrar contenido existente
