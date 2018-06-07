@@ -59,11 +59,11 @@ namespace EasySQL.Operaciones.Controlador
             else return null;
         }
 
-        public static DbCommand ComandoDropDatabase(Conexion conexionActual)
+        public static DbCommand ComandoDropDatabase(Conexion conexionActual, bool forzar)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoDropDatabase();
+                return OperacionMicrosoftSQL.ComandoDropDatabase(forzar);
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
@@ -71,6 +71,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else return null;
         }
+
 
         public static DbCommand ComandoCreateTable(Conexion conexionActual)
         {

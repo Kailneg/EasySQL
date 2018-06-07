@@ -13,6 +13,8 @@ namespace EasySQL.Operaciones.Ayudante
 {
     public static class Ayudante
     {
+        public const int ERROR = Int32.MinValue;
+
         public static bool ExecuteTest(Conexion actual)
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)

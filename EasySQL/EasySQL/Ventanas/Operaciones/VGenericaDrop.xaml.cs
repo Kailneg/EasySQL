@@ -37,7 +37,7 @@ namespace EasySQL.Ventanas.Operaciones
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
-        private enum Modo { DROP_DATABASE, DROP_TABLE };
+        private enum Modo { DATABASE, TABLE };
         private Modo modoActual;
 
         public VGenericaDrop(Conexion actual, DbCommand comando)
@@ -49,23 +49,23 @@ namespace EasySQL.Ventanas.Operaciones
             this.textoComandoOriginal = comando.CommandText;
             this.Title = textoComandoOriginal;
             if (textoComandoOriginal.Contains("DATABASE"))
-                modoActual = Modo.DROP_DATABASE;
+                modoActual = Modo.DATABASE;
             else if (textoComandoOriginal.Contains("TABLE"))
-                modoActual = Modo.DROP_TABLE;
+                modoActual = Modo.TABLE;
             cambiarModo();
             lblDescripcion.Content = DESCRIPCION;
         }
 
         private void cambiarModo()
         {
-            if (modoActual.Equals(Modo.DROP_DATABASE))
+            if (modoActual.Equals(Modo.DATABASE))
             {
                 CLICK_ERROR = CLICK_ERROR_DATABASE;
                 CLICK_OK = CLICK_OK_DATABASE;
                 DESCRIPCION = DESCRIPCION_DATABASE;
                 Comun.RellenarComboBasesDatos(conexionActual, cmbDatos);
             }
-            else if (modoActual.Equals(Modo.DROP_TABLE))
+            else if (modoActual.Equals(Modo.TABLE))
             {
                 CLICK_ERROR = CLICK_ERROR_TABLE;
                 CLICK_OK = CLICK_OK_TABLE;
@@ -78,17 +78,63 @@ namespace EasySQL.Ventanas.Operaciones
         {
             if (!Comun.ElegidaTablaDefecto(cmbDatos) && !Comun.ElegidaBaseDatosDefecto(cmbDatos))
             {
-                comandoEnviar.CommandText = textoComandoOriginal + cmbDatos.SelectedItem;
+                comandoEnviar.CommandText = GenerarComandoEnvio(false);
+
                 int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+                // Bien
                 if (resultado == -1)
                 {
                     MessageBox.Show(CLICK_OK + "\"" + cmbDatos.SelectedItem + "\"" + " eliminada con con éxito.");
+                }
+
+                // Si la base de datos no se ha podido borrar por conexión abierta, preguntar forzado
+                if (modoActual.Equals(Modo.DATABASE) && resultado == Ayudante.ERROR)
+                {
+                    MessageBoxResult opcionElegir = 
+                        MessageBox.Show("Error al eliminar la base de datos.\r\n" +
+                        "¿Desea forzar el borrado?", "Alerta", MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning);
+
+                    if (opcionElegir.Equals(MessageBoxResult.Yes))
+                    {
+                        comandoEnviar.CommandText = GenerarComandoEnvio(true);
+                        resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+                        // Bien
+                        if (resultado == -1)
+                        {
+                            MessageBox.Show(CLICK_OK + "\"" + cmbDatos.SelectedItem + "\"" + " eliminada con con éxito.");
+                        }
+                    }
                 }
             }
             else
             {
                 MessageBox.Show(CLICK_ERROR);
             }
+        }
+
+        private string GenerarComandoEnvio(bool forzar)
+        {
+            string comando = "";
+            if (modoActual.Equals(Modo.DATABASE))
+            {
+                string nombreBBDD = cmbDatos.SelectedItem?.ToString();
+                if (forzar)
+                {
+                    comando = Operacion.ComandoDropDatabase(conexionActual, forzar).CommandText;
+                    comando = comando.Replace(Operacion.PARAM, nombreBBDD);
+                } else
+                {
+                    comando = textoComandoOriginal + nombreBBDD;
+                }
+            }
+            else if (modoActual.Equals(Modo.TABLE))
+            {
+                string nombreTabla = cmbDatos.SelectedItem?.ToString();
+                comando = Operacion.ComandoDropTable(conexionActual).CommandText;
+                comando += nombreTabla;
+            }
+            return comando;
         }
 
         private void cmbDatos_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -110,11 +156,11 @@ namespace EasySQL.Ventanas.Operaciones
         {
             ComboBox aRellenar = (ComboBox)sender;
             // Dependiendo del modo actual, el combo se rellenará con tablas o BBDD
-            if (modoActual.Equals(Modo.DROP_DATABASE))
+            if (modoActual.Equals(Modo.DATABASE))
             {
                 Comun.RellenarComboBasesDatos(conexionActual, aRellenar);
             }
-            else if (modoActual.Equals(Modo.DROP_TABLE))
+            else if (modoActual.Equals(Modo.TABLE))
             {
                 Comun.RellenarComboTablas(conexionActual, aRellenar);
             }

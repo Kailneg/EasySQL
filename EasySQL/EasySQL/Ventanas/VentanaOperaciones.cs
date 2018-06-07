@@ -82,7 +82,7 @@ namespace EasySQL.Ventanas
                 SeleccionCambiada();
                 MessageBox.Show("Deseleccionada BBDD elegida");
             }
-            DbCommand comando = Operacion.ComandoDropDatabase(conexionActual);
+            DbCommand comando = Operacion.ComandoDropDatabase(conexionActual, false);
             VGenericaDrop vod =
                 new VGenericaDrop(conexionActual, comando);
             vod.ShowDialog();

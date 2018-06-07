@@ -10,7 +10,6 @@ namespace EasySQL.Operaciones.Ayudante
 {
     public class AyudanteMySQL
     {
-        public const int ERROR = Int32.MinValue;
         private static SqlConnection sqlCon;
         private const string MSJ_ERROR =
             "Error en la operación, compruebe los datos o la conexión con la base de datos.";
@@ -55,13 +54,13 @@ namespace EasySQL.Operaciones.Ayudante
                 catch (SqlException s)
                 {
                     MessageBox.Show(s.Message);
-                    return ERROR;
+                    return Ayudante.ERROR;
                 }
                 catch (Exception s)
                 {
                     MessageBox.Show(MSJ_ERROR);
                     Console.WriteLine(s.Message);
-                    return ERROR;
+                    return Ayudante.ERROR;
                 }
             }
         }
@@ -81,13 +80,13 @@ namespace EasySQL.Operaciones.Ayudante
                 catch (SqlException s)
                 {
                     MessageBox.Show(s.Message);
-                    return ERROR;
+                    return Ayudante.ERROR;
                 }
                 catch (Exception s)
                 {
                     MessageBox.Show(MSJ_ERROR);
                     Console.WriteLine(s.Message);
-                    return ERROR;
+                    return Ayudante.ERROR;
                 }
             }
         }

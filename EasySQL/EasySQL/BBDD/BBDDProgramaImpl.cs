@@ -63,7 +63,7 @@ namespace EasySQL.BBDD
             {
                 return new ResultadoLogin(ResultadoLogin.TipoResultado.DENEGADO, null);
             }
-            else if (resultado.Equals(AyudanteSQL.ERROR))
+            else if (resultado.Equals(Ayudante.ERROR))
             {
                 return new ResultadoLogin(ResultadoLogin.TipoResultado.ERROR, null);
             }

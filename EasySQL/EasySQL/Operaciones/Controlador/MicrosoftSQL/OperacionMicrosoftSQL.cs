@@ -17,6 +17,7 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
             { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(MAX)", "DATETIME"  };
         private const string SHOW_DATABASES = "SELECT name FROM master.sys.databases";
         private const string CREATE_DATABASE = "CREATE DATABASE ";
+        private const string DROP_DATABASE_FORCE = "ALTER DATABASE @param SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE @param";
         private const string DROP_DATABASE = "DROP DATABASE ";
         private const string SHOW_TABLES =
             "SELECT TABLE_NAME FROM @param.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'";
@@ -37,9 +38,12 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
             return new SqlCommand(CREATE_DATABASE);
         }
 
-        public static DbCommand ComandoDropDatabase()
+        public static DbCommand ComandoDropDatabase(bool forzar)
         {
-            return new SqlCommand(DROP_DATABASE);
+            if (!forzar)
+                return new SqlCommand(DROP_DATABASE);
+            else
+                return new SqlCommand(DROP_DATABASE_FORCE);
         }
 
         public static DbCommand ComandoCreateTable()
