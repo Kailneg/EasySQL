@@ -45,7 +45,7 @@ namespace EasySQL.Ventanas
             if (ComprobarCampos())
             {
                 ResultadoRegistro resultado =
-                    BBDDPrograma.RegistrarUsuario(txtBoxUsuario.Text, txtBoxContrasenia.Text);
+                    BBDDPrograma.RegistrarUsuario(txtBoxUsuario.Text, pwdBoxContrasenia.Password);
                 resultado.MostrarMensaje();
                 
                 // Si se guarda, lo almacenamos temporalmente por si se desea acceder directamente
@@ -97,29 +97,29 @@ namespace EasySQL.Ventanas
             Colorea.BordeCorrectoError(datos, Comprueba.UsuarioPrograma(datos.Text));
         }
 
-        private void txtBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
+        private void pwdBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoError(datos, Comprueba.UsuarioPrograma(datos.Text));
+            PasswordBox datos = (PasswordBox)sender;
+            Colorea.BordeCorrectoError(datos, Comprueba.UsuarioPrograma(datos.Password));
         }
 
-        private void txtBoxRepetirContrasenia_LostFocus(object sender, RoutedEventArgs e)
+        private void pwdBoxRepetirContrasenia_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox datos = (TextBox)sender;
+            PasswordBox datos = (PasswordBox)sender;
             Colorea.BordeCorrectoError(datos, this.ComprobarContrasenias());
         }
         
         private bool ComprobarCampos()
         {
             return ((Comprueba.UsuarioPrograma(txtBoxUsuario.Text) ?? false)
-                && (Comprueba.ContraseniaPrograma(txtBoxContrasenia.Text) ?? false)
+                && (Comprueba.ContraseniaPrograma(pwdBoxContrasenia.Password) ?? false)
                 && ComprobarContrasenias());
         }
         
         private bool ComprobarContrasenias()
         {
-            return (Comprueba.ContraseniaPrograma(txtBoxContrasenia.Text) ?? false)
-                && txtBoxRepetirContrasenia.Text.Equals(txtBoxContrasenia.Text);
+            return (Comprueba.ContraseniaPrograma(pwdBoxContrasenia.Password) ?? false)
+                && pwdBoxRepetirContrasenia.Password.Equals(pwdBoxContrasenia.Password);
         }
 
         private bool UsuarioGuardadoCorrespondeConInputs()
@@ -127,7 +127,7 @@ namespace EasySQL.Ventanas
             if (this.usuarioGuardado != null)
             {
                 if (this.usuarioGuardado.Nombre.Equals(txtBoxUsuario.Text) &&
-                    this.usuarioGuardado.Contrasenia.Equals(txtBoxContrasenia.Text))
+                    this.usuarioGuardado.Contrasenia.Equals(pwdBoxContrasenia.Password))
                 {
                     return true;
                 }

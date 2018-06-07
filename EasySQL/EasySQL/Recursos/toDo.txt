@@ -4,8 +4,6 @@ puerto no se está cogiendo en modo Invitado, ni se envía en la connectionStrin
 
 alter table no refresca nombre columnas una vez eliminadas
 
-cambiar textbox contraseñas a passwordsboxes
-
 comprobar guardado contraseña y recuperación cuando checkbox contraseña marcado
 
 añadir radiobutton PK a create table

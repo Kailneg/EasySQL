@@ -12,6 +12,10 @@
             <Setter Property="Padding" Value="10"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
     
     <Grid Margin="20">
@@ -41,7 +45,7 @@
         </Grid>
         <!--3 Fila: Textbox Contraseña-->
         <Grid Grid.Row="3">
-            <TextBox x:Name="txtBoxContrasenia" LostFocus="txtBoxContrasenia_LostFocus"/>
+            <PasswordBox x:Name="pwdBoxContrasenia" LostFocus="pwdBoxContrasenia_LostFocus"/>
         </Grid>
         <!--4 Fila: Label Repetir Contraseña-->
         <Grid Grid.Row="4">
@@ -49,7 +53,7 @@
         </Grid>
         <!--5 Fila: Textbox Repetir Contraseña-->
         <Grid Grid.Row="5">
-            <TextBox x:Name="txtBoxRepetirContrasenia" LostFocus="txtBoxRepetirContrasenia_LostFocus"/>
+            <PasswordBox x:Name="pwdBoxRepetirContrasenia" LostFocus="pwdBoxRepetirContrasenia_LostFocus"/>
         </Grid>
         <!--4 Fila: Botón Acceder-->
         <Grid Grid.Row="7">
