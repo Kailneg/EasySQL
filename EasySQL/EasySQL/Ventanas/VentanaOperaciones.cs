@@ -85,7 +85,7 @@ namespace EasySQL.Ventanas
             }
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual, false);
             VGenericaDrop vod =
-                new VGenericaDrop(conexionActual, comando);
+                new VGenericaDrop(conexionActual, VGenericaDrop.Modo.DATABASE);
             vod.ShowDialog();
         }
 
@@ -115,7 +115,7 @@ namespace EasySQL.Ventanas
             {
                 DbCommand comando = Operacion.ComandoDropTable(conexionActual);
                 VGenericaDrop vod =
-                    new VGenericaDrop(conexionActual, comando);
+                    new VGenericaDrop(conexionActual, VGenericaDrop.Modo.TABLE);
                 vod.ShowDialog();
             }
             else

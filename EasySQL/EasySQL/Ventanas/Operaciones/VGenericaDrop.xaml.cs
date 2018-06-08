@@ -25,6 +25,8 @@ namespace EasySQL.Ventanas.Operaciones
     /// </summary>
     public partial class VGenericaDrop : Window
     {
+        public enum Modo { DATABASE, TABLE };
+
         private const string DESCRIPCION_DATABASE = "Elige nombre de la BBDD a eliminar:";
         private const string DESCRIPCION_TABLE = "Elige nombre de la tabla a eliminar:";
         private const string CLICK_ERROR_DATABASE = "Debes elegir una base de datos";
@@ -37,33 +39,31 @@ namespace EasySQL.Ventanas.Operaciones
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
-        private enum Modo { DATABASE, TABLE };
         private Modo modoActual;
 
-        public VGenericaDrop(Conexion actual, DbCommand comando)
+        public VGenericaDrop(Conexion actual, Modo modoEjecucion)
         {
             InitializeComponent();
-            lblComando.Content = comando.CommandText;
             this.conexionActual = actual;
-            this.comandoEnviar = comando;
-            this.textoComandoOriginal = comando.CommandText;
+            this.comandoEnviar = cambiarModo(modoEjecucion);
+            lblComando.Content = comandoEnviar.CommandText;
+            this.textoComandoOriginal = comandoEnviar.CommandText;
             this.Title = textoComandoOriginal;
-            if (textoComandoOriginal.Contains("DATABASE"))
-                modoActual = Modo.DATABASE;
-            else if (textoComandoOriginal.Contains("TABLE"))
-                modoActual = Modo.TABLE;
-            cambiarModo();
+            
             lblDescripcion.Content = DESCRIPCION;
         }
 
-        private void cambiarModo()
+        private DbCommand cambiarModo(Modo modoEjecucion)
         {
+            this.modoActual = modoEjecucion;
+
             if (modoActual.Equals(Modo.DATABASE))
             {
                 CLICK_ERROR = CLICK_ERROR_DATABASE;
                 CLICK_OK = CLICK_OK_DATABASE;
                 DESCRIPCION = DESCRIPCION_DATABASE;
                 Comun.RellenarComboBasesDatos(conexionActual, cmbDatos);
+                return Operacion.ComandoDropDatabase(conexionActual, false);
             }
             else if (modoActual.Equals(Modo.TABLE))
             {
@@ -71,7 +71,9 @@ namespace EasySQL.Ventanas.Operaciones
                 CLICK_OK = CLICK_OK_TABLE;
                 DESCRIPCION = DESCRIPCION_TABLE;
                 Comun.RellenarComboTablas(conexionActual, cmbDatos);
+                return Operacion.ComandoDropTable(conexionActual);
             }
+            return null;
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)

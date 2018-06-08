@@ -9,5 +9,3 @@ añadir radiobutton PK a create table
 condiciones where generadas, no borrar contenido existente
 
 mirar doble espacio WHERE en VUpdate VDelete
-
-VGenerica drop sacar comando desde cambiarModo, no desde constructor.
