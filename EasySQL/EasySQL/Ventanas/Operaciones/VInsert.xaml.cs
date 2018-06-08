@@ -61,7 +61,6 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void ReestablecerCampos()
         {
-            // Si no, resetea el label
             stackCamposActualizar.Children.Clear();
             ModificarComando("", "", "");
         }

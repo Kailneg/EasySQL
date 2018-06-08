@@ -67,11 +67,11 @@ namespace EasySQL.Ventanas.Operaciones
             {
                 // GRID PADRE
                 Grid contenedorSuperior = new Grid();
-                // Se le asignan las columnas 4* 2* 5*
+                // Se le asignan las columnas 4* 2.5* 5*
                 ColumnDefinition gridCol1 = new ColumnDefinition();
                 gridCol1.Width = new GridLength(4, GridUnitType.Star);
                 ColumnDefinition gridCol2 = new ColumnDefinition();
-                gridCol2.Width = new GridLength(2, GridUnitType.Star);
+                gridCol2.Width = new GridLength(2.5, GridUnitType.Star);
                 ColumnDefinition gridCol3 = new ColumnDefinition();
                 gridCol3.Width = new GridLength(5, GridUnitType.Star);
 

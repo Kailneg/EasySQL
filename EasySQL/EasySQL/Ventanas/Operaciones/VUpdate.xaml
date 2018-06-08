@@ -112,7 +112,7 @@
                 <!--<Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"></ColumnDefinition>
-                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
                         <ColumnDefinition Width="5*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <ComboBox Grid.Column="0">Nombre de la columna:</ComboBox>
