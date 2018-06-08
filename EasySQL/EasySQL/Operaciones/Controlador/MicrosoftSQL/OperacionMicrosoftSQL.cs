@@ -98,7 +98,7 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
 
         public static DbCommand ComandoSelect()
         {
-            return new SqlCommand(INSERT);
+            return new SqlCommand(SELECT);
         }
     }
 }

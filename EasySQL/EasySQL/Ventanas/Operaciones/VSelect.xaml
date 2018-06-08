@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
         Title="SELECT" 
-        Height="650" Width="500" MinHeight="500" MinWidth="420">
+        Height="700" Width="500" MinHeight="600" MinWidth="420">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -46,7 +46,7 @@
             <!--15Grid labels comando resultante-->
             <RowDefinition Height="auto"/>
             <!--16Boton ejecutar-->
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
 
         </Grid.RowDefinitions>
 
@@ -142,19 +142,19 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label>Elige cantidad cláusulas ORDER BY:</Label>
-            <ComboBox x:Name="cmbNumOrderBy" Grid.Column="1" SelectionChanged="cmbNumOrderBy_SelectionChanged"/>
+            <ComboBox x:Name="cmbNumOrderBy" Grid.Column="1" SelectionChanged="cmbNumOrderBy_SelectionChanged" DropDownOpened="cmbNumOrderBy_DropDownOpened"/>
         </Grid>
 
         <!--Grid labels orden-->
         <Grid Grid.Row="12" Margin="0 0">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="4*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-                <ColumnDefinition Width="5*"></ColumnDefinition>
+                <ColumnDefinition Width="1.5*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">Nombre columna:</Label>
-            <Label Grid.Column="1">Operador:</Label>
-            <Label Grid.Column="2">Valor:</Label>
+            <Label Grid.Column="0">Posición:</Label>
+            <Label Grid.Column="1">Columna:</Label>
+            <Label Grid.Column="2">Sentido:</Label>
         </Grid>
 
         <Separator Grid.Row="13" VerticalAlignment="Top"></Separator>
@@ -162,20 +162,16 @@
         <!--Zona scroll orden-->
         <ScrollViewer Grid.Row="14" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="stackOrderBy" Grid.Row="6" Orientation="Vertical">
-                <!--<Grid>
+                <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="4*"></ColumnDefinition>
-                        <ColumnDefinition Width="3*"></ColumnDefinition>
-                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <ComboBox Grid.Column="0">Nombre de la columna:</ComboBox>
-                    <ComboBox Grid.Column="1" Margin="5 0">Operador:</ComboBox>
-                    <TextBox Grid.Column="2">Valor:</TextBox>
+                    <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                    <ComboBox Grid.Column="1" Margin="5 0"></ComboBox>
+                    <ComboBox Grid.Column="2"></ComboBox>
                 </Grid>
-                <ComboBox Margin="0 5" HorizontalContentAlignment="Center">
-                    <ComboBoxItem>And</ComboBoxItem>
-                    <ComboBoxItem>Or</ComboBoxItem>
-                </ComboBox>-->
             </StackPanel>
         </ScrollViewer>
 

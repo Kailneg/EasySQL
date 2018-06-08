@@ -30,6 +30,7 @@ namespace EasySQL.Ventanas.Operaciones
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
         private string datosCampos, datosCondiciones;
+        private List<ColumnaValor> columnasElegidas;
 
         public VSelect() :
             this(
@@ -50,9 +51,10 @@ namespace EasySQL.Ventanas.Operaciones
             this.conexionActual = actual;
             this.Title += " || Base de datos \"" + actual.BaseDatos + "\"";
             // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = Operacion.ComandoUpdate(actual);
+            this.comandoEnviar = Operacion.ComandoSelect(actual);
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
+            columnasElegidas = new List<ColumnaValor>();
 
             // Agrega y muestra la opción por defecto en el combobox Tablas.
             cmbTablas.Items.Add(CMB_OPCION_DEFECTO);
@@ -142,28 +144,35 @@ namespace EasySQL.Ventanas.Operaciones
 
         private async void chkCampos_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            List<ColumnaValor> datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
-            string datosParseados = parsearDatosCampoValor(datosNuevos);
+            columnasElegidas = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
+            string datosParseados = parsearDatosCampoValor(columnasElegidas);
             ModificarComando(cmbTablas.SelectedItem?.ToString(), datosParseados, datosCondiciones);
         }
 
         private async void txtCampos_TextChanged(object sender, TextChangedEventArgs e)
         {
-            List<ColumnaValor> datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
-            string datosParseados = parsearDatosCampoValor(datosNuevos);
+            columnasElegidas = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
+            string datosParseados = parsearDatosCampoValor(columnasElegidas);
             ModificarComando(cmbTablas.SelectedItem?.ToString(), datosParseados, datosCondiciones);
         }
 
         private async void txtCondiciones_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string datosNuevos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, datosNuevos);
+            string condicionesNuevas = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, condicionesNuevas);
         }
 
         private async void cmbCondiciones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string datosNuevos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, datosNuevos);
+            string condicionesNuevas = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, condicionesNuevas);
+        }
+
+        private async void cmbOrderBySelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string condicionesNuevas = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);// CAMBIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, condicionesNuevas);
         }
 
         private void chkMarcarTodos_Click(object sender, RoutedEventArgs e)
@@ -174,7 +183,28 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbNumOrderBy_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!Comun.ElegidaTablaDefecto(cmbTablas))
+            {
+                // Si hay tabla elegida, se muestan los campos correspondientes
+                int numCondiciones = (int)(cmbNumOrderBy.SelectedItem?? 0);
+                string nombreTabla = cmbTablas.SelectedItem?.ToString();
+                Comun.GenerarCamposOrderBy(stackOrderBy, conexionActual,
+                    numCondiciones, columnasElegidas, nombreTabla, cmbOrderBySelectionChanged);
 
+                ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, "");
+            }
+        }
+
+        private void cmbNumOrderBy_DropDownOpened(object sender, EventArgs e)
+        {
+            // Calcular número condiciones ORDER BY disponibles
+            cmbNumOrderBy.Items.Clear();
+
+            for (int i = 0; i < columnasElegidas.Count + 1; i++)
+            {
+                cmbNumOrderBy.Items.Add(i);
+            }
+            cmbNumOrderBy.SelectedIndex = 0;
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)

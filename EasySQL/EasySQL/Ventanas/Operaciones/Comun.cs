@@ -51,126 +51,6 @@ namespace EasySQL.Ventanas.Operaciones
             aRellenar.SelectedIndex = 0;
         }
 
-        public static void GenerarCamposCondicionesWhere(StackPanel contenedor, Conexion actual, int numCondiciones, string nombreTabla,
-            Action<object, SelectionChangedEventArgs> handlerEventosCombos, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
-        {
-            string[] tipos_operadores = Operacion.TIPOS_OPERADORES;
-            string[] tipos_operadores_union = Operacion.TIPOS_OPERADORES_UNION;
-            List<string> nombre_columnas =
-                Ayudante.MapearReaderALista(
-                    Ayudante.ObtenerReaderColumnas(actual, nombreTabla));
-
-            // Se vacía de contenido el stackpanel
-            contenedor.Children.Clear();
-
-            for (int i = 0; i < numCondiciones; i++)
-            {
-                // GRID PADRE
-                Grid contenedorSuperior = new Grid();
-                // Se le asignan las columnas 4* 2.5* 5*
-                ColumnDefinition gridCol1 = new ColumnDefinition();
-                gridCol1.Width = new GridLength(4, GridUnitType.Star);
-                ColumnDefinition gridCol2 = new ColumnDefinition();
-                gridCol2.Width = new GridLength(2.5, GridUnitType.Star);
-                ColumnDefinition gridCol3 = new ColumnDefinition();
-                gridCol3.Width = new GridLength(5, GridUnitType.Star);
-
-                contenedorSuperior.ColumnDefinitions.Add(gridCol1);
-                contenedorSuperior.ColumnDefinitions.Add(gridCol2);
-                contenedorSuperior.ColumnDefinitions.Add(gridCol3);
-
-                // CMB COLUMNA
-                ComboBox cmbColumna = new ComboBox();
-                cmbColumna.Height = 25;
-                foreach (var nombre in nombre_columnas)
-                {
-                    cmbColumna.Items.Add(nombre);
-                }
-
-                // CMB OPERADORES
-                ComboBox cmbOperadores = new ComboBox();
-                cmbOperadores.Height = 25;
-                cmbOperadores.Margin = new Thickness(0, 5, 0, 5);
-                foreach (var tipoDato in tipos_operadores)
-                {
-                    cmbOperadores.Items.Add(tipoDato);
-                }
-
-                // TXTVALOR
-                TextBox txtValor = new TextBox();
-                cmbOperadores.Height = 25;
-
-                // CMB AND OR
-                ComboBox cmbAndOr = new ComboBox();
-                cmbAndOr.Margin = new Thickness(0, 5, 0, 5);
-                cmbAndOr.HorizontalContentAlignment = HorizontalAlignment.Center;
-                foreach (var tipoDato in tipos_operadores_union)
-                {
-                    cmbAndOr.Items.Add(tipoDato);
-                }
-
-                // Se asignan posiciones para los hijos del grid padre
-                Grid.SetColumn(cmbColumna, 0);
-                Grid.SetColumn(cmbOperadores, 1);
-                Grid.SetColumn(txtValor, 2);
-
-                // Se asignan eventos a los controles dinámicos
-                cmbColumna.SelectionChanged += new SelectionChangedEventHandler(handlerEventosCombos);
-                cmbOperadores.SelectionChanged += new SelectionChangedEventHandler(handlerEventosCombos);
-                txtValor.TextChanged += new TextChangedEventHandler(handlerEventosTextboxs);
-                cmbAndOr.SelectionChanged += new SelectionChangedEventHandler(handlerEventosCombos);
-
-                // Se añaden los elementos a sus respectivas posiciones
-                contenedorSuperior.Children.Add(cmbColumna);
-                contenedorSuperior.Children.Add(cmbOperadores);
-                contenedorSuperior.Children.Add(txtValor);
-
-                contenedor.Children.Add(contenedorSuperior);
-                contenedor.Children.Add(cmbAndOr);
-            }
-            // Elimina el último ComboBox AND OR
-            int tamanio = contenedor.Children.Count;
-            if (tamanio > 0)
-                contenedor.Children.RemoveAt(tamanio - 1);
-        }
-
-        public static async Task<string> ExtraerDatosCondicionesWhere(StackPanel contenedor)
-        {
-            // Espera 5ms para que de tiempo a repintar los componentes
-            await Task.Delay(5);
-            // Comprobar los campos de las condiciones generados y extraer datos
-            string datos = " WHERE ";
-            var generados = contenedor.Children;
-
-            // Por cada condicion existente, extraerlas y emparejarlas con un AND u OR
-            // +Grid[i]
-            //  -cmbColumna[i][0]
-            //  -cmbOperadores[i][1]
-            //  -txtValor[i][2]
-            // +cmbAndOr[i]
-            for (int i = 0; i < generados.Count; i++)
-            {
-                if (generados[i] is Grid)
-                {
-                    Grid grid = generados[i] as Grid;
-                    ComboBox cmbColumna = grid.Children[0] as ComboBox;
-                    ComboBox cmbOperadores = grid.Children[1] as ComboBox;
-                    TextBox txtValor = grid.Children[2] as TextBox;
-
-                    // Datos
-                    datos += cmbColumna.SelectedItem?.ToString() + " ";
-                    datos += cmbOperadores.SelectedItem?.ToString() + " ";
-                    datos += txtValor.Text?.ToString() + " ";
-                }
-                else if (generados[i] is ComboBox)
-                {
-                    ComboBox cmbAndOr = generados[i] as ComboBox;
-                    datos += cmbAndOr.SelectedItem?.ToString() + " ";
-                }
-            }
-            return datos;
-        }
-
         public static void GenerarCamposColumnas(StackPanel contenedor, Conexion actual, string nombreTabla,
             Action<object, RoutedEventArgs> handlerEventosCheckboxs, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
         {
@@ -299,6 +179,195 @@ namespace EasySQL.Ventanas.Operaciones
             }
             return datos;
         }
+
+        public static void GenerarCamposCondicionesWhere(StackPanel contenedor, Conexion actual, int numCondiciones, string nombreTabla,
+            Action<object, SelectionChangedEventArgs> handlerEventosCombos, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
+        {
+            string[] tipos_operadores = Operacion.TIPOS_CONDICIONES;
+            string[] tipos_operadores_union = Operacion.TIPOS_CONDICIONES_UNION;
+            List<string> nombre_columnas =
+                Ayudante.MapearReaderALista(
+                    Ayudante.ObtenerReaderColumnas(actual, nombreTabla));
+            nombre_columnas.Insert(0, "");
+
+            // Se vacía de contenido el stackpanel
+            contenedor.Children.Clear();
+
+            for (int i = 0; i < numCondiciones; i++)
+            {
+                // GRID PADRE
+                Grid contenedorSuperior = new Grid();
+                // Se le asignan las columnas 4* 2.5* 5*
+                ColumnDefinition gridCol1 = new ColumnDefinition();
+                gridCol1.Width = new GridLength(4, GridUnitType.Star);
+                ColumnDefinition gridCol2 = new ColumnDefinition();
+                gridCol2.Width = new GridLength(2.5, GridUnitType.Star);
+                ColumnDefinition gridCol3 = new ColumnDefinition();
+                gridCol3.Width = new GridLength(5, GridUnitType.Star);
+
+                contenedorSuperior.ColumnDefinitions.Add(gridCol1);
+                contenedorSuperior.ColumnDefinitions.Add(gridCol2);
+                contenedorSuperior.ColumnDefinitions.Add(gridCol3);
+
+                // CMB COLUMNA
+                ComboBox cmbColumna = new ComboBox();
+                cmbColumna.Height = 25;
+                foreach (var nombre in nombre_columnas)
+                {
+                    cmbColumna.Items.Add(nombre);
+                }
+
+                // CMB OPERADORES
+                ComboBox cmbOperadores = new ComboBox();
+                cmbOperadores.Height = 25;
+                cmbOperadores.Margin = new Thickness(0, 5, 0, 5);
+                foreach (var tipoDato in tipos_operadores)
+                {
+                    cmbOperadores.Items.Add(tipoDato);
+                }
+
+                // TXTVALOR
+                TextBox txtValor = new TextBox();
+                cmbOperadores.Height = 25;
+
+                // CMB AND OR
+                ComboBox cmbAndOr = new ComboBox();
+                cmbAndOr.Margin = new Thickness(0, 5, 0, 5);
+                cmbAndOr.HorizontalContentAlignment = HorizontalAlignment.Center;
+                foreach (var tipoDato in tipos_operadores_union)
+                {
+                    cmbAndOr.Items.Add(tipoDato);
+                }
+
+                // Se asignan posiciones para los hijos del grid padre
+                Grid.SetColumn(cmbColumna, 0);
+                Grid.SetColumn(cmbOperadores, 1);
+                Grid.SetColumn(txtValor, 2);
+
+                // Se asignan eventos a los controles dinámicos
+                cmbColumna.SelectionChanged += new SelectionChangedEventHandler(handlerEventosCombos);
+                cmbOperadores.SelectionChanged += new SelectionChangedEventHandler(handlerEventosCombos);
+                txtValor.TextChanged += new TextChangedEventHandler(handlerEventosTextboxs);
+                cmbAndOr.SelectionChanged += new SelectionChangedEventHandler(handlerEventosCombos);
+
+                // Se añaden los elementos a sus respectivas posiciones
+                contenedorSuperior.Children.Add(cmbColumna);
+                contenedorSuperior.Children.Add(cmbOperadores);
+                contenedorSuperior.Children.Add(txtValor);
+
+                contenedor.Children.Add(contenedorSuperior);
+                contenedor.Children.Add(cmbAndOr);
+            }
+            // Elimina el último ComboBox AND OR
+            int tamanio = contenedor.Children.Count;
+            if (tamanio > 0)
+                contenedor.Children.RemoveAt(tamanio - 1);
+        }
+
+        public static async Task<string> ExtraerDatosCondicionesWhere(StackPanel contenedor)
+        {
+            // Espera 5ms para que de tiempo a repintar los componentes
+            await Task.Delay(5);
+            // Comprobar los campos de las condiciones generados y extraer datos
+            string datos = " WHERE ";
+            var generados = contenedor.Children;
+
+            // Por cada condicion existente, extraerlas y emparejarlas con un AND u OR
+            // +Grid[i]
+            //  -cmbColumna[i][0]
+            //  -cmbOperadores[i][1]
+            //  -txtValor[i][2]
+            // +cmbAndOr[i]
+            for (int i = 0; i < generados.Count; i++)
+            {
+                if (generados[i] is Grid)
+                {
+                    Grid grid = generados[i] as Grid;
+                    ComboBox cmbColumna = grid.Children[0] as ComboBox;
+                    ComboBox cmbOperadores = grid.Children[1] as ComboBox;
+                    TextBox txtValor = grid.Children[2] as TextBox;
+
+                    // Datos
+                    datos += cmbColumna.SelectedItem?.ToString() + " ";
+                    datos += cmbOperadores.SelectedItem?.ToString() + " ";
+                    datos += txtValor.Text?.ToString() + " ";
+                }
+                else if (generados[i] is ComboBox)
+                {
+                    ComboBox cmbAndOr = generados[i] as ComboBox;
+                    datos += cmbAndOr.SelectedItem?.ToString() + " ";
+                }
+            }
+            return datos;
+        }
+
+        public static void GenerarCamposOrderBy(StackPanel contenedor, Conexion actual, int numCampos,
+            List<ColumnaValor> camposElegidos, string nombreTabla, Action<object, SelectionChangedEventArgs> handlerEventosCombos)
+        {
+            string[] tipos_operadores = Operacion.TIPOS_ORDEN;
+
+            // Se vacía de contenido el stackpanel
+            contenedor.Children.Clear();
+
+            for (int i = 0; i < numCampos; i++)
+            {
+                // GRID PADRE
+                Grid contenedorSuperior = new Grid();
+                // Se le asignan las columnas 1* 4* .5*
+                ColumnDefinition gridCol1 = new ColumnDefinition();
+                gridCol1.Width = new GridLength(1, GridUnitType.Star);
+                ColumnDefinition gridCol2 = new ColumnDefinition();
+                gridCol2.Width = new GridLength(4, GridUnitType.Star);
+                ColumnDefinition gridCol3 = new ColumnDefinition();
+                gridCol3.Width = new GridLength(1.5, GridUnitType.Star);
+
+                contenedorSuperior.ColumnDefinitions.Add(gridCol1);
+                contenedorSuperior.ColumnDefinitions.Add(gridCol2);
+                contenedorSuperior.ColumnDefinitions.Add(gridCol3);
+
+                // LBL POSICION
+                Label lblPosicion = new Label();
+                lblPosicion.Height = 25;
+                lblPosicion.Content = i + 1 + "º";
+                lblPosicion.VerticalAlignment = VerticalAlignment.Center;
+                lblPosicion.HorizontalAlignment = HorizontalAlignment.Center;
+
+                // CMB COLUMNA
+                ComboBox cmbColumna = new ComboBox();
+                cmbColumna.Height = 25;
+                cmbColumna.Items.Add("");
+                foreach (var columna in camposElegidos)
+                {
+                    cmbColumna.Items.Add(columna.Columna);
+                }
+
+                // CMB OPERADORES
+                ComboBox cmbOperadores = new ComboBox();
+                cmbOperadores.Height = 25;
+                cmbOperadores.Margin = new Thickness(0, 5, 0, 5);
+                foreach (var tipoDato in tipos_operadores)
+                {
+                    cmbOperadores.Items.Add(tipoDato);
+                }
+
+                // Se asignan posiciones para los hijos del grid padre
+                Grid.SetColumn(lblPosicion, 0);
+                Grid.SetColumn(cmbColumna, 1);
+                Grid.SetColumn(cmbOperadores, 2);
+
+                // Se asignan eventos a los controles dinámicos
+                cmbColumna.SelectionChanged += new SelectionChangedEventHandler(handlerEventosCombos);
+                cmbOperadores.SelectionChanged += new SelectionChangedEventHandler(handlerEventosCombos);
+
+                // Se añaden los elementos a sus respectivas posiciones
+                contenedorSuperior.Children.Add(lblPosicion);
+                contenedorSuperior.Children.Add(cmbColumna);
+                contenedorSuperior.Children.Add(cmbOperadores);
+
+                contenedor.Children.Add(contenedorSuperior);
+            }
+        }
+
 
         public static void MarcarTodosCamposColumnas(StackPanel contenedor, bool marcado)
         {

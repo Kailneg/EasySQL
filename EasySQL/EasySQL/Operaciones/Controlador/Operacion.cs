@@ -16,9 +16,10 @@ namespace EasySQL.Operaciones.Controlador
     {
         public static readonly string[] PARAMS 
             = { "@1param", "@2param", "@3param", "@4param", "@5param" };
-        public static readonly string[] TIPOS_OPERADORES 
+        public static readonly string[] TIPOS_CONDICIONES 
             = { "", "=", "<>", ">", "<", ">=", "<=", "LIKE", "IN", "IS NULL", "IS NOT NULL" };
-        public static readonly string[] TIPOS_OPERADORES_UNION = { "", "AND", "OR" };
+        public static readonly string[] TIPOS_CONDICIONES_UNION = { "", "AND", "OR" };
+        public static readonly string[] TIPOS_ORDEN = { "", "ASC", "DESC" };
 
         public static string[] TiposDatos(Conexion conexionActual)
         {
@@ -194,7 +195,7 @@ namespace EasySQL.Operaciones.Controlador
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoInsert();
+                return OperacionMicrosoftSQL.ComandoSelect();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
