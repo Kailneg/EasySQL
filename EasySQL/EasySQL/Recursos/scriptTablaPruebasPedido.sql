@@ -1,6 +1,9 @@
 USE [pruebas]
 GO
 
+CREATE TABLE pedido(
+	id int, nombre varchar(50), precio float)
+
 INSERT INTO [dbo].[pedido]
      VALUES
            (1, 'fresa', 2.50);

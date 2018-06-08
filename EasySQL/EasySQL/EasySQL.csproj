@@ -198,6 +198,10 @@
     <Resource Include="Recursos\toDo.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Recursos\scriptInsert3ConexionesUsuario2.sql" />
+    <Content Include="Recursos\scriptTablaPruebasPedido.sql" />
+    <Content Include="Recursos\ZScriptCreacionTablaMuchasColumnas.sql" />
+    <Content Include="Recursos\ZScriptCreacionTablasPrueba.sql" />
     <Resource Include="Recursos\DiagramaBBDD-drawio.xml" />
     <Resource Include="Recursos\cosas.txt" />
     <Content Include="Recursos\scriptCreacionBBDDPrograma.sql" />
