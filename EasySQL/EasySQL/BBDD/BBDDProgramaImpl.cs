@@ -14,7 +14,7 @@ namespace EasySQL.BBDD
     {
         private string cadenaConexion;
         
-        private string registrarUsuarioQuery, registrarConexionQuery, existirQuery, loginQuery, obtenerIDUsuarioQuery,
+        private string registrarUsuarioQuery, registrarConexionQuery, existirQuery, loginQuery, saltQuery, obtenerIDUsuarioQuery,
             obtenerIDConexionQuery, obtenerConexionesQuery, eliminarConexionQuery, obtenerPuertoQuery;
 
         private BBDDProgramaImpl()
@@ -25,16 +25,19 @@ namespace EasySQL.BBDD
                 + "Initial Catalog=usuarios;"
                 + "Integrated Security=True";
 
-            loginQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario AND contrasenia =@contrasenia";
-            registrarUsuarioQuery = "INSERT INTO Usuario (nombre, contrasenia) VALUES (@usuario,@contrasenia)";
+            loginQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario " +
+                "AND contrasenia =@contrasenia";
+            saltQuery = "SELECT contrasenia_salt FROM Usuario WHERE nombre =@usuario ";
+            registrarUsuarioQuery = "INSERT INTO Usuario (nombre, contrasenia, contrasenia_salt) VALUES " +
+                "(@usuario,@contrasenia,@contrasenia_salt)";
             registrarConexionQuery = "INSERT INTO Conexion (id_tipo_conexion, id_usuario, nombre, direccion, puerto, usuario, contrasenia)" +
                 " VALUES (@tipo_conexion, @id_usuario, @nombre, @direccion, @puerto, @usuario, @contrasenia)";
             existirQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario";
             obtenerIDUsuarioQuery = "SELECT id_usuario FROM Usuario WHERE nombre=@usuario AND contrasenia=@contrasenia";
             obtenerIDConexionQuery = "SELECT id_conexion FROM Conexion WHERE nombre=@nombredir " + 
                                         "AND direccion=@direccion AND usuario=@usuario";
-            obtenerConexionesQuery = "SELECT id_conexion, id_tipo_conexion, nombre, direccion, puerto, usuario, contrasenia " +
-                                        "FROM conexion WHERE id_usuario = @id_usuario";
+            obtenerConexionesQuery = "SELECT id_conexion, id_tipo_conexion, nombre, direccion, puerto, usuario, contrasenia " + 
+                "FROM conexion WHERE id_usuario = @id_usuario";
             eliminarConexionQuery = "DELETE FROM Conexion WHERE id_conexion = @id_conexion";
             obtenerPuertoQuery = "SELECT puerto_defecto FROM tipo_conexion WHERE id_tipo = @id_tipo";
         }
@@ -51,9 +54,13 @@ namespace EasySQL.BBDD
 
         public ResultadoLogin LoginUsuario(string usuario, string contrasenia)
         {
+            string contraseniaSalt = ObtenerSal(usuario);
+            string contraseniaBcrypt = "";
+            if (!String.IsNullOrWhiteSpace(contraseniaSalt))
+                contraseniaBcrypt = BCrypt.HashPassword(contrasenia, contraseniaSalt);
             SqlCommand loginCmd = new SqlCommand(loginQuery);
             loginCmd.Parameters.AddWithValue("@usuario", usuario);
-            loginCmd.Parameters.AddWithValue("@contrasenia", contrasenia);
+            loginCmd.Parameters.AddWithValue("@contrasenia", contraseniaBcrypt);
 
             // Obtiene el resultado
             object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, loginCmd);
@@ -73,6 +80,18 @@ namespace EasySQL.BBDD
             }
         }
 
+        public string ObtenerSal(string usuario)
+        {
+            SqlCommand saltCmd = new SqlCommand(saltQuery);
+            saltCmd.Parameters.AddWithValue("@usuario", usuario);
+            // Obtiene el resultado
+            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, saltCmd);
+            if (resultado != null)
+                return resultado.ToString();
+            else
+                return "";
+        }
+
         public ResultadoRegistro RegistrarUsuario(string usuario, string contrasenia)
         {
             if (ExisteUsuario(usuario))
@@ -81,9 +100,18 @@ namespace EasySQL.BBDD
             }
             else
             {
+                // Generar sal
+                string contraseniaSalt = BCrypt.GenerateSalt();
+                //mySalt == "$2a$10$rBV2JDeWW3.vKyeQcM8fFO"
+                string contraseniaBcrypt = BCrypt.HashPassword(contrasenia, contraseniaSalt);
+                //myHash == "$2a$10$rBV2JDeWW3.vKyeQcM8fFO4777l4bVeQgDL6VIkxqlzQ7TCalQvla"
+                bool doesPasswordMatch = BCrypt.CheckPassword(contrasenia, contraseniaBcrypt);
+                Console.WriteLine("Bcript: " + doesPasswordMatch);
+
                 SqlCommand registrarCmd = new SqlCommand(registrarUsuarioQuery);
                 registrarCmd.Parameters.AddWithValue("@usuario", usuario);
-                registrarCmd.Parameters.AddWithValue("@contrasenia", contrasenia);
+                registrarCmd.Parameters.AddWithValue("@contrasenia", contraseniaBcrypt);
+                registrarCmd.Parameters.AddWithValue("@contrasenia_salt", contraseniaSalt);
 
                 // Obtiene el resultado
                 int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, registrarCmd);

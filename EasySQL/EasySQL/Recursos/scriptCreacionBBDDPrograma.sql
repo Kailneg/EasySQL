@@ -24,7 +24,8 @@ GO
 CREATE TABLE [dbo].[usuario](
 	[id_usuario] [int] IDENTITY(1,1) NOT NULL,
 	[nombre] [nvarchar](30) NOT NULL,
-	[contrasenia] [nvarchar](30) NOT NULL,
+	[contrasenia] [nvarchar](100) NOT NULL,
+	[contrasenia_salt] [nvarchar](100) NOT NULL,
 	[fecha_creacion] [datetime] NOT NULL,
  CONSTRAINT [PK_usuario] PRIMARY KEY CLUSTERED 
 (
