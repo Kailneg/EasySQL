@@ -72,9 +72,9 @@ namespace EasySQL.Ventanas.Operaciones
                 this.columnas = columnas;
             if (!String.IsNullOrWhiteSpace(datosColumnas))
                 this.datosColumnas = columnas;
-            comando = comando.Replace(Operacion.PARAM, tabla);
-            comando = comando.Replace(Operacion.PARAM2, columnas);
-            comando = comando.Replace(Operacion.PARAM3, datosColumnas);
+            comando = comando.Replace(Operacion.PARAMS[0], tabla);
+            comando = comando.Replace(Operacion.PARAMS[1], columnas);
+            comando = comando.Replace(Operacion.PARAMS[2], datosColumnas);
             comandoEnviar.CommandText = comando;
             // Muestra el contenido del comando actual en el label
             lblComando.Content = comando;

@@ -14,9 +14,8 @@ namespace EasySQL.Operaciones.Controlador
 {
     public class Operacion
     {
-        public const string PARAM = "@param";
-        public const string PARAM2 = "@2param";
-        public const string PARAM3 = "@3param";
+        public static readonly string[] PARAMS 
+            = { "@1param", "@2param", "@3param", "@4param", "@5param" };
         public static readonly string[] TIPOS_OPERADORES 
             = { "", "=", "<>", ">", "<", ">=", "<=", "LIKE", "IN", "IS NULL", "IS NOT NULL" };
         public static readonly string[] TIPOS_OPERADORES_UNION = { "", "AND", "OR" };
@@ -179,6 +178,19 @@ namespace EasySQL.Operaciones.Controlador
         }
 
         public static DbCommand ComandoInsert(Conexion conexionActual)
+        {
+            if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
+            {
+                return OperacionMicrosoftSQL.ComandoInsert();
+            }
+            else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
+            {
+                return null;
+            }
+            else return null;
+        }
+
+        public static DbCommand ComandoSelect(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {

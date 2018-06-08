@@ -20,9 +20,9 @@ using System.Windows.Shapes;
 namespace EasySQL.Ventanas.Operaciones
 {
     /// <summary>
-    /// Interaction logic for VUpdate.xaml
+    /// Interaction logic for VSelect.xaml
     /// </summary>
-    public partial class VUpdate : Window
+    public partial class VSelect : Window
     {
         private const string CMB_OPCION_DEFECTO = "Elige tabla...";
         private const int NUM_CONDICIONES_MAX = 16;
@@ -31,7 +31,7 @@ namespace EasySQL.Ventanas.Operaciones
         private string textoComandoOriginal;
         private string datosCampos, datosCondiciones;
 
-        public VUpdate() :
+        public VSelect() :
             this(
                     new Conexion()
                     {
@@ -43,7 +43,7 @@ namespace EasySQL.Ventanas.Operaciones
                 )
         { }
 
-        public VUpdate(Conexion actual)
+        public VSelect(Conexion actual)
         {
             InitializeComponent();
 
@@ -170,6 +170,11 @@ namespace EasySQL.Ventanas.Operaciones
         {
             bool marcado = chkMarcarTodos.IsChecked.Value;
             Comun.MarcarTodosCamposColumnas(stackCamposActualizar, marcado);
+        }
+
+        private void cmbNumOrderBy_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)

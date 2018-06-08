@@ -91,7 +91,7 @@ namespace EasySQL.Operaciones.Ayudante
         {
             // Obtener comando tablas, reemplazar los parámetros de BBDD y nombreTabla
             DbCommand comando = Operacion.ComandoShowTables(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[0], conexionActual.BaseDatos);
             return ExecuteReader(conexionActual, comando);
         }
 
@@ -105,8 +105,8 @@ namespace EasySQL.Operaciones.Ayudante
         {
             // Obtener comando columnas, reemplazar los parámetros de BBDD y nombreTabla
             DbCommand comando = Operacion.ComandoShowColumnas(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM2, nombreTabla);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[0], conexionActual.BaseDatos);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[1], nombreTabla);
             return ExecuteReader(conexionActual, comando);
         }
 
@@ -120,8 +120,8 @@ namespace EasySQL.Operaciones.Ayudante
         {
             // Obtener comando columnas, reemplazar los parámetros de BBDD y nombreTabla
             DbCommand comando = Operacion.ComandoShowTiposDatosColumnas(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM2, nombreTabla);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[0], conexionActual.BaseDatos);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[1], nombreTabla);
             return ExecuteReader(conexionActual, comando);
         }
 

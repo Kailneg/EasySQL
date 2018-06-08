@@ -83,7 +83,7 @@ namespace EasySQL.Ventanas.Operaciones
         private void ModificarComando(string tabla, string datos)
         {
             string comando = textoComandoOriginal;
-            comando = comando.Replace(Operacion.PARAM, tabla);
+            comando = comando.Replace(Operacion.PARAMS[0], tabla);
             comando += datos;
             
             comandoEnviar.CommandText = comando;

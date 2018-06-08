@@ -122,7 +122,7 @@ namespace EasySQL.Ventanas.Operaciones
                 if (forzar)
                 {
                     comando = Operacion.ComandoDropDatabase(conexionActual, forzar).CommandText;
-                    comando = comando.Replace(Operacion.PARAM, nombreBBDD);
+                    comando = comando.Replace(Operacion.PARAMS[0], nombreBBDD);
                 } else
                 {
                     comando = textoComandoOriginal + nombreBBDD;

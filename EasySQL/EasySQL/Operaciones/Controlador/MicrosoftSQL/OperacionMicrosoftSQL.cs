@@ -17,20 +17,21 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
             { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(MAX)", "DATETIME"  };
         private const string SHOW_DATABASES = "SELECT name FROM master.sys.databases";
         private const string CREATE_DATABASE = "CREATE DATABASE ";
-        private const string DROP_DATABASE_FORCE = "ALTER DATABASE @param SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE @param";
+        private const string DROP_DATABASE_FORCE = "ALTER DATABASE @1param SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE @1param";
         private const string DROP_DATABASE = "DROP DATABASE ";
         private const string SHOW_TABLES =
-            "SELECT TABLE_NAME FROM @param.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'";
+            "SELECT TABLE_NAME FROM @1param.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'";
         private const string SHOW_COLUMNS =
-            "SELECT COLUMN_NAME FROM @param.INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '@2param'";
+            "SELECT COLUMN_NAME FROM @1param.INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '@2param'";
         private const string SHOW_COLUMNS_DATA_TYPE =
-            "SELECT DATA_TYPE FROM @param.INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '@2param'";
+            "SELECT DATA_TYPE FROM @1param.INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '@2param'";
         private const string CREATE_TABLE = "CREATE TABLE ";
         private const string DROP_TABLE = "DROP TABLE ";
         private const string ALTER_TABLE = "ALTER TABLE ";
-        private const string DELETE_FROM = "DELETE FROM @param ";
-        private const string UPDATE = "UPDATE @param SET ";
-        private const string INSERT = "INSERT INTO @param (@2param) VALUES (@3param)";
+        private const string DELETE_FROM = "DELETE FROM @1param ";
+        private const string UPDATE = "UPDATE @1param SET ";
+        private const string INSERT = "INSERT INTO @1param (@2param) VALUES (@3param)";
+        private const string SELECT = "SELECT @1param FROM @2param WHERE @3param ORDER BY @4param";
 
         public static DbCommand ComandoShowDatabases()
         {
@@ -89,8 +90,13 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
         {
             return new SqlCommand(UPDATE);
         }
-
+        
         public static DbCommand ComandoInsert()
+        {
+            return new SqlCommand(INSERT);
+        }
+
+        public static DbCommand ComandoSelect()
         {
             return new SqlCommand(INSERT);
         }
