@@ -20,18 +20,18 @@ using System.Windows.Shapes;
 namespace EasySQL.Ventanas.Operaciones
 {
     /// <summary>
-    /// Interaction logic for VUpdate.xaml
+    /// Interaction logic for VInsert.xaml
     /// </summary>
-    public partial class VUpdate : Window
+    public partial class VInsert : Window
     {
         private const string CMB_OPCION_DEFECTO = "Elige tabla...";
         private const int NUM_CONDICIONES_MAX = 16;
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
-        private string datosCampos, datosCondiciones;
+        private string columnas, datosColumnas;
 
-        public VUpdate() :
+        public VInsert() :
             this(
                     new Conexion()
                     {
@@ -43,27 +43,20 @@ namespace EasySQL.Ventanas.Operaciones
                 )
         { }
 
-        public VUpdate(Conexion actual)
+        public VInsert(Conexion actual)
         {
             InitializeComponent();
 
             this.conexionActual = actual;
             this.Title += " || Base de datos \"" + actual.BaseDatos + "\"";
             // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = Operacion.ComandoUpdate(actual);
+            this.comandoEnviar = Operacion.ComandoInsert(actual);
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
             // Agrega y muestra la opción por defecto en el combobox Tablas.
             cmbTablas.Items.Add(CMB_OPCION_DEFECTO);
             cmbTablas.SelectedIndex = 0;
-
-            // Agrega valores y muestra la opción por defecto en el combobox numCondiciones.
-            for (int i = 0; i < NUM_CONDICIONES_MAX; i++)
-            {
-                cmbNumCondiciones.Items.Add(i);
-            }
-            cmbNumCondiciones.SelectedIndex = 0;
         }
 
         private void ReestablecerCampos()
@@ -73,28 +66,31 @@ namespace EasySQL.Ventanas.Operaciones
             ModificarComando("", "", "");
         }
 
-        private void ModificarComando(string tabla, string datosCampos, string datosCondiciones)
+        private void ModificarComando(string tabla, string columnas, string datosColumnas)
         {
             string comando = textoComandoOriginal;
-            if (!String.IsNullOrWhiteSpace(datosCampos))
-                this.datosCampos = datosCampos;
-            if (!String.IsNullOrWhiteSpace(datosCondiciones))
-                this.datosCondiciones = datosCondiciones;
+            if (!string.IsNullOrWhiteSpace(this.columnas))
+                this.columnas = columnas;
+            if (!String.IsNullOrWhiteSpace(datosColumnas))
+                this.datosColumnas = columnas;
             comando = comando.Replace(Operacion.PARAM, tabla);
-            comando += datosCampos + " " + datosCondiciones;
+            comando = comando.Replace(Operacion.PARAM2, columnas);
+            comando = comando.Replace(Operacion.PARAM3, datosColumnas);
             comandoEnviar.CommandText = comando;
             // Muestra el contenido del comando actual en el label
             lblComando.Content = comando;
         }
 
-        private string parsearDatosCampoValor(List<ColumnaValor> datos)
+        private string parsearDatosColumnaValor(List<ColumnaValor> datos, bool parsearColumnas)
         {
             string datosParseados = "";
 
             foreach (ColumnaValor filaDato in datos)
             {
-                datosParseados += filaDato.Columna + " = ";
-                datosParseados += filaDato.Valor + ", ";
+                if (parsearColumnas)
+                    datosParseados += filaDato.Columna + ", ";
+                else
+                    datosParseados += filaDato.Valor + ", ";
             }
             // para eliminar la última coma y espacio
             if (datosParseados.Length > 0)
@@ -105,7 +101,6 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void cmbTabla_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //ReestablecerCampos();
             if (!Comun.ElegidaTablaDefecto(cmbTablas))
             {
                 string nombreTabla = cmbTablas.SelectedItem?.ToString();
@@ -124,44 +119,20 @@ namespace EasySQL.Ventanas.Operaciones
             Comun.RellenarComboTablas(conexionActual, (ComboBox)sender);
         }
 
-        private void cmbNumCondiciones_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!Comun.ElegidaTablaDefecto(cmbTablas))
-            {
-                // Si hay tabla elegida, se muestan los campos correspondientes
-                int numCondiciones = (int)cmbNumCondiciones.SelectedItem;
-                string nombreTabla = cmbTablas.SelectedItem?.ToString();
-                Comun.GenerarCamposCondicionesWhere(stackCondiciones, conexionActual, numCondiciones, nombreTabla,
-                    cmbCondiciones_SelectionChanged, txtCondiciones_TextChanged);
-
-                ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, "");
-            }
-        }
-
         private async void chkCampos_SelectionChanged(object sender, RoutedEventArgs e)
         {
             List<ColumnaValor> datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
-            string datosParseados = parsearDatosCampoValor(datosNuevos);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosParseados, datosCondiciones);
+            string columnas = parsearDatosColumnaValor(datosNuevos, true);
+            string datosColumnas = parsearDatosColumnaValor(datosNuevos, false);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), columnas, datosColumnas);
         }
 
         private async void txtCampos_TextChanged(object sender, TextChangedEventArgs e)
         {
             List<ColumnaValor> datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
-            string datosParseados = parsearDatosCampoValor(datosNuevos);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosParseados, datosCondiciones);
-        }
-
-        private async void txtCondiciones_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string datosNuevos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, datosNuevos);
-        }
-
-        private async void cmbCondiciones_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string datosNuevos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, datosNuevos);
+            string columnas = parsearDatosColumnaValor(datosNuevos, true);
+            string datosColumnas = parsearDatosColumnaValor(datosNuevos, false);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), columnas, datosColumnas);
         }
 
         private void chkMarcarTodos_Click(object sender, RoutedEventArgs e)
@@ -172,16 +143,6 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            // Comprobación WHERE
-            if (!comandoEnviar.CommandText.Contains("WHERE"))
-            {
-                MessageBoxResult opcionElegida = MessageBox.Show("No se han elegido condiciones. \r\n" +
-                    "Se realizará un borrado TOTAL de TODAS las filas. ¿Continuar?",
-                    "Peligro", MessageBoxButton.YesNo, MessageBoxImage.Stop);
-
-                if (opcionElegida.Equals(MessageBoxResult.No))
-                    return;
-            }
             int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
             if (resultado > 0)
             {

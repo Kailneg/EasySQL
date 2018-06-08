@@ -30,6 +30,7 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
         private const string ALTER_TABLE = "ALTER TABLE ";
         private const string DELETE_FROM = "DELETE FROM @param ";
         private const string UPDATE = "UPDATE @param SET ";
+        private const string INSERT = "INSERT INTO @param (@2param) VALUES (@3param)";
 
         public static DbCommand ComandoShowDatabases()
         {
@@ -87,6 +88,11 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
         public static DbCommand ComandoUpdate()
         {
             return new SqlCommand(UPDATE);
+        }
+
+        public static DbCommand ComandoInsert()
+        {
+            return new SqlCommand(INSERT);
         }
     }
 }

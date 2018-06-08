@@ -91,6 +91,9 @@
     <Compile Include="Ventanas\Operaciones\VGenericaDrop.xaml.cs">
       <DependentUpon>VGenericaDrop.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\Operaciones\VInsert.xaml.cs">
+      <DependentUpon>VInsert.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\Operaciones\VUpdate.xaml.cs">
       <DependentUpon>VUpdate.xaml</DependentUpon>
     </Compile>
@@ -131,6 +134,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ventanas\Operaciones\VCreateDatabase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Operaciones\VInsert.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
