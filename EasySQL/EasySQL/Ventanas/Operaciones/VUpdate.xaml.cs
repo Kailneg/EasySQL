@@ -4,7 +4,6 @@ using EasySQL.Operaciones.Controlador;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -21,20 +20,18 @@ using System.Windows.Shapes;
 namespace EasySQL.Ventanas.Operaciones
 {
     /// <summary>
-    /// Interaction logic for VDeleteFrom.xaml
+    /// Interaction logic for VUpdate.xaml
     /// </summary>
-    public partial class VDeleteFrom : Window
+    public partial class VUpdate : Window
     {
         private const string CMB_OPCION_DEFECTO = "Elige tabla...";
         private const int NUM_CONDICIONES_MAX = 16;
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
         private string textoComandoOriginal;
+        private string datosCampos, datosCondiciones;
 
-        /// <summary>
-        /// Constructor para pruebas
-        /// </summary>
-        public VDeleteFrom() :
+        public VUpdate() :
             this(
                     new Conexion()
                     {
@@ -46,13 +43,14 @@ namespace EasySQL.Ventanas.Operaciones
                 )
         { }
 
-        public VDeleteFrom(Conexion actual)
+        public VUpdate(Conexion actual)
         {
             InitializeComponent();
+
             this.conexionActual = actual;
             this.Title += " || Base de datos \"" + actual.BaseDatos + "\"";
             // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = Operacion.ComandoDeleteFrom(actual);
+            this.comandoEnviar = Operacion.ComandoUpdate(actual);
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
@@ -68,33 +66,47 @@ namespace EasySQL.Ventanas.Operaciones
             cmbNumCondiciones.SelectedIndex = 0;
         }
 
-        private void ReestablecerCampos()
-        {
-            // Si no, resetea el label
-            cmbNumCondiciones.SelectedIndex = 0;
-            stackCondiciones.Children.Clear();
-            // Comprobar que la tabla no sea la por defecto
-            if (!Comun.ElegidaTablaDefecto(cmbTablas))
-                ModificarComando(cmbTablas.SelectedItem.ToString(), "");
-            else
-                ModificarComando("", "");
-        }
+        //private void ReestablecerCampos()
+        //{
+        //    // Si no, resetea el label
+        //    cmbNumCondiciones.SelectedIndex = 0;
+        //    stackCondiciones.Children.Clear();
+        //    // Comprobar que la tabla no sea la por defecto
+        //    if (!Comun.ElegidaTablaDefecto(cmbTablas))
+        //        ModificarComando(cmbTablas.SelectedItem.ToString(), "");
+        //    else
+        //        ModificarComando("", "");
+        //}
 
-        private void ModificarComando(string tabla, string datos)
+        private void ModificarComando(string tabla, string datosCampos, string datosCondiciones)
         {
             string comando = textoComandoOriginal;
+            if (!String.IsNullOrWhiteSpace(datosCampos))
+                this.datosCampos = datosCampos;
+            if (!String.IsNullOrWhiteSpace(datosCondiciones))
+                this.datosCondiciones = datosCondiciones;
             comando = comando.Replace(Operacion.PARAM, tabla);
-            comando += datos;
-            
+            comando += datosCampos + " " + datosCondiciones;
             comandoEnviar.CommandText = comando;
+            Console.WriteLine(comando);
             // Muestra el contenido del comando actual en el label
             lblComando.Content = comando;
         }
 
-
         private void cmbTabla_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ReestablecerCampos();
+            //ReestablecerCampos();
+            if (!Comun.ElegidaTablaDefecto(cmbTablas))
+            {
+                string nombreTabla = cmbTablas.SelectedItem?.ToString();
+                ModificarComando(nombreTabla, "", "");
+                Comun.GenerarCamposColumnas(stackCamposActualizar, conexionActual, nombreTabla,
+                    chkCampos_SelectionChanged, txtCampos_TextChanged);
+            }
+            else
+            {
+                ModificarComando("", "", "");
+            }
         }
 
         private void cmbTabla_DropDownOpened(object sender, EventArgs e)
@@ -110,22 +122,40 @@ namespace EasySQL.Ventanas.Operaciones
                 int numCondiciones = (int)cmbNumCondiciones.SelectedItem;
                 string nombreTabla = cmbTablas.SelectedItem?.ToString();
                 Comun.GenerarCamposCondicionesWhere(stackCondiciones, conexionActual, numCondiciones, nombreTabla,
-                    cmbGenerado_SelectionChanged, txtGenerado_TextChanged);
+                    cmbCondiciones_SelectionChanged, txtCondiciones_TextChanged);
 
-                ModificarComando(cmbTablas.SelectedItem?.ToString(), "");
-            } 
+                ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, "");
+            }
         }
 
-        private async void cmbGenerado_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void chkCampos_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            string datos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
+            string datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosNuevos, datosCondiciones);
         }
 
-        private async void txtGenerado_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtCampos_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string datos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
+            string datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosNuevos, datosCondiciones);
+        }
+
+        private async void txtCondiciones_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string datosNuevos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, datosNuevos);
+        }
+
+        private async void cmbCondiciones_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string datosNuevos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosCampos, datosNuevos);
+        }
+
+        private void chkMarcarTodos_Click(object sender, RoutedEventArgs e)
+        {
+            bool marcado = chkMarcarTodos.IsChecked.Value;
+            Comun.MarcarTodosCamposColumnas(stackCamposActualizar, marcado);
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)

@@ -110,6 +110,21 @@ namespace EasySQL.Operaciones.Ayudante
             return ExecuteReader(conexionActual, comando);
         }
 
+        /// <summary>
+        /// Ejecuta un reader para obtener los nombres de columnas.
+        /// </summary>
+        /// <param name="conexionActual">La conexión activa del momento.</param>
+        /// <param name="nombreTabla">Nombre de la tabla de la que se quieren las columnas</param>
+        /// <returns>Un objeto IDataReader con los datos pertinentes</returns>
+        public static IDataReader ObtenerReaderTiposDatosColumnas(Conexion conexionActual, string nombreTabla)
+        {
+            // Obtener comando columnas, reemplazar los parámetros de BBDD y nombreTabla
+            DbCommand comando = Operacion.ComandoShowTiposDatosColumnas(conexionActual);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM, conexionActual.BaseDatos);
+            comando.CommandText = comando.CommandText.Replace(Operacion.PARAM2, nombreTabla);
+            return ExecuteReader(conexionActual, comando);
+        }
+
         public static List<string> MapearReaderALista(IDataReader lector)
         {
             List<string> resultado = new List<string>();

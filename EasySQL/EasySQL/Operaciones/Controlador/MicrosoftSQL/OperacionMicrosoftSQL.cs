@@ -23,10 +23,13 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
             "SELECT TABLE_NAME FROM @param.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'";
         private const string SHOW_COLUMNS =
             "SELECT COLUMN_NAME FROM @param.INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '@2param'";
+        private const string SHOW_COLUMNS_DATA_TYPE =
+            "SELECT DATA_TYPE FROM @param.INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '@2param'";
         private const string CREATE_TABLE = "CREATE TABLE ";
         private const string DROP_TABLE = "DROP TABLE ";
         private const string ALTER_TABLE = "ALTER TABLE ";
-        private const string DELETE_FROM = "DELETE FROM @param WHERE ";
+        private const string DELETE_FROM = "DELETE FROM @param ";
+        private const string UPDATE = "UPDATE @param SET ";
 
         public static DbCommand ComandoShowDatabases()
         {
@@ -71,9 +74,19 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
             return new SqlCommand(SHOW_COLUMNS);
         }
 
+        public static DbCommand ComandoShowTiposDatosColumnas()
+        {
+            return new SqlCommand(SHOW_COLUMNS_DATA_TYPE);
+        }
+
         public static DbCommand ComandoDeleteFrom()
         {
             return new SqlCommand(DELETE_FROM);
+        }
+
+        public static DbCommand ComandoUpdate()
+        {
+            return new SqlCommand(UPDATE);
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿<Window x:Class="EasySQL.Ventanas.Operaciones.VDeleteFrom"
+﻿<Window x:Class="EasySQL.Ventanas.Operaciones.VUpdate"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
-        Title="DELETE FROM" 
-        Height="500" Width="420" MinHeight="350" MinWidth="350">
+        Title="UPDATE" 
+        Height="650" Width="500" MinHeight="500" MinWidth="420">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -19,25 +19,71 @@
             <RowDefinition Height="10px"/>
             <!--2Combo Tablas-->
             <RowDefinition Height="25px"/>
-            <!--3Grid elegir campos-->
+            <!--3Label Elige campos a actualizar-->
             <RowDefinition Height="auto"/>
-            <!--4Grid labels definicion campos-->
+            <!--4Grid Nombre columna tipo dato valor-->
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/> <!--5Separator-->
-            <!--6Grid campos condiciones-->
+            <!--6Zona scroll campos-->
             <RowDefinition Height="4*"/>
-            <!--7Grid labels comando resultante-->
+            <!--7Grid elegir campos-->
             <RowDefinition Height="auto"/>
-            <!--8Boton ejecutar-->
+            <!--8Grid labels definicion campos-->
+            <RowDefinition Height="auto"/>
+            <!--9Separator-->
+            <RowDefinition Height="auto"/>
+            <!--10Grid campos condiciones-->
+            <RowDefinition Height="5*"/>
+            <!--11Grid labels comando resultante-->
+            <RowDefinition Height="auto"/>
+            <!--12Boton ejecutar-->
             <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
         <Label x:Name="lblDescripcion" Grid.Row="0" VerticalAlignment="Center">Elige tabla de la que eliminar datos:</Label>
         <Separator Grid.Row="1" VerticalAlignment="Top"></Separator>
         <ComboBox x:Name="cmbTablas" Grid.Row="2" SelectionChanged="cmbTabla_SelectionChanged"  DropDownOpened="cmbTabla_DropDownOpened"></ComboBox>
 
+        <Label Grid.Row="3">Elige campos a actualizar:</Label>
+
+        <!--Grid labels campos-->
+        <Grid Grid.Row="4" Margin="0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <CheckBox x:Name="chkMarcarTodos" Grid.Column="0" 
+                      VerticalAlignment="Center" HorizontalAlignment="Center" Click="chkMarcarTodos_Click"></CheckBox>
+            <Label Grid.Column="1">Nombre columna:</Label>
+            <Label Grid.Column="2">Tipo dato:</Label>
+            <Label Grid.Column="3">Valor:</Label>
+        </Grid>
+
+        <Separator Grid.Row="5" VerticalAlignment="Top"></Separator>
+
+        <!--Zona scroll campos-->
+        <ScrollViewer Grid.Row="6" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="stackCamposActualizar" Grid.Row="6" Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <!--<CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></CheckBox>
+                    <TextBox Grid.Column="1" IsReadOnly="True">Nombre de la columna:</TextBox>
+                    <TextBox Grid.Column="2" IsReadOnly="True" Margin="5 0">Tipo Dato:</TextBox>
+                    <TextBox Grid.Column="3">Valor:</TextBox>-->
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
         <!--Grid elegir campos-->
-        <Grid Grid.Row="3" Margin="0 10 0 5">
+        <Grid Grid.Row="7" Margin="0 10 0 5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -47,7 +93,7 @@
         </Grid>
 
         <!--Grid labels campos-->
-        <Grid Grid.Row="4" Margin="0 0">
+        <Grid Grid.Row="8" Margin="0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"></ColumnDefinition>
                 <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -58,12 +104,12 @@
             <Label Grid.Column="2">Valor:</Label>
         </Grid>
 
-        <Separator Grid.Row="5" VerticalAlignment="Top"></Separator>
-        
+        <Separator Grid.Row="9" VerticalAlignment="Top"></Separator>
+
         <!--Zona scroll condiciones-->
-        <ScrollViewer Grid.Row="6" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="10" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="stackCondiciones" Grid.Row="6" Orientation="Vertical">
-            <!--<Grid>
+                <!--<Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"></ColumnDefinition>
                         <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -79,9 +125,9 @@
                 </ComboBox>-->
             </StackPanel>
         </ScrollViewer>
-            
+
         <!--Grid labels comando resultante-->
-        <Grid Grid.Row="7" Margin="0 10">
+        <Grid Grid.Row="11" Margin="0 10">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                 <DockPanel>
                     <Label>Comando resultante:</Label>
@@ -89,6 +135,6 @@
                 </DockPanel>
             </ScrollViewer>
         </Grid>
-        <Button x:Name="btn" Grid.Row="8" Click="btn_Click">Ejecutar comando</Button>
+        <Button x:Name="btn" Grid.Row="12" Click="btn_Click">Ejecutar comando</Button>
     </Grid>
 </Window>
