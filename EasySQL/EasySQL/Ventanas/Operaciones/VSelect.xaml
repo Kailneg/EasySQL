@@ -117,7 +117,7 @@
 
         <!--Zona scroll condiciones-->
         <ScrollViewer Grid.Row="10" VerticalScrollBarVisibility="Auto">
-            <StackPanel x:Name="stackCondiciones" Grid.Row="6" Orientation="Vertical">
+            <StackPanel x:Name="stackWhere" Grid.Row="6" Orientation="Vertical">
                 <!--<Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"></ColumnDefinition>

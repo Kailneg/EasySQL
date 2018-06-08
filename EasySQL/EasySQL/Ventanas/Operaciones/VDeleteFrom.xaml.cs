@@ -108,7 +108,7 @@ namespace EasySQL.Ventanas.Operaciones
                 // Si hay tabla elegida, se muestan los campos correspondientes
                 int numCondiciones = (int)cmbNumCondiciones.SelectedItem;
                 string nombreTabla = cmbTablas.SelectedItem?.ToString();
-                Comun.GenerarCamposCondicionesWhere(stackCondiciones, conexionActual, numCondiciones, nombreTabla,
+                Comun.GenerarCamposWhere(stackCondiciones, conexionActual, numCondiciones, nombreTabla,
                     cmbGenerado_SelectionChanged, txtGenerado_TextChanged);
 
                 ModificarComando(cmbTablas.SelectedItem?.ToString(), "");
@@ -117,13 +117,13 @@ namespace EasySQL.Ventanas.Operaciones
 
         private async void cmbGenerado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string datos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
+            string datos = await Comun.ExtraerDatosWhere(stackCondiciones);
             ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
         }
 
         private async void txtGenerado_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string datos = await Comun.ExtraerDatosCondicionesWhere(stackCondiciones);
+            string datos = await Comun.ExtraerDatosWhere(stackCondiciones);
             ModificarComando(cmbTablas.SelectedItem?.ToString(), datos);
         }
 

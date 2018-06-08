@@ -31,7 +31,7 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
         private const string DELETE_FROM = "DELETE FROM @1param ";
         private const string UPDATE = "UPDATE @1param SET ";
         private const string INSERT = "INSERT INTO @1param (@2param) VALUES (@3param)";
-        private const string SELECT = "SELECT @1param FROM @2param WHERE @3param ORDER BY @4param";
+        private const string SELECT = "SELECT @1param FROM @2param @3param @4param";
 
         public static DbCommand ComandoShowDatabases()
         {

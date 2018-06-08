@@ -180,7 +180,7 @@ namespace EasySQL.Ventanas.Operaciones
             return datos;
         }
 
-        public static void GenerarCamposCondicionesWhere(StackPanel contenedor, Conexion actual, int numCondiciones, string nombreTabla,
+        public static void GenerarCamposWhere(StackPanel contenedor, Conexion actual, int numCondiciones, string nombreTabla,
             Action<object, SelectionChangedEventArgs> handlerEventosCombos, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
         {
             string[] tipos_operadores = Operacion.TIPOS_CONDICIONES;
@@ -264,7 +264,7 @@ namespace EasySQL.Ventanas.Operaciones
                 contenedor.Children.RemoveAt(tamanio - 1);
         }
 
-        public static async Task<string> ExtraerDatosCondicionesWhere(StackPanel contenedor)
+        public static async Task<string> ExtraerDatosWhere(StackPanel contenedor)
         {
             // Espera 5ms para que de tiempo a repintar los componentes
             await Task.Delay(5);
@@ -368,6 +368,36 @@ namespace EasySQL.Ventanas.Operaciones
             }
         }
 
+        public static async Task<List<ColumnaValor>> ExtraerDatosOrderBy(StackPanel contenedor)
+        {
+            // Espera 5ms para que de tiempo a repintar los componentes
+            await Task.Delay(5);
+            // Comprobar los campos de las condiciones generados y extraer datos
+            var generados = contenedor.Children;
+
+            List<ColumnaValor> datos = new List<ColumnaValor>();
+
+            // Por cada campo a ordenar, emparejarlo con su sentido ASC|DESC
+            // +Grid[i]
+            //  -lblPosicion[i][0]
+            //  -cmbColumna[i][1]
+            //  -cmbOperadores[i][2]
+            for (int i = 0; i < generados.Count; i++)
+            {
+                if (generados[i] is Grid)
+                {
+                    Grid grid = generados[i] as Grid;
+                    ComboBox cmbColumna = grid.Children[1] as ComboBox;
+                    ComboBox cmbOperadores = grid.Children[2] as ComboBox;
+
+                    // Datos
+                    string columna = cmbColumna.SelectedItem?.ToString();
+                    string operador = cmbOperadores.SelectedItem?.ToString();
+                    datos.Add(new ColumnaValor(columna, operador));
+                }
+            }
+            return datos;
+        }
 
         public static void MarcarTodosCamposColumnas(StackPanel contenedor, bool marcado)
         {
