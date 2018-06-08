@@ -178,7 +178,7 @@ namespace EasySQL.Ventanas.Operaciones
             if (!comandoEnviar.CommandText.Contains("WHERE"))
             {
                 MessageBoxResult opcionElegida = MessageBox.Show("No se han elegido condiciones. \r\n" +
-                    "Se realizará un borrado TOTAL de TODAS las filas. ¿Continuar?",
+                    "Se realizará una modificación en TODAS las filas. ¿Continuar?",
                     "Peligro", MessageBoxButton.YesNo, MessageBoxImage.Stop);
 
                 if (opcionElegida.Equals(MessageBoxResult.No))
@@ -191,7 +191,7 @@ namespace EasySQL.Ventanas.Operaciones
                     resultado + " filas de la tabla \"" +
                     Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) +
                     "\" en base de datos " + "\"" + conexionActual.BaseDatos +
-                    "\" eliminadas con éxito.");
+                    "\" modificadas con éxito.");
             }
             else
             {

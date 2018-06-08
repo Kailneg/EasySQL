@@ -146,10 +146,10 @@ namespace EasySQL.Ventanas.Operaciones
             if (resultado > 0)
             {
                 MessageBox.Show(
-                    resultado + " filas de la tabla \"" +
+                    "Fila en la tabla \"" +
                     Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) +
                     "\" en base de datos " + "\"" + conexionActual.BaseDatos +
-                    "\" eliminadas con éxito.");
+                    "\" añadida con éxito.");
             }
             else
             {
