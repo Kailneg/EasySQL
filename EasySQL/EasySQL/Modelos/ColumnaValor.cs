@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace EasySQL.Modelos
 {
-    public class CampoValor
+    public class ColumnaValor
     {
-        public string Campo { get; set; }
+        public string Columna { get; set; }
         public string Valor { get; set; }
 
-        public CampoValor(string campo, string valor)
+        public ColumnaValor(string campo, string valor)
         {
-            Campo = campo;
+            Columna = campo;
             Valor = valor;
         }
 
         public override string ToString()
         {
-            return Campo + ": " + Valor;
+            return Columna + ": " + Valor;
         }
     }
 }

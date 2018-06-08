@@ -93,6 +93,22 @@ namespace EasySQL.Ventanas.Operaciones
             lblComando.Content = comando;
         }
 
+        private string parsearDatosCampoValor(List<ColumnaValor> datos)
+        {
+            string datosParseados = "";
+
+            foreach (ColumnaValor filaDato in datos)
+            {
+                datosParseados += filaDato.Columna + " = ";
+                datosParseados += filaDato.Valor + ", ";
+            }
+            // para eliminar la última coma y espacio
+            if (datosParseados.Length > 0)
+                return datosParseados.Substring(0, datosParseados.Length - 2);
+            else
+                return datosParseados;
+        }
+
         private void cmbTabla_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //ReestablecerCampos();
@@ -130,14 +146,16 @@ namespace EasySQL.Ventanas.Operaciones
 
         private async void chkCampos_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            string datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosNuevos, datosCondiciones);
+            List<ColumnaValor> datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
+            string datosParseados = parsearDatosCampoValor(datosNuevos);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosParseados, datosCondiciones);
         }
 
         private async void txtCampos_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
-            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosNuevos, datosCondiciones);
+            List<ColumnaValor> datosNuevos = await Comun.ExtraerDatosCamposColumnas(stackCamposActualizar);
+            string datosParseados = parsearDatosCampoValor(datosNuevos);
+            ModificarComando(cmbTablas.SelectedItem?.ToString(), datosParseados, datosCondiciones);
         }
 
         private async void txtCondiciones_TextChanged(object sender, TextChangedEventArgs e)

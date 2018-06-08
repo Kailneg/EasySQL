@@ -262,15 +262,16 @@ namespace EasySQL.Ventanas.Operaciones
             }
         }
 
-        public static async Task<string> ExtraerDatosCamposColumnas(StackPanel contenedor)
+        public static async Task<List<ColumnaValor>> ExtraerDatosCamposColumnas(StackPanel contenedor)
         {
             // Espera 5ms para que de tiempo a repintar los componentes
             await Task.Delay(5);
             // Comprobar los campos de las condiciones generados y extraer datos
-            string datos = "";
+            List<ColumnaValor> datos = new List<ColumnaValor>();
             var generados = contenedor.Children;
 
-            // Por cada condicion existente, extraerlas y emparejarlas con un AND u OR
+            
+            // ||| Recorrer el grid |||
             // +Grid[i]
             //  -chkElegir[i][0] -> Comprobar
             //  -txtColumna[i][1] -> Obtener nombre
@@ -285,18 +286,18 @@ namespace EasySQL.Ventanas.Operaciones
                     TextBox txtColumna = grid.Children[1] as TextBox;
                     TextBox txtValor = grid.Children[3] as TextBox;
 
-                    // Datos
+                    // Por cada fila con chkElegir marcado, extraer datos columna y valor
                     if (chkElegir.IsChecked.Value)
                     {
-                        datos += txtColumna.Text?.ToString() + " = ";
-                        datos += txtValor.Text?.ToString() + ", ";
+                        string columna = txtColumna.Text?.ToString();
+                        string valor = txtValor.Text?.ToString();
+                        ColumnaValor filaDatos = new ColumnaValor(columna, valor);
+
+                        datos.Add(filaDatos);
                     }
                 }
             }
-            if (datos.Length > 0)
-                return datos.Substring(0, datos.Length - 2); // para eliminar la última coma y espacio
-            else
-                return datos;
+            return datos;
         }
 
         public static void MarcarTodosCamposColumnas(StackPanel contenedor, bool marcado)

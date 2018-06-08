@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace EasySQL.Modelos
 {
-    public class CampoOperadorValor
+    public class ColumnaOperadorValor
     {
-        public string Campo { get; set; }
+        public string Columna { get; set; }
         public string Operador { get; set; }
         public string Valor { get; set; }
 
-        public CampoOperadorValor(string campo, string operador, string valor)
+        public ColumnaOperadorValor(string columna, string operador, string valor)
         {
-            Campo = campo;
+            Columna = columna;
             Operador = operador;
             Valor = valor;
         }
 
         public override string ToString()
         {
-            return Campo + " " + Operador + " " + Valor;
+            return Columna + " " + Operador + " " + Valor;
         }
     }
 }
