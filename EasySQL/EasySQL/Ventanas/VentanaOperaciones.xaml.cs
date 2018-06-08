@@ -50,7 +50,11 @@ namespace EasySQL.Ventanas
         private void btnCargar_Click(object sender, RoutedEventArgs e)
         {
             Cargar();
-            
+        }
+
+        private void btnAyuda_Click(object sender, RoutedEventArgs e)
+        {
+            Ayuda();
         }
 
         private void btnCreateDb_Click(object sender, RoutedEventArgs e)
@@ -117,6 +121,5 @@ namespace EasySQL.Ventanas
         {
             MostrarBasesDatos();
         }
-
     }
 }

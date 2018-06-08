@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -147,12 +148,30 @@ namespace EasySQL.Ventanas
          */
         private void Select()
         {
-            Utils.Consola.NoImplementado();
+            // Antes comprobar si existe una BBDD seleccionada
+            if (HayBBDDSeleccionada())
+            {
+                VSelect vs = new VSelect(conexionActual);
+                vs.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(MSJ_ELEGIR_BBDD);
+            }
         }
 
         private void Insert()
         {
-            Utils.Consola.NoImplementado();
+            // Antes comprobar si existe una BBDD seleccionada
+            if (HayBBDDSeleccionada())
+            {
+                VInsert vi = new VInsert(conexionActual);
+                vi.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(MSJ_ELEGIR_BBDD);
+            }
         }
 
         private void Update()
@@ -196,6 +215,27 @@ namespace EasySQL.Ventanas
         private void Cargar()
         {
             Utils.Consola.NoImplementado();
+        }
+
+        private void Ayuda()
+        {
+            MessageBoxResult opcionElegir =
+                MessageBox.Show("Se abrirá una conexión a la web W3SCHOOLS\r\n"
+                + "¿Desea permitirlo?", "Información", MessageBoxButton.YesNo,
+                MessageBoxImage.Information);
+
+            if (opcionElegir.Equals(MessageBoxResult.Yes))
+            {
+                try
+                {
+                    Process.Start("https://www.w3schools.com/sql/default.asp");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Navegador por defecto no encontrado", "Aviso",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
         }
 
         private bool HayBBDDSeleccionada()

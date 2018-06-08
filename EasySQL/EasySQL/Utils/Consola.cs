@@ -10,7 +10,7 @@ namespace EasySQL.Utils
     {
         public static void NoImplementado()
         {
-            Console.Write("No implementado");
+            Console.WriteLine("No implementado");
         }
     }
 }
