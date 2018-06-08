@@ -70,7 +70,6 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void ReestablecerCampos()
         {
-            // Si no, resetea el label
             cmbNumCondiciones.SelectedIndex = 0;
             stackCondiciones.Children.Clear();
             // Comprobar que la tabla no sea la por defecto

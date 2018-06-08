@@ -63,6 +63,8 @@ namespace EasySQL.Ventanas.Operaciones
             {
                 MessageBox.Show("Tabla \"" + Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) 
                     + "\" en base de datos " + "\"" + conexionActual.BaseDatos + "\" modificada con éxito.");
+                // Reestableciendo tipo operación a por defecto
+                cmbTipoOperacion.SelectedIndex = 0;
             }
         }
 
