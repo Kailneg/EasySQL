@@ -12,6 +12,4 @@ condiciones where generadas, no borrar contenido existente
 
 mirar doble espacio WHERE en VUpdate VDelete
 
-añadir opcion "" a cmbAndOr where
-
 VGenerica drop sacar comando desde cambiarModo, no desde constructor.
