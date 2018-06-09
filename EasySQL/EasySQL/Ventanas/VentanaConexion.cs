@@ -16,11 +16,31 @@ namespace EasySQL.Ventanas
 {
     public partial class VentanaConexion : Window
     {
+        /// <summary>
+        /// El usuario activo del momento.
+        /// </summary>
         private Usuario usuarioActivo;
+
+        /// <summary>
+        /// Una lista con las conexiones que tiene el usuario.
+        /// </summary>
         private ObservableCollection<Conexion> listaConexiones;
+
+        /// <summary>
+        /// La conexión asignada actual
+        /// </summary>
         private Conexion conexionActual;
+
+        /// <summary>
+        /// Indica si la interfaz de usuario se encuentre en modo invitado.
+        /// </summary>
         private bool modoInvitado;
 
+        /// <summary>
+        /// Construye una nueva ventana de conexión y asigna los parámetros necesarios.
+        /// </summary>
+        /// <param name="usuario">El usuario activo actual, o null si se accede en modo invitado.</param>
+        /// <param name="conexion">La conexión actual en caso de invocar la ventana desde ventana operaciones.</param>
         private void ComprobacionInicial(Usuario usuario, Conexion conexion)
         {
             if (usuario != null)
@@ -44,6 +64,9 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Realiza los cambios pertinentes en la interfaz de usuario para ponerla en modo invitado.
+        /// </summary>
         private void ModoInvitado()
         {
             modoInvitado = true;
@@ -100,6 +123,11 @@ namespace EasySQL.Ventanas
             listViewConexiones.ItemsSource = listaConexiones;
         }
 
+        /// <summary>
+        /// Guarda la conexión resultante de los datos actualmente introducidos en base de datos,
+        /// o en modo local si se está en modo invitado.
+        /// </summary>
+        /// <returns>True si la conexión se ha podido guardar.</returns>
         private bool GuardarConexion()
         {
             Conexion guardar = ComprobarCampos();
@@ -201,6 +229,11 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Realiza un test de conexión que informa al usuario de manera visual
+        /// si los campos introducidos tienen una conexión válida.
+        /// </summary>
+        /// <returns>True si la conexión es válida.</returns>
         private bool TestConexion()
         {
             conexionActual = ComprobarCampos();
@@ -224,6 +257,9 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Comprueba si existe una conexión elegida correcta y cambia a ventana Operaciones
+        /// </summary>
         private void Conectar()
         {
             // Si existe una conexión elegida correcta, o se está en modo invitado
@@ -256,6 +292,9 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Cierra la ventana actual y vuelve a la ventana de Inicio.
+        /// </summary>
         private void Cancelar()
         {
             VentanaInicio vi = new VentanaInicio(usuarioActivo);
@@ -265,10 +304,11 @@ namespace EasySQL.Ventanas
         /*
          * Métodos ListView
          */
+        /// <summary>
+        /// Trae la lista de conexiones de la base de datos y refresca los datos
+        /// </summary>
         private void ListaActualizar()
         {
-            // Debe traer de nuevo las conexiones del usuario de la bbdd
-            // Reasigna las conexiones al listView para reflejar los cambios.
             listaConexiones = ObtenerConexionesUsuario();
             RefrescarConexionesListview();
         }
@@ -287,6 +327,9 @@ namespace EasySQL.Ventanas
             }
         }
         
+        /// <summary>
+        /// Vacía y restablece los campos de información.
+        /// </summary>
         private void LimpiarDatos()
         {
             conexionActual = null;
@@ -338,6 +381,11 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Actualiza los campos que reflejan la información de una conexión al
+        /// cambiar de selección en el ListView de conexiones.
+        /// </summary>
+        /// <param name="sender">ListView conexiones del que se reciben los nuevos datos</param>
         private void SeleccionCambiada(object sender)
         {
             Conexion nueva = (sender as ListView).SelectedItem as Conexion;
