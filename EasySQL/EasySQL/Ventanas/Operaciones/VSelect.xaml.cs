@@ -267,13 +267,21 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            object comprobacion = Ayudante.ExecuteScalar(conexionActual, comandoEnviar);
-            
-            if (comprobacion != null)
+            object comprobarComando = Ayudante.ExecuteScalar(conexionActual, comandoEnviar);
+            if (comprobarComando != null)
             {
-                // Al menos hay una fila que mostrar
-                VMostrarDatos vmd = new VMostrarDatos(conexionActual, comandoEnviar);
-                vmd.Show();
+                int resultado = 0;
+                Int32.TryParse(comprobarComando.ToString(), out resultado);
+                if (resultado != Ayudante.ERROR)
+                {
+                    // Al menos hay una fila que mostrar
+                    IDataReader readerSelect = Ayudante.ExecuteReader(conexionActual, comandoEnviar);
+                    DataTable datosMostrar = new DataTable();
+                    datosMostrar.Load(readerSelect);
+                    DatosConsulta paqueteDatos = new DatosConsulta(conexionActual, datosMostrar, comandoEnviar.CommandText);
+                    VMostrarDatos vmd = new VMostrarDatos(paqueteDatos);
+                    vmd.Show();
+                }
             }
             else
             {

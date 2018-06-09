@@ -35,14 +35,14 @@ namespace EasySQL.Operaciones
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Console.WriteLine(e.Message);
                     return false;
                 }
             }
             return false;
         }
 
-        public static DatosConsulta Cargar(string ruta)
+        public static DatosConsulta Cargar()
         {
             // Almacena los datos en un fichero
             OpenFileDialog savefile = new OpenFileDialog();
@@ -55,7 +55,7 @@ namespace EasySQL.Operaciones
                 IFormatter formatter = new BinaryFormatter();
                 try
                 {
-                    using (Stream stream = new FileStream("MyFile.bin", FileMode.Open, FileAccess.Read, FileShare.Read))
+                    using (Stream stream = new FileStream(savefile.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         object archivo = formatter.Deserialize(stream);
                         if (archivo is DatosConsulta)
@@ -65,7 +65,7 @@ namespace EasySQL.Operaciones
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Console.WriteLine(e.Message);
                     return null;
                 }
             }

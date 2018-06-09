@@ -12,12 +12,14 @@ namespace EasySQL.Modelos
     {
         public Conexion Conexion { get; private set; }
         public DataTable Datos { get; private set; }
+        public string ComandoSQL { get; private set; }
         public DateTime FechaCreacion { get; private set; }
 
-        public DatosConsulta (Conexion conexionActual, DataTable datosGuardar)
+        public DatosConsulta (Conexion conexionActual, DataTable datosGuardar, string comandoSQL)
         {
             Conexion = conexionActual;
             Datos = datosGuardar;
+            ComandoSQL = comandoSQL;
             FechaCreacion = DateTime.Now;
         }
     }

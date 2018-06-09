@@ -1,4 +1,5 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Operaciones;
 using EasySQL.Operaciones.Ayudante;
 using EasySQL.Operaciones.Controlador;
 using EasySQL.Utils;
@@ -214,7 +215,24 @@ namespace EasySQL.Ventanas
 
         private void Cargar()
         {
-            Utils.Consola.NoImplementado();
+            DatosConsulta datosCargados = Serializador.Cargar();
+            if (datosCargados != null)
+            {
+                var c = datosCargados.Conexion;
+                // Mostrar información del archivo
+                string informacion =
+                    "Base de datos \"" + c.BaseDatos + "\" tipo \"" + c.TipoActual +
+                    "\"\r\nFecha consulta: " + datosCargados.FechaCreacion;
+                MessageBox.Show(informacion, "Recuperando consulta",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                VMostrarDatos vmd = new VMostrarDatos(datosCargados);
+                vmd.Show();
+            }
+            else
+            {
+                MessageBox.Show("No se ha podido cargar el fichero seleccionado", "Aviso",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void Ayuda()

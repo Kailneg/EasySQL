@@ -28,7 +28,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="30px"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
 
         <!--Grid Labels InfoConexión-->
@@ -135,7 +135,7 @@
             </Grid.ColumnDefinitions>
 
             <Button x:Name="btnAtras" Content="Atras" Grid.Column="0" Click="btnAtras_Click"/>
-            <Button x:Name="btnCargar"  Content="Cargar" Grid.Column="1" Click="btnCargar_Click"/>
+            <Button x:Name="btnCargar"  Content="Cargar" Grid.Column="1" Grid.ColumnSpan="2" Click="btnCargar_Click"/>
             <Button x:Name="btnAyuda"  Content="Ayuda Comandos" Grid.Column="3" Click="btnAyuda_Click"/>
 
         </Grid>

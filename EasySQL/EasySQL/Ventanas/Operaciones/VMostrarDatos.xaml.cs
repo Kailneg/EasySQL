@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -25,31 +24,30 @@ namespace EasySQL.Ventanas.Operaciones
     /// </summary>
     public partial class VMostrarDatos : Window
     {
-        private Conexion conexionActual;
-        private DbCommand comandoEnviar;
-        private DataTable datosMostrar;
+        private DatosConsulta paqueteDatos;
 
-        public VMostrarDatos(Conexion actual, DbCommand comandoEnviar)
+        public VMostrarDatos(DatosConsulta paqueteDatos)
         {
             InitializeComponent();
-            this.conexionActual = actual;
-
-            // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = comandoEnviar;
-            lblComando.Content = comandoEnviar.CommandText;
-
-            IDataReader datosSelect = Ayudante.ExecuteReader(conexionActual, comandoEnviar);
-
-            datosMostrar = new DataTable();
-            datosMostrar.Load(datosSelect);
-            dataGrid.ItemsSource = datosMostrar.DefaultView;
+            this.paqueteDatos = paqueteDatos;
+            lblComando.Content = paqueteDatos.ComandoSQL;
+            dataGrid.ItemsSource = paqueteDatos.Datos.DefaultView;
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             // Crear datos a guardar
-            DatosConsulta datosGuardar = new DatosConsulta(conexionActual, datosMostrar);
-            Serializador.Guardar(datosGuardar);
+            DatosConsulta datosGuardar = new DatosConsulta(
+                paqueteDatos.Conexion, paqueteDatos.Datos, paqueteDatos.ComandoSQL);
+            if (Serializador.Guardar(datosGuardar))
+            {
+                MessageBox.Show("Datos almacenados correctamente.", "Información", 
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            } else
+            {
+                MessageBox.Show("Error al guardar. Datos no almacenados.", "Aviso",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
