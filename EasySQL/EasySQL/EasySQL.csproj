@@ -66,6 +66,7 @@
     <Compile Include="Modelos\ColumnaOperadorValor.cs" />
     <Compile Include="Modelos\ColumnaValor.cs" />
     <Compile Include="Modelos\Conexion.cs" />
+    <Compile Include="Modelos\DatosConsulta.cs" />
     <Compile Include="Modelos\Usuario.cs" />
     <Compile Include="Operaciones\Ayudante\Ayudante.cs" />
     <Compile Include="Operaciones\Ayudante\AyudanteMySQL.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Operaciones\Controlador\MicrosoftSQL\OperacionMicrosoftSQL.cs" />
     <Compile Include="Operaciones\Controlador\MySQL\OperacionMySQL.cs" />
     <Compile Include="Operaciones\Controlador\Operacion.cs" />
+    <Compile Include="Operaciones\Serializador.cs" />
     <Compile Include="Utils\Colorea.cs" />
     <Compile Include="Utils\Comprueba.cs" />
     <Compile Include="Utils\Consola.cs" />

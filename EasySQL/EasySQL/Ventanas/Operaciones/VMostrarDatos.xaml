@@ -6,27 +6,19 @@
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
         Title="Resultado Datos" 
-        Height="180" Width="400" MinHeight="180" MaxHeight="250" MinWidth="200">
+        Height="400" Width="400" MinHeight="180" MaxHeight="250" MinWidth="200">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="10px"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="5*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Label x:Name="lblComando" Grid.Row="0" VerticalAlignment="Center">Comando SQL</Label>
         <Separator Grid.Row="1" VerticalAlignment="Top"></Separator>
-        <TextBox x:Name="txtbox" Grid.Row="2" Padding="5" VerticalAlignment="Center"></TextBox>
         <!--Grid labels comando-->
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Label>Comando resultante:</Label>
-        </Grid>
-        <Button x:Name="btn" Grid.Row="4" Click="btn_Click" >Enviar</Button>
+        <DataGrid x:Name="dataGrid" Grid.Row="2"></DataGrid>
+        <Button x:Name="btn" Grid.Row="3" Click="btn_Click" >Guardar datos</Button>
     </Grid>
 </Window>

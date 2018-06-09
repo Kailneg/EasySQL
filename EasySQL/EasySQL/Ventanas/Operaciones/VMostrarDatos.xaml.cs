@@ -1,4 +1,5 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Operaciones;
 using EasySQL.Operaciones.Ayudante;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -25,6 +27,7 @@ namespace EasySQL.Ventanas.Operaciones
     {
         private Conexion conexionActual;
         private DbCommand comandoEnviar;
+        private DataTable datosMostrar;
 
         public VMostrarDatos(Conexion actual, DbCommand comandoEnviar)
         {
@@ -35,12 +38,18 @@ namespace EasySQL.Ventanas.Operaciones
             this.comandoEnviar = comandoEnviar;
             lblComando.Content = comandoEnviar.CommandText;
 
-            //IDataReader resultado = Ayudante.ExecuteReader(conexionActual, comandoEnviar);
+            IDataReader datosSelect = Ayudante.ExecuteReader(conexionActual, comandoEnviar);
+
+            datosMostrar = new DataTable();
+            datosMostrar.Load(datosSelect);
+            dataGrid.ItemsSource = datosMostrar.DefaultView;
         }
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            
+            // Crear datos a guardar
+            DatosConsulta datosGuardar = new DatosConsulta(conexionActual, datosMostrar);
+            Serializador.Guardar(datosGuardar);
         }
     }
 }

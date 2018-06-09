@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace EasySQL.Modelos
 {
+    [Serializable]
     public class Conexion
     {
         public int ID { get; set; }

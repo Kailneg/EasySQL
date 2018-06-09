@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace EasySQL.Modelos
 {
+    [Serializable]
     public class Usuario
     {
         public const string NombreIntegratedSecurity = "Integrated Security";
