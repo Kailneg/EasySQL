@@ -94,6 +94,9 @@
     <Compile Include="Ventanas\Operaciones\VInsert.xaml.cs">
       <DependentUpon>VInsert.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\Operaciones\VMostrarDatos.xaml.cs">
+      <DependentUpon>VMostrarDatos.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\Operaciones\VSelect.xaml.cs">
       <DependentUpon>VSelect.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ventanas\Operaciones\VInsert.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Operaciones\VMostrarDatos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -94,7 +94,7 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label>Elige cantidad condiciones WHERE:</Label>
-            <ComboBox x:Name="cmbNumCondiciones" Grid.Column="1" SelectionChanged="cmbNumCondiciones_SelectionChanged"/>
+            <ComboBox x:Name="cmbNumWhere" Grid.Column="1" SelectionChanged="cmbNumCondiciones_SelectionChanged"/>
         </Grid>
 
         <!--Grid labels campos-->

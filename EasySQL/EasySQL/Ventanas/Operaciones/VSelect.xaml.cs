@@ -4,6 +4,7 @@ using EasySQL.Operaciones.Controlador;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -63,15 +64,15 @@ namespace EasySQL.Ventanas.Operaciones
             // Agrega valores y muestra la opción por defecto en el combobox numCondiciones.
             for (int i = 0; i < NUM_CONDICIONES_MAX; i++)
             {
-                cmbNumCondiciones.Items.Add(i);
+                cmbNumWhere.Items.Add(i);
             }
-            cmbNumCondiciones.SelectedIndex = 0;
+            cmbNumWhere.SelectedIndex = 0;
         }
 
         private void ReestablecerCampos()
         {
             // Si no, resetea el label
-            cmbNumCondiciones.SelectedIndex = 0;
+            cmbNumWhere.SelectedIndex = 0;
             stackWhere.Children.Clear();
             stackCamposActualizar.Children.Clear();
             stackOrderBy.Children.Clear();
@@ -174,7 +175,7 @@ namespace EasySQL.Ventanas.Operaciones
                 string nombreTabla = cmbTablas.SelectedItem?.ToString();
                 ModificarComando(nombreTabla, "", "", null);
                 Comun.GenerarCamposSelect(stackCamposActualizar, conexionActual, nombreTabla,
-                    chkCampos_SelectionChanged);
+                    chkSelect_SelectionChanged);
             }
             else
             {
@@ -192,7 +193,7 @@ namespace EasySQL.Ventanas.Operaciones
             if (!Comun.ElegidaTablaDefecto(cmbTablas))
             {
                 // Si hay tabla elegida, se muestan los campos correspondientes
-                int numCondiciones = (int)cmbNumCondiciones.SelectedItem;
+                int numCondiciones = (int)cmbNumWhere.SelectedItem;
                 string nombreTabla = cmbTablas.SelectedItem?.ToString();
                 this.datosWhere = "";
                 Comun.GenerarCamposWhere(stackWhere, conexionActual, numCondiciones, nombreTabla,
@@ -202,7 +203,7 @@ namespace EasySQL.Ventanas.Operaciones
             }
         }
 
-        private async void chkCampos_SelectionChanged(object sender, RoutedEventArgs e)
+        private async void chkSelect_SelectionChanged(object sender, RoutedEventArgs e)
         {
             extraerSelect = await Comun.ExtraerDatosCamposSelect(stackCamposActualizar);
             string datosSelect = parsearDatosSelect(extraerSelect);
@@ -266,28 +267,17 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            // Comprobación WHERE
-            if (!comandoEnviar.CommandText.Contains("WHERE"))
+            object comprobacion = Ayudante.ExecuteScalar(conexionActual, comandoEnviar);
+            
+            if (comprobacion != null)
             {
-                MessageBoxResult opcionElegida = MessageBox.Show("No se han elegido condiciones. \r\n" +
-                    "Se realizará un borrado TOTAL de TODAS las filas. ¿Continuar?",
-                    "Peligro", MessageBoxButton.YesNo, MessageBoxImage.Stop);
-
-                if (opcionElegida.Equals(MessageBoxResult.No))
-                    return;
-            }
-            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
-            if (resultado > 0)
-            {
-                MessageBox.Show(
-                    resultado + " filas de la tabla \"" +
-                    Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) +
-                    "\" en base de datos " + "\"" + conexionActual.BaseDatos +
-                    "\" eliminadas con éxito.");
+                // Al menos hay una fila que mostrar
+                VMostrarDatos vmd = new VMostrarDatos(conexionActual, comandoEnviar);
+                vmd.Show();
             }
             else
             {
-                MessageBox.Show("Ninguna fila afectada.");
+                MessageBox.Show("Ninguna fila encontrada.");
             }
         }
     }
