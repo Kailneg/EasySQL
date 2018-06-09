@@ -64,8 +64,9 @@ namespace EasySQL.Modelos
 
         /// <summary>
         /// Acepta un objeto tipo conexión y crea una cadena de conexión bien formada
+        /// de tipo Microsoft SQL
         /// </summary>
-        /// <returns>Cadena de conexión válida</returns>
+        /// <returns>Cadena de conexión válida Microsoft SQL</returns>
         private string ObtenerCadenaConexionSQL()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
@@ -90,6 +91,11 @@ namespace EasySQL.Modelos
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Acepta un objeto tipo conexión y crea una cadena de conexión bien formada
+        /// de tipo MySQL
+        /// </summary>
+        /// <returns>Cadena de conexión válida Microsoft SQL</returns>
         private string ObtenerCadenaConexionMySQL()
         {
             Consola.NoImplementado();

@@ -13,6 +13,12 @@ namespace EasySQL.Operaciones
 {
     public class Serializador
     {
+        /// <summary>
+        /// Guarda los datos de una consulta SELECT en un archivo *.easy.
+        /// Pregunta al usuario la ruta y el nombre del archivo a almacenar.
+        /// </summary>
+        /// <param name="datos">Los datos a almacenar en fichero.</param>
+        /// <returns>True si se han podido almacenar los datos en fichero.</returns>
         public static bool Guardar(DatosConsulta datos)
         {
             // Almacena los datos en un fichero
@@ -42,6 +48,11 @@ namespace EasySQL.Operaciones
             return false;
         }
 
+        /// <summary>
+        /// Carga datos de una consulta SELECT desde un fichero *.easy
+        /// Pregunta al usuario la ruta y el nombre del archivo a cargar.
+        /// </summary>
+        /// <returns>True si se han podido cargar los datos del fichero.</returns>
         public static DatosConsulta Cargar()
         {
             // Almacena los datos en un fichero

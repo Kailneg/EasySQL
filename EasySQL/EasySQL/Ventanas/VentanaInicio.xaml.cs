@@ -22,11 +22,19 @@ namespace EasySQL.Ventanas
     /// </summary>
     public partial class VentanaInicio : Window
     {
+        /// <summary>
+        /// Crea una nueva ventana de inicio e inicia sus componentes.
+        /// </summary>
         public VentanaInicio()
         {
             InitializeComponent();  
         }
 
+        /// <summary>
+        /// Crea una nueva ventana de inicio e inicia sus componentes.
+        /// Usado para su llamada desde ventana registro.
+        /// </summary>
+        /// <param name="usuario">El usuario del que extraer los datos para rellenar los inputs.</param>
         public VentanaInicio(Usuario usuario) : this()
         {
             if (usuario != null)
@@ -35,12 +43,20 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Asigna nuevos valores a los inputs.
+        /// </summary>
+        /// <param name="usuario">El usuario del que extraer los datos para rellenar los inputs.</param>
         private void RefrescarTexboxes(Usuario usuario)
         {
             txtBoxUsuario.Text = usuario.Nombre;
             pwdBoxContrasenia.Password = usuario.Contrasenia;
         }
 
+        /// <summary>
+        /// Comprueba los inputs y realiza una comprobación de los datos contra la base de datos.
+        /// Si son correctos, se cambia ventana a ventana Conexión.
+        /// </summary>
         private void btnAcceder_Click(object sender, RoutedEventArgs e)
         {
             if (ComprobarCampos())
@@ -62,7 +78,9 @@ namespace EasySQL.Ventanas
             }
         }
         
-
+        /// <summary>
+        /// Cambia a la ventana Conexion en modo Invitado.
+        /// </summary>
         private void btnInvitado_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Aviso: funcionalidades de guardado de conexiones no están disponibles en modo invitado.");
@@ -70,24 +88,37 @@ namespace EasySQL.Ventanas
             Manejador.CambiarVentana(this, vc);
         }
 
+        /// <summary>
+        /// Cambia a la ventana Registro
+        /// </summary>
         private void btnRegistro_Click(object sender, RoutedEventArgs e)
         {
-            VentanaRegistro vr = new VentanaRegistro(this);
+            VentanaRegistro vr = new VentanaRegistro();
             Manejador.CambiarVentana(this, vr);
         }
 
+        /// <summary>
+        /// Comprueba que el input del usuario tenga datos correctos
+        /// </summary>
         private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox datos = (TextBox)sender;
             Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.UsuarioPrograma(datos.Text));
         }
 
+        /// <summary>
+        /// Comprueba que el input del usuario tenga datos correctos
+        /// </summary>
         private void pwdBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
         {
             PasswordBox datos = (PasswordBox)sender;
             Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.ContraseniaPrograma(datos.Password));
         }
 
+        /// <summary>
+        /// Comprueba que los inputs de usuario y contraseña sean correctos.
+        /// </summary>
+        /// <returns>True si los valores de los input son correctos.</returns>
         private bool ComprobarCampos()
         {
             return ((Comprueba.UsuarioPrograma(txtBoxUsuario.Text) ?? false)

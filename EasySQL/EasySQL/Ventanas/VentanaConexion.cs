@@ -37,7 +37,7 @@ namespace EasySQL.Ventanas
         private bool modoInvitado;
 
         /// <summary>
-        /// Construye una nueva ventana de conexión y asigna los parámetros necesarios.
+        /// Realiza la primera comprobación de datos y asigna los parámetros necesarios.
         /// </summary>
         /// <param name="usuario">El usuario activo actual, o null si se accede en modo invitado.</param>
         /// <param name="conexion">La conexión actual en caso de invocar la ventana desde ventana operaciones.</param>
