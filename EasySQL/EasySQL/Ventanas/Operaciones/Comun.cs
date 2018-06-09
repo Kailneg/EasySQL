@@ -51,6 +51,118 @@ namespace EasySQL.Ventanas.Operaciones
             aRellenar.SelectedIndex = 0;
         }
 
+        public static void GenerarCamposSelect(StackPanel contenedor, Conexion actual, string nombreTabla,
+            Action<object, RoutedEventArgs> handlerEventosCheckboxs)
+        {
+            List<string> nombre_columnas =
+                Ayudante.MapearReaderALista(
+                    Ayudante.ObtenerReaderColumnas(actual, nombreTabla));
+            List<string> tipo_datos =
+                Ayudante.MapearReaderALista(
+                    Ayudante.ObtenerReaderTiposDatosColumnas(actual, nombreTabla));
+
+            int numCamposGenerar = nombre_columnas.Count;
+
+            // Se vacía de contenido el stackpanel
+            contenedor.Children.Clear();
+
+            for (int i = 0; i < numCamposGenerar; i++)
+            {
+                // GRID PADRE
+                Grid contenedorHijo = new Grid();
+                contenedorHijo.Margin = new Thickness(0, 5, 0, 0);
+                // Se le asignan las columnas 1* 5* 4*
+                ColumnDefinition gridCol0 = new ColumnDefinition();
+                gridCol0.Width = new GridLength(1, GridUnitType.Star);
+                ColumnDefinition gridCol1 = new ColumnDefinition();
+                gridCol1.Width = new GridLength(5, GridUnitType.Star);
+                ColumnDefinition gridCol2 = new ColumnDefinition();
+                gridCol2.Width = new GridLength(4, GridUnitType.Star);
+
+                contenedorHijo.ColumnDefinitions.Add(gridCol0);
+                contenedorHijo.ColumnDefinitions.Add(gridCol1);
+                contenedorHijo.ColumnDefinitions.Add(gridCol2);
+
+                // Debe tener
+                // chkElegir
+                // txtColumna
+                // txtTipoDato
+
+                // CHK ELEGIR
+                CheckBox chkElegir = new CheckBox();
+                chkElegir.HorizontalAlignment = HorizontalAlignment.Center;
+                chkElegir.VerticalAlignment = VerticalAlignment.Center;
+
+                // TXT COLUMNA
+                TextBox txtColumna = new TextBox();
+                txtColumna.Height = 25;
+                txtColumna.IsReadOnly = true;
+                txtColumna.Text = nombre_columnas[i];
+                txtColumna.VerticalContentAlignment = VerticalAlignment.Center;
+                txtColumna.HorizontalContentAlignment = HorizontalAlignment.Center;
+
+                // TXT TIPOS DATOS
+                TextBox txtTipoDato = new TextBox();
+                txtTipoDato.Height = 25;
+                txtTipoDato.IsReadOnly = true;
+                txtTipoDato.Text = tipo_datos[i];
+                txtTipoDato.Margin = new Thickness(5, 0, 5, 0);
+                txtTipoDato.VerticalContentAlignment = VerticalAlignment.Center;
+                txtTipoDato.HorizontalContentAlignment = HorizontalAlignment.Center;
+
+                // Se asignan posiciones para los hijos del grid padre
+                Grid.SetColumn(chkElegir, 0);
+                Grid.SetColumn(txtColumna, 1);
+                Grid.SetColumn(txtTipoDato, 2);
+
+                // Se asignan eventos a los controles dinámicos
+                chkElegir.Checked += new RoutedEventHandler(handlerEventosCheckboxs);
+                chkElegir.Unchecked += new RoutedEventHandler(handlerEventosCheckboxs);
+
+                // Se añaden los elementos a sus respectivas posiciones
+                contenedorHijo.Children.Add(chkElegir);
+                contenedorHijo.Children.Add(txtColumna);
+                contenedorHijo.Children.Add(txtTipoDato);
+
+                contenedor.Children.Add(contenedorHijo);
+            }
+        }
+
+        public static async Task<List<ColumnaValor>> ExtraerDatosCamposSelect(StackPanel contenedor)
+        {
+            // Espera 5ms para que de tiempo a repintar los componentes
+            await Task.Delay(5);
+            // Comprobar los campos de las condiciones generados y extraer datos
+            List<ColumnaValor> datos = new List<ColumnaValor>();
+            var generados = contenedor.Children;
+
+
+            // ||| Recorrer el grid |||
+            // +Grid[i]
+            //  -chkElegir[i][0] -> Comprobar
+            //  -txtColumna[i][1] -> Obtener nombre
+            //  -txtTipoDato[i][2]
+            for (int i = 0; i < generados.Count; i++)
+            {
+                if (generados[i] is Grid)
+                {
+                    Grid grid = generados[i] as Grid;
+                    CheckBox chkElegir = grid.Children[0] as CheckBox;
+                    TextBox txtColumna = grid.Children[1] as TextBox;
+
+                    // Por cada fila con chkElegir marcado, extraer datos columna y valor
+                    if (chkElegir.IsChecked.Value)
+                    {
+                        string columna = txtColumna.Text?.ToString();
+                        ColumnaValor filaDatos = new ColumnaValor(columna, "");
+
+                        datos.Add(filaDatos);
+                    }
+                }
+            }
+            return datos;
+        }
+
         public static void GenerarCamposColumnas(StackPanel contenedor, Conexion actual, string nombreTabla,
             Action<object, RoutedEventArgs> handlerEventosCheckboxs, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
         {
