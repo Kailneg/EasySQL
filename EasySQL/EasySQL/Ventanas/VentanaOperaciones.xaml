@@ -23,8 +23,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50px"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="3.5*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="30px"/>
@@ -74,34 +73,31 @@
 
         <!--Grid Botones DDL-->
         <Grid Grid.Column="0" Grid.Row="2" >
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            
-            <Button x:Name="btnCreateDb" Content="CREATE DATABASE" Grid.Column="0" Click="btnCreateDb_Click"/>
-            <Button x:Name="btnDropDb" Content="DROP DATABASE" Grid.Column="1" Click="btnDropDb_Click"/>
-            <Button x:Name="btnCreateTable" Content="CREATE TABLE" Grid.Column="2" Click="btnCreateTable_Click"/>
-            <Button x:Name="btnDropTable" Content="DROP TABLE" Grid.Column="3" Click="btnDropTable_Click"/>
-        </Grid>
 
-        <!--Grid Botones DDL-->
-        <Grid Grid.Column="0" Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnShowDbs" Content="SHOW DATABASES" Grid.Column="0" Click="btnShowDbs_Click"/>
-            <Button x:Name="btnAlterTable" Content="ALTER TABLE" Grid.Column="1" Click="btnAlterTable_Click"/>
-            <Button x:Name="btnShowTables" Content="SHOW TABLES" Grid.Column="2" Click="btnShowTables_Click"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="btnCreateDb" Content="CREATE DATABASE" 
+                    Grid.RowSpan="3"  Grid.Column="0"  Click="btnCreateDb_Click"/>
+            <Button x:Name="btnDropDb" Content="DROP DATABASE" Grid.RowSpan="3" Grid.Column="1" Click="btnDropDb_Click"/>
+            <Button x:Name="btnCreateTable" Content="CREATE TABLE" Grid.Column="2" Grid.RowSpan="2" Click="btnCreateTable_Click"/>
+            <Button x:Name="btnDropTable" Content="DROP TABLE" Grid.Column="3" Click="btnDropTable_Click"/>
+
+            <Button x:Name="btnAlterTable" Content="ALTER TABLE" Grid.Row="1" Grid.Column="3"  Click="btnAlterTable_Click"/>
+            <Button x:Name="btnShowTables" Content="SHOW TABLES" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Click="btnShowTables_Click"/>
         </Grid>
 
         <!--Grid Label DML-->
-        <Grid Grid.Column="0" Grid.Row="4" VerticalAlignment="Bottom">
+        <Grid Grid.Column="0" Grid.Row="3" VerticalAlignment="Bottom">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="1*"/>
@@ -111,7 +107,7 @@
         </Grid>
 
         <!--Grid Botones DML-->
-        <Grid Grid.Column="0" Grid.Row="5">
+        <Grid Grid.Column="0" Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -125,7 +121,7 @@
         </Grid>
 
         <!--Grid Botones Inferiores General-->
-        <Grid Grid.Column="0" Grid.Row="7" >
+        <Grid Grid.Column="0" Grid.Row="6" >
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

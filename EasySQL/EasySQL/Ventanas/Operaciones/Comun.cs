@@ -87,6 +87,81 @@ namespace EasySQL.Ventanas.Operaciones
         /// <param name="nombreTabla">Nombre de la tabla actual.</param>
         /// <param name="handlerEventosCheckboxs">Evento al que llamarán los checkboxes
         /// generados.</param>
+        public static void GenerarShowTables(StackPanel contenedor, Conexion actual,
+            Action<object, RoutedEventArgs> handlerEventosButtons)
+        {
+            List<string> nombre_tablas =
+                Ayudante.MapearReaderALista(
+                    Ayudante.ObtenerReaderTablas(actual));
+
+            // Se vacía de contenido el stackpanel
+            contenedor.Children.Clear();
+
+            for (int i = 0; i < nombre_tablas.Count; i++)
+            {
+                // GRID PADRE
+                Grid contenedorHijo = new Grid();
+                contenedorHijo.Margin = new Thickness(0, 5, 0, 0);
+                // Se le asignan las columnas 1* 3* 2*
+                ColumnDefinition gridCol0 = new ColumnDefinition();
+                gridCol0.Width = new GridLength(1, GridUnitType.Star);
+                ColumnDefinition gridCol1 = new ColumnDefinition();
+                gridCol1.Width = new GridLength(3, GridUnitType.Star);
+                ColumnDefinition gridCol2 = new ColumnDefinition();
+                gridCol2.Width = new GridLength(2, GridUnitType.Star);
+
+                contenedorHijo.ColumnDefinitions.Add(gridCol0);
+                contenedorHijo.ColumnDefinitions.Add(gridCol1);
+                contenedorHijo.ColumnDefinitions.Add(gridCol2);
+
+                // LBL POSICION
+                Label lblPosicion = new Label();
+                lblPosicion.Height = 25;
+                lblPosicion.Content = i + 1 + "º";
+                lblPosicion.VerticalAlignment = VerticalAlignment.Center;
+                lblPosicion.HorizontalAlignment = HorizontalAlignment.Center;
+
+                // TXT COLUMNA
+                TextBox txtTabla = new TextBox();
+                txtTabla.Height = 25;
+                txtTabla.IsReadOnly = true;
+                txtTabla.Text = nombre_tablas[i];
+                txtTabla.HorizontalContentAlignment = HorizontalAlignment.Center;
+
+                // BTN DATOS
+                Button btnDatos = new Button();
+                btnDatos.Height = 25;
+                btnDatos.Content = "Ver datos";
+                btnDatos.Margin = new Thickness(5, 0, 5, 0);
+                btnDatos.VerticalContentAlignment = VerticalAlignment.Center;
+                btnDatos.HorizontalContentAlignment = HorizontalAlignment.Center;
+
+                // Se asignan posiciones para los hijos del grid padre
+                Grid.SetColumn(lblPosicion, 0);
+                Grid.SetColumn(txtTabla, 1);
+                Grid.SetColumn(btnDatos, 2);
+
+                // Se asignan eventos a los controles dinámicos
+                btnDatos.Click += new RoutedEventHandler(handlerEventosButtons);
+
+                // Se añaden los elementos a sus respectivas posiciones
+                contenedorHijo.Children.Add(lblPosicion);
+                contenedorHijo.Children.Add(txtTabla);
+                contenedorHijo.Children.Add(btnDatos);
+
+                contenedor.Children.Add(contenedorHijo);
+            }
+        }
+
+        /// <summary>
+        /// Genera una serie de controles que se insertan en un contenedor.
+        /// Usado para mostrar los campos de un SELECT
+        /// </summary>
+        /// <param name="contenedor">El contenedor donde serán los controles insertados.</param>
+        /// <param name="actual">La conexión actual.</param>
+        /// <param name="nombreTabla">Nombre de la tabla actual.</param>
+        /// <param name="handlerEventosCheckboxs">Evento al que llamarán los checkboxes
+        /// generados.</param>
         public static void GenerarCamposSelect(StackPanel contenedor, Conexion actual, string nombreTabla,
             Action<object, RoutedEventArgs> handlerEventosCheckboxs)
         {

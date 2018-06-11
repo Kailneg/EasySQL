@@ -120,11 +120,6 @@ namespace EasySQL.Ventanas
             vod.ShowDialog();
         }
 
-        private void ShowDBs()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Comprueba si hay una BBDD seleccionada. 
         /// Si no la hay, pide al usuario seleccionar una.
@@ -186,7 +181,16 @@ namespace EasySQL.Ventanas
 
         private void ShowTables()
         {
-            throw new NotImplementedException();
+            // Antes comprobar si existe una BBDD seleccionada
+            if (HayBBDDSeleccionada())
+            {
+                VShowTables vst = new VShowTables(conexionActual);
+                vst.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(MSJ_ELEGIR_BBDD);
+            }
         }
 
         /*

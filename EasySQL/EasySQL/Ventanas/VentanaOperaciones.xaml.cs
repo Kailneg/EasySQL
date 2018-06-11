@@ -107,13 +107,6 @@ namespace EasySQL.Ventanas
             DropDB();
         }
 
-        /// <summary>
-        /// Captura el evento click del botón SHOW DATABASES y ejecuta la lógica.
-        /// </summary>
-        private void btnShowDbs_Click(object sender, RoutedEventArgs e)
-        {
-            ShowDBs();
-        }
 
         /// <summary>
         /// Captura el evento click del botón CREATE TABLE y ejecuta la lógica.

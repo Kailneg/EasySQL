@@ -100,6 +100,9 @@
     <Compile Include="Ventanas\Operaciones\VSelect.xaml.cs">
       <DependentUpon>VSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ventanas\Operaciones\VShowTables.xaml.cs">
+      <DependentUpon>VShowTables.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\Operaciones\VUpdate.xaml.cs">
       <DependentUpon>VUpdate.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ventanas\Operaciones\VSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventanas\Operaciones\VShowTables.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
