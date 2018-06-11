@@ -128,7 +128,7 @@ namespace EasySQL.Ventanas
         /// o en modo local si se está en modo invitado.
         /// </summary>
         /// <returns>True si la conexión se ha podido guardar.</returns>
-        private bool GuardarConexion()
+        private bool Guardar()
         {
             Conexion guardar = ComprobarCampos();
             if (guardar != null)
@@ -234,7 +234,7 @@ namespace EasySQL.Ventanas
         /// si los campos introducidos tienen una conexión válida.
         /// </summary>
         /// <returns>True si la conexión es válida.</returns>
-        private bool TestConexion()
+        private bool Test()
         {
             conexionActual = ComprobarCampos();
             if (conexionActual != null)
@@ -268,7 +268,7 @@ namespace EasySQL.Ventanas
             {
                 if (conexionActual != null)
                 {
-                    if (TestConexion())
+                    if (Test())
                     {
                         VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
                         Manejador.CambiarVentana(this, vo);
@@ -283,7 +283,7 @@ namespace EasySQL.Ventanas
             {
                 if (modoInvitado && (conexionActual = ComprobarCampos()) != null)
                 {
-                    if (TestConexion())
+                    if (Test())
                     {
                         VentanaOperaciones vo = new VentanaOperaciones(conexionActual);
                         Manejador.CambiarVentana(this, vo);
@@ -397,10 +397,10 @@ namespace EasySQL.Ventanas
         }
 
         /// <summary>
-        /// Desactiva los campos Usuario y contraseña en caso de marcar la opción
+        /// Realiza cambios en la UI como desactivar los campos 
+        /// Usuario y contraseña en caso de marcar la opción
         /// "Integrated Security" para SQL Server.
         /// </summary>
-        /// <param name="sender"></param>
         private void IntegratedSecurity(object sender)
         {
             bool pulsado = (sender as CheckBox).IsChecked.Value;

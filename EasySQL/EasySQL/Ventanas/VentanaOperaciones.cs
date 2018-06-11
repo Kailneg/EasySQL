@@ -19,12 +19,24 @@ namespace EasySQL.Ventanas
 {
     public partial class VentanaOperaciones : Window
     {
+        /// <summary>
+        /// Conexión activa del momento.
+        /// </summary>
         private Conexion conexionActual;
+
+        /// <summary>
+        /// Mensaje de aviso al usuario cuando se intenta ejecutar una operación
+        /// que requiera el uso de una base de datos elegida y no se encuentre.
+        /// </summary>
         private const string MSJ_ELEGIR_BBDD = "Debes elegir antes una base de datos.";
+
+        /// <summary>
+        /// Opción por defecto en el ComboBox de elección de base de datos.
+        /// </summary>
         private const string CMB_BASEDATOS_DEFECTO = "Elige base de datos...";
 
         /// <summary>
-        /// Actualiza la pantalla con los datos de la conexión.
+        /// Actualiza el UI con los datos de la conexión.
         /// </summary>
         private void MostrarDatosConexion()
         {
@@ -36,17 +48,20 @@ namespace EasySQL.Ventanas
             lblUsuario.Content += " " + conexionActual.UsuarioConexion;
             cmbBaseDatos.Items.Add(CMB_BASEDATOS_DEFECTO);
             cmbBaseDatos.SelectedItem = CMB_BASEDATOS_DEFECTO;
-            cmbBaseDatos.Items.Add("bbdd1");
         }
         
-        private bool SeleccionCambiada()
+        /// <summary>
+        /// Comprueba si hay una base de datos seleccionada, la asigna a
+        /// la conexión actual y actualiza el label relacionado.
+        /// </summary>
+        /// <returns>True si se ha asignado a una base de datos existente.
+        /// False si estaba elegida la opción por defecto.</returns>
+        private bool SeleccionBBDDCambiada()
         {
             // Comprobar que la base de datos no sea la por defecto
             if (HayBBDDSeleccionada()) {
-                // Actualiza label descriptivo
-                lblBaseDatos.Content = "Base de datos : " + cmbBaseDatos.SelectedItem;
-                // Asigna BBDD
                 conexionActual.BaseDatos = cmbBaseDatos.SelectedItem.ToString();
+                lblBaseDatos.Content = "Base de datos : " + cmbBaseDatos.SelectedItem;
                 return true;
             } else
             {
@@ -57,6 +72,10 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Rellena el ComboBox de base de datos con los nombres de las 
+        /// bases de datos de la conexión actual.
+        /// </summary>
         private void MostrarBasesDatos()
         {
             List<string> nombres_bbdd = 
@@ -68,20 +87,31 @@ namespace EasySQL.Ventanas
         }
 
         /*
-         * Botones DDL
+         * /// Botones DDL
          */
+
+        /// <summary>
+        /// Abre una ventana CREATE DATABASE de manera modal,
+        /// pasando la conexión actual como parámetro.
+        /// </summary>
         private void CreateDB()
         {
             VCreateDatabase vog = new VCreateDatabase(conexionActual);
             vog.ShowDialog();
         }
 
+        /// <summary>
+        /// Comprueba si hay una BBDD seleccionada. Si la hay, la deselecciona.
+        /// Abre una ventana DROP DATABASE de manera modal,
+        /// pasando la conexión actual como parámetro.
+        /// </summary>
         private void DropDB()
         {
             if (HayBBDDSeleccionada())
             {
+                // Quita la selección de la BBDD actual
                 cmbBaseDatos.SelectedIndex = 0;
-                SeleccionCambiada();
+                SeleccionBBDDCambiada();
                 MessageBox.Show("Deseleccionada BBDD elegida");
             }
             DbCommand comando = Operacion.ComandoDropDatabase(conexionActual, false);
@@ -95,9 +125,14 @@ namespace EasySQL.Ventanas
             Utils.Consola.NoImplementado();
         }
 
+        /// <summary>
+        /// Comprueba si hay una BBDD seleccionada. 
+        /// Si no la hay, pide al usuario seleccionar una.
+        /// Luego abre una ventana CREATE TABLE de manera modal,
+        /// pasando la conexión actual como parámetro.
+        /// </summary>
         private void CreateTable()
         {
-            // Antes comprobar si existe una BBDD seleccionada
             if (HayBBDDSeleccionada())
             {
                 VCreateTable vct = new VCreateTable(conexionActual);
@@ -109,9 +144,14 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Comprueba si hay una BBDD seleccionada. 
+        /// Si no la hay, pide al usuario seleccionar una.
+        /// Luego abre una ventana DROP TABLE de manera modal,
+        /// pasando la conexión actual como parámetro.
+        /// </summary>
         private void DropTable()
         {
-            // Antes comprobar si existe una BBDD seleccionada
             if (HayBBDDSeleccionada())
             {
                 DbCommand comando = Operacion.ComandoDropTable(conexionActual);
@@ -125,9 +165,14 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Comprueba si hay una BBDD seleccionada. 
+        /// Si no la hay, pide al usuario seleccionar una.
+        /// Luego abre una ventana ALTER TABLE de manera modal,
+        /// pasando la conexión actual como parámetro.
+        /// </summary>
         private void AlterTable()
         {
-            // Antes comprobar si existe una BBDD seleccionada
             if (HayBBDDSeleccionada())
             {
                 VAlterTable vat = new VAlterTable(conexionActual);
@@ -145,8 +190,15 @@ namespace EasySQL.Ventanas
         }
 
         /*
-         * Botones DML
+         * /// Botones DML
          */
+
+        /// <summary>
+        /// Comprueba si hay una BBDD seleccionada. 
+        /// Si no la hay, pide al usuario seleccionar una.
+        /// Luego abre una ventana SELECT de manera modal,
+        /// pasando la conexión actual como parámetro.
+        /// </summary>
         private void Select()
         {
             // Antes comprobar si existe una BBDD seleccionada
@@ -161,6 +213,12 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Comprueba si hay una BBDD seleccionada. 
+        /// Si no la hay, pide al usuario seleccionar una.
+        /// Luego abre una ventana INSERT de manera modal,
+        /// pasando la conexión actual como parámetro.
+        /// </summary>
         private void Insert()
         {
             // Antes comprobar si existe una BBDD seleccionada
@@ -175,6 +233,12 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Comprueba si hay una BBDD seleccionada. 
+        /// Si no la hay, pide al usuario seleccionar una.
+        /// Luego abre una ventana UPDATE de manera modal,
+        /// pasando la conexión actual como parámetro.
+        /// </summary>
         private void Update()
         {
             // Antes comprobar si existe una BBDD seleccionada
@@ -189,6 +253,12 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Comprueba si hay una BBDD seleccionada. 
+        /// Si no la hay, pide al usuario seleccionar una.
+        /// Luego abre una ventana DELETE de manera modal,
+        /// pasando la conexión actual como parámetro.
+        /// </summary>
         private void Delete()
         {
             // Antes comprobar si existe una BBDD seleccionada
@@ -207,12 +277,22 @@ namespace EasySQL.Ventanas
         /*
          * Botones General
          */
+        /// <summary>
+        /// Cambia la ventana actual por ventana Conexion, 
+        /// pasando la conexión actual por parámetros.
+        /// </summary>
         private void Atras()
         {
             VentanaConexion vc = new VentanaConexion(conexionActual.Propietario, conexionActual);
             Manejador.CambiarVentana(this, vc);
         }
 
+        /// <summary>
+        /// Intenta cargar datos de un fichero de una consulta SELECT previamente creado.
+        /// Si lo consigue, muestra metadatos del archivo por medio de una ventana de información,
+        /// luego muestra los datos del fichero en una ventana Mostrar Datos no modal.
+        /// En caso contrario, muestra un mensaje de aviso al usuario.
+        /// </summary>
         private void Cargar()
         {
             DatosConsulta datosCargados = Serializador.Cargar();
@@ -235,6 +315,10 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Abre una conexión Web a una reconocida página de información sobre comandos SQL,
+        /// previa petición de permiso al usuario.
+        /// </summary>
         private void Ayuda()
         {
             MessageBoxResult opcionElegir =
@@ -256,6 +340,11 @@ namespace EasySQL.Ventanas
             }
         }
 
+        /// <summary>
+        /// Comprueba si la BBDD elegida en el ComboBox de selección de base de datos
+        /// no es la opción por defecto.
+        /// </summary>
+        /// <returns>True si la BBDD no es la opción por defecto.</returns>
         private bool HayBBDDSeleccionada()
         {
             return cmbBaseDatos.SelectedItem != null

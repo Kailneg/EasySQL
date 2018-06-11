@@ -35,6 +35,13 @@ namespace EasySQL.Ventanas
                     }
                 )
         { }
+
+        /// <summary>
+        /// Crea una nueva ventana de conexión e inicia sus componentes.
+        /// Carga una conexión. 
+        /// Constructor llamado desde ventana Conexion.
+        /// </summary>
+        /// <param name="conexion">La conexión activa del momento.</param>
         public VentanaOperaciones(Conexion datosConexion)
         {
             InitializeComponent();
@@ -42,84 +49,135 @@ namespace EasySQL.Ventanas
             MostrarDatosConexion();
         }
 
+        /// <summary>
+        /// Captura el evento selección cambiada del ComboBox
+        /// para seleccionar base de datos y ejecuta la lógica.
+        /// </summary>
+        private void cmbBaseDatos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SeleccionBBDDCambiada();
+        }
+
+        /// <summary>
+        /// Captura el evento al pulsar sobre el ComboBox que selecciona
+        /// la base de datos y ejecuta la lógica.
+        /// </summary>
+        private void cmbBaseDatos_DropDownOpened(object sender, EventArgs e)
+        {
+            MostrarBasesDatos();
+        }
+
+        /// <summary>
+        /// Captura el evento click del botón Atras y ejecuta la lógica.
+        /// </summary>
         private void btnAtras_Click(object sender, RoutedEventArgs e)
         {
             Atras();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón Cargar y ejecuta la lógica.
+        /// </summary>
         private void btnCargar_Click(object sender, RoutedEventArgs e)
         {
             Cargar();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón Ayuda y ejecuta la lógica.
+        /// </summary>
         private void btnAyuda_Click(object sender, RoutedEventArgs e)
         {
             Ayuda();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón CREATE DATABASE y ejecuta la lógica.
+        /// </summary>
         private void btnCreateDb_Click(object sender, RoutedEventArgs e)
         {
             CreateDB();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón DROP DATABASE y ejecuta la lógica.
+        /// </summary>
         private void btnDropDb_Click(object sender, RoutedEventArgs e)
         {
             DropDB();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón SHOW DATABASES y ejecuta la lógica.
+        /// </summary>
         private void btnShowDbs_Click(object sender, RoutedEventArgs e)
         {
             ShowDBs();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón CREATE TABLE y ejecuta la lógica.
+        /// </summary>
         private void btnCreateTable_Click(object sender, RoutedEventArgs e)
         {
             CreateTable();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón DROP TABLE y ejecuta la lógica.
+        /// </summary>
         private void btnDropTable_Click(object sender, RoutedEventArgs e)
         {
             DropTable();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón ALTER TABLE y ejecuta la lógica.
+        /// </summary>
         private void btnAlterTable_Click(object sender, RoutedEventArgs e)
         {
             AlterTable();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón SHOW TABLES y ejecuta la lógica.
+        /// </summary>
         private void btnShowTables_Click(object sender, RoutedEventArgs e)
         {
             ShowTables();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón SELECT y ejecuta la lógica.
+        /// </summary>
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
             Select();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón INSERT y ejecuta la lógica.
+        /// </summary>
         private void btnInsert_Click(object sender, RoutedEventArgs e)
         {
             Insert();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón UPDATE y ejecuta la lógica.
+        /// </summary>
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Update();
         }
 
+        /// <summary>
+        /// Captura el evento click del botón DELETE y ejecuta la lógica.
+        /// </summary>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             Delete();
         }
 
-        private void cmbBaseDatos_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SeleccionCambiada();
-        }
-
-        private void cmbBaseDatos_DropDownOpened(object sender, EventArgs e)
-        {
-            MostrarBasesDatos();
-        }
     }
 }
