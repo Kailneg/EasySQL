@@ -96,8 +96,10 @@ namespace EasySQL.BBDD
                 return new ResultadoLogin(ResultadoLogin.TipoResultado.ERROR, null);
             }
             {
-                return new ResultadoLogin(ResultadoLogin.TipoResultado.ACEPTADO,
-                    new Usuario(usuario, contrasenia));
+                // Se le asigna la ID de la base de datos al usuario creado.
+                Usuario creado = new Usuario(usuario, contrasenia, contraseniaBcrypt);
+                creado.ID = BBDDPrograma.ObtenerIDUsuario(creado);
+                return new ResultadoLogin(ResultadoLogin.TipoResultado.ACEPTADO, creado);
             }
         }
 
@@ -135,7 +137,6 @@ namespace EasySQL.BBDD
                 string contraseniaBcrypt = BCrypt.HashPassword(contrasenia, contraseniaSalt);
                 //myHash == "$2a$10$rBV2JDeWW3.vKyeQcM8fFO4777l4bVeQgDL6VIkxqlzQ7TCalQvla"
                 bool doesPasswordMatch = BCrypt.CheckPassword(contrasenia, contraseniaBcrypt);
-                Console.WriteLine("Bcript: " + doesPasswordMatch);
 
                 SqlCommand registrarCmd = new SqlCommand(registrarUsuarioQuery);
                 registrarCmd.Parameters.AddWithValue("@usuario", usuario);
@@ -148,8 +149,9 @@ namespace EasySQL.BBDD
                 // Si es distinto mayor a 0, se habrá registrado el usuario
                 if (resultadoFilasSQL > 0)
                 {
-                    return new ResultadoRegistro(ResultadoRegistro.TipoResultado.ACEPTADO, 
-                        new Usuario(usuario, contrasenia));
+                    Usuario creado = new Usuario(usuario, contrasenia, contraseniaBcrypt);
+                    creado.ID = BBDDPrograma.ObtenerIDUsuario(creado);
+                    return new ResultadoRegistro(ResultadoRegistro.TipoResultado.ACEPTADO, creado);
                 }
                 else
                 {
@@ -166,7 +168,7 @@ namespace EasySQL.BBDD
             // Crea el comando
             SqlCommand obtenerCmd = new SqlCommand(obtenerIDUsuarioQuery);
             obtenerCmd.Parameters.AddWithValue("@usuario", usuario.Nombre);
-            obtenerCmd.Parameters.AddWithValue("@contrasenia", usuario.Contrasenia);
+            obtenerCmd.Parameters.AddWithValue("@contrasenia", usuario.ContraseniaBBDD);
             // Obtiene el resultado
             object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, obtenerCmd);
             // Si el resultado es nulo, no existe el usuario.

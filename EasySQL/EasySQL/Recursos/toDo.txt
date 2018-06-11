@@ -11,7 +11,3 @@ condiciones where generadas, no borrar contenido existente
 mirar doble espacio WHERE en VUpdate VDelete
 
 al entrar en modo invitado asignar el nombre "invitado"
-
-en el constructor de usuario, al buscar id sale error porque no se pasa
-la contraseña en Bcrypt, arreglar y sacar petición fuera de constructor
-(se llama dobleblemente a bbdd en login y constructor)

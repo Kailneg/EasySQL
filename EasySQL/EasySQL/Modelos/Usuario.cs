@@ -22,25 +22,30 @@ namespace EasySQL.Modelos
         public int ID { get; set; }
 
         /// <summary>
-        /// Nombre del usuario
+        /// Nombre del usuario.
         /// </summary>
         public string Nombre { get; set; }
 
         /// <summary>
-        /// Contraseña del usuario
+        /// Contraseña del usuario.
         /// </summary>
-        public string Contrasenia { get; set; }
+        public string Contrasenia { get; private set; }
+
+        /// <summary>
+        /// Contraseña del usuario almacenada en BBDD.
+        /// </summary>
+        public string ContraseniaBBDD { get; private set; }
 
         /// <summary>
         /// Construye un objecto tipo Usuario y le asigna sus valores.
         /// </summary>
         /// <param name="nombre">Nombre del usuario.</param>
         /// <param name="contrasenia">Contraseña del usuario.</param>
-        public Usuario (string nombre, string contrasenia)
+        public Usuario (string nombre, string contrasenia, string contraseniaBBDD)
         {
             Nombre = nombre;
             Contrasenia = contrasenia;
-            ID = BBDDPrograma.ObtenerIDUsuario(this);
+            ContraseniaBBDD = contraseniaBBDD;
         }
     }
 }
