@@ -12,19 +12,29 @@ namespace EasySQL.BBDD
 {
     public class BBDDProgramaImpl
     {
+        /// <summary>
+        /// Cadena de conexión con los datos necesarios para la conexión con la BBDD del programa.
+        /// </summary>
         private string cadenaConexion;
         
+        /**
+         * Declaraciones para las Query que se van a ejecutar
+         */
         private string registrarUsuarioQuery, registrarConexionQuery, existirQuery, loginQuery, saltQuery, obtenerIDUsuarioQuery,
             obtenerIDConexionQuery, obtenerConexionesQuery, eliminarConexionQuery, obtenerPuertoQuery;
 
+        /// <summary>
+        /// Construye un objeto BBDDProgramaImpl, asigna la cadena de conexión y las query.
+        /// </summary>
         private BBDDProgramaImpl()
         {
-            // 1. Crea la cadena de conexión
+            // 1. Crea la cadena de conexión.
             cadenaConexion =
                 "Data Source=localhost\\SQLALE;"
                 + "Initial Catalog=usuarios;"
                 + "Integrated Security=True";
 
+            // 2. Crea las query.
             loginQuery = "SELECT nombre FROM Usuario WHERE nombre =@usuario " +
                 "AND contrasenia =@contrasenia";
             saltQuery = "SELECT contrasenia_salt FROM Usuario WHERE nombre =@usuario ";
@@ -42,7 +52,15 @@ namespace EasySQL.BBDD
             obtenerPuertoQuery = "SELECT puerto_defecto FROM tipo_conexion WHERE id_tipo = @id_tipo";
         }
 
+        /// <summary>
+        /// Usada para almacenar una instancia de esta clase.
+        /// </summary>
         private static BBDDProgramaImpl instancia;
+
+        /// <summary>
+        /// Devuelve una única instancia de esta clase siguiendo el patrón Singleton.
+        /// </summary>
+        /// <returns>Una instancia bien construida de la clase.</returns>
         public static BBDDProgramaImpl ObtenerInstancia()
         {
             if (instancia == null)
@@ -52,6 +70,9 @@ namespace EasySQL.BBDD
             return instancia;
         }
 
+        /// <summary>
+        /// Implementación de la lógina de Login.
+        /// </summary>
         public ResultadoLogin LoginUsuario(string usuario, string contrasenia)
         {
             string contraseniaSalt = ObtenerSal(usuario);
@@ -80,6 +101,11 @@ namespace EasySQL.BBDD
             }
         }
 
+        /// <summary>
+        /// Obtiene la Sal almacenada en BBDD de un usuario dado.
+        /// </summary>
+        /// <param name="usuario">El usuario del que obtener la sal.</param>
+        /// <returns>String con la sal de la contraseña del usuario.</returns>
         public string ObtenerSal(string usuario)
         {
             SqlCommand saltCmd = new SqlCommand(saltQuery);
@@ -92,6 +118,9 @@ namespace EasySQL.BBDD
                 return "";
         }
 
+        /// <summary>
+        /// Implementación de la lógina de Registro.
+        /// </summary>
         public ResultadoRegistro RegistrarUsuario(string usuario, string contrasenia)
         {
             if (ExisteUsuario(usuario))
@@ -129,6 +158,9 @@ namespace EasySQL.BBDD
             }
         }
 
+        /// <summary>
+        /// Implementación de la lógina de ObtenerIDUsuario.
+        /// </summary>
         public int ObtenerIDUsuario(Usuario usuario)
         {
             // Crea el comando
@@ -147,7 +179,10 @@ namespace EasySQL.BBDD
                 return (int) resultado;
             }
         }
-        
+
+        /// <summary>
+        /// Implementación de la lógina de ObtenerIDConexion.
+        /// </summary>
         public int ObtenerIDConexion(Conexion conexion)
         {
             // Crea el comando
@@ -168,6 +203,9 @@ namespace EasySQL.BBDD
             }
         }
 
+        /// <summary>
+        /// Implementación de la lógina de RegistrarConexion.
+        /// </summary>
         public ResultadoConexion RegistrarConexion(Conexion guardar)
         {
             // Si el puerto no está relleno, usar el por defecto almacenado en la bbdd
@@ -216,6 +254,9 @@ namespace EasySQL.BBDD
             }
         }
 
+        /// <summary>
+        /// Implementación de la lógina de EliminarConexion.
+        /// </summary>
         public bool EliminarConexion(Conexion eliminar)
         {
             SqlCommand eliminarCmd = new SqlCommand(eliminarConexionQuery);
@@ -227,6 +268,9 @@ namespace EasySQL.BBDD
             return (resultadoFilasSQL != 0);
         }
 
+        /// <summary>
+        /// Implementación de la lógina de ObtenerConexionesUsuario.
+        /// </summary>
         public ObservableCollection<Conexion> ObtenerConexionesUsuario(Usuario usuario)
         {
             // Crea el comando
@@ -249,6 +293,11 @@ namespace EasySQL.BBDD
 
         //// Métodos privados ////
 
+        /// <summary>
+        /// Comprueba si existe el nombre de un usuario en BBDD
+        /// </summary>
+        /// <param name="usuario">El nombre del usuario a buscar</param>
+        /// <returns>True si existe el usuario.</returns>
         private bool ExisteUsuario(string usuario)
         {
             // Crea el comando
@@ -261,6 +310,11 @@ namespace EasySQL.BBDD
             return (resultado != null);
         }
 
+        /// <summary>
+        /// Comprueba si existe una conexión en BBDD
+        /// </summary>
+        /// <param name="usuario">La conexión</param>
+        /// <returns>True si existe la conexión.</returns>
         private bool ExisteConexion(Conexion guardar)
         {
             int resultado = ObtenerIDConexion(guardar);
@@ -269,6 +323,9 @@ namespace EasySQL.BBDD
             return (resultado != -1);
         }
 
+        /// <summary>
+        /// Implementación de ObtenerPuertoDefecto.
+        /// </summary>
         public int ObtenerPuertoDefecto(Conexion.TipoConexion tipo)
         {
             // Crea el comando
@@ -277,6 +334,5 @@ namespace EasySQL.BBDD
             // Obtiene y devuelve el resultado
             return (int) AyudanteSQL.ExecuteScalar(cadenaConexion, obtenerPuerto);
         }
-
     }
 }

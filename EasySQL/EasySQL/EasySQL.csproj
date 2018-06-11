@@ -77,7 +77,6 @@
     <Compile Include="Operaciones\Serializador.cs" />
     <Compile Include="Utils\Colorea.cs" />
     <Compile Include="Utils\Comprueba.cs" />
-    <Compile Include="Utils\Consola.cs" />
     <Compile Include="Utils\Rellena.cs" />
     <Compile Include="Ventanas\Manejador.cs" />
     <Compile Include="Ventanas\Operaciones\Comun.cs" />

@@ -11,6 +11,13 @@ namespace EasySQL.BBDD
 {
     public class BBDDProgramaMapeo
     {
+        /// <summary>
+        /// Genera una lista de conexiones bien formadas dado un dataReader con conexiones
+        /// y un usuario.
+        /// </summary>
+        /// <param name="lector">DataReader con los datos de las conexiones.</param>
+        /// <param name="usuario">Usuario propietario de esas conexiones.</param>
+        /// <returns>Una lista de las conexiones pertenecientes al usuario.</returns>
         public static List<Conexion> ExtraerConexiones(SqlDataReader lector, Usuario usuario)
         {
             // SELECT id_conexion, id_tipo_conexion, nombre, direccion, puerto, usuario, contrasenia

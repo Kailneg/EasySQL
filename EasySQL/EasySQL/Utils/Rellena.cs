@@ -10,6 +10,11 @@ namespace EasySQL.Utils
 {
     public class Rellena
     {
+        /// <summary>
+        /// Rellena un ComboBox con una lista de string pasada.
+        /// </summary>
+        /// <param name="aRellenar">Combobox a rellenar.</param>
+        /// <param name="lista">Lista de elementos para el ComboBox.</param>
         public static void ComboBox(ComboBox aRellenar, IList<string> lista)
         {
             if (lista != null)

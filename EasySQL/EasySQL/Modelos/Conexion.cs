@@ -98,7 +98,6 @@ namespace EasySQL.Modelos
         /// <returns>Cadena de conexión válida Microsoft SQL</returns>
         private string ObtenerCadenaConexionMySQL()
         {
-            Consola.NoImplementado();
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 
             builder.DataSource = Direccion;

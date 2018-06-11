@@ -122,7 +122,7 @@ namespace EasySQL.Ventanas
 
         private void ShowDBs()
         {
-            Utils.Consola.NoImplementado();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace EasySQL.Ventanas
 
         private void ShowTables()
         {
-            Utils.Consola.NoImplementado();
+            throw new NotImplementedException();
         }
 
         /*
