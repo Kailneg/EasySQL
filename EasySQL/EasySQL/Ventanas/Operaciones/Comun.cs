@@ -14,21 +14,43 @@ namespace EasySQL.Ventanas.Operaciones
 {
     public class Comun
     {
+        /// <summary>
+        /// Opción por defecto al elegir una base de datos
+        /// </summary>
         private const string CMB_OPCION_DEFECTO_DATABASE = "Elige base de datos...";
+
+        /// <summary>
+        /// Opción por defecto al elegir una tabla
+        /// </summary>
         private const string CMB_OPCION_DEFECTO_TABLE = "Elige tabla...";
 
+        /// <summary>
+        /// Comprueba si está elegida la opción por defecto.
+        /// </summary>
+        /// <param name="combo">El ComboBox que se desea comprobar.</param>
+        /// <returns>True si está elegida la opción por defecto.</returns>
         public static bool ElegidaTablaDefecto(ComboBox combo)
         {
             return combo.SelectedItem == null
                 || combo.SelectedItem.Equals(CMB_OPCION_DEFECTO_TABLE);
         }
 
+        /// <summary>
+        /// Comprueba si está elegida la opción por defecto.
+        /// </summary>
+        /// <param name="combo">El ComboBox que se desea comprobar.</param>
+        /// <returns>True si está elegida la opción por defecto.</returns>
         public static bool ElegidaBaseDatosDefecto(ComboBox combo)
         {
             return combo.SelectedItem == null
                 || combo.SelectedItem.Equals(CMB_OPCION_DEFECTO_DATABASE);
         }
 
+        /// <summary>
+        /// Rellena un ComboBox con el nombre de las tablas de la BBDD actual.
+        /// </summary>
+        /// <param name="actual">La conexión actual.</param>
+        /// <param name="aRellenar">El ComboBox a rellenar.</param>
         public static void RellenarComboTablas(Conexion actual, ComboBox aRellenar)
         {
             List<string> nombresTablas =
@@ -40,6 +62,11 @@ namespace EasySQL.Ventanas.Operaciones
             aRellenar.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Rellena un ComboBox con el nombre de las BBDD de la conexión actual.
+        /// </summary>
+        /// <param name="actual">La conexión actual.</param>
+        /// <param name="aRellenar">El ComboBox a rellenar.</param>
         public static void RellenarComboBasesDatos(Conexion actual, ComboBox aRellenar)
         {
             List<string> nombresBBDD =
@@ -51,6 +78,15 @@ namespace EasySQL.Ventanas.Operaciones
             aRellenar.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Genera una serie de controles que se insertan en un contenedor.
+        /// Usado para mostrar los campos de un SELECT
+        /// </summary>
+        /// <param name="contenedor">El contenedor donde serán los controles insertados.</param>
+        /// <param name="actual">La conexión actual.</param>
+        /// <param name="nombreTabla">Nombre de la tabla actual.</param>
+        /// <param name="handlerEventosCheckboxs">Evento al que llamarán los checkboxes
+        /// generados.</param>
         public static void GenerarCamposSelect(StackPanel contenedor, Conexion actual, string nombreTabla,
             Action<object, RoutedEventArgs> handlerEventosCheckboxs)
         {
@@ -128,6 +164,11 @@ namespace EasySQL.Ventanas.Operaciones
             }
         }
 
+        /// <summary>
+        /// Extrae los datos de un contenedor con controles generados.
+        /// </summary>
+        /// <param name="contenedor">El control del que extraer los datos.</param>
+        /// <returns>Una lista de datos.</returns>
         public static async Task<List<ColumnaValor>> ExtraerDatosCamposSelect(StackPanel contenedor)
         {
             // Espera 5ms para que de tiempo a repintar los componentes
@@ -163,6 +204,16 @@ namespace EasySQL.Ventanas.Operaciones
             return datos;
         }
 
+        /// <summary>
+        /// Genera una serie de controles que se insertan en un contenedor.
+        /// </summary>
+        /// <param name="contenedor">El contenedor donde serán los controles insertados.</param>
+        /// <param name="actual">La conexión actual.</param>
+        /// <param name="nombreTabla">Nombre de la tabla actual.</param>
+        /// <param name="handlerEventosCheckboxs">Evento al que llamarán 
+        /// los checkboxes generados.</param>
+        /// <param name="handlerEventosTextboxs">Evento al que llamarán 
+        /// los textboxes generados.</param>
         public static void GenerarCamposColumnas(StackPanel contenedor, Conexion actual, string nombreTabla,
             Action<object, RoutedEventArgs> handlerEventosCheckboxs, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
         {
@@ -254,6 +305,11 @@ namespace EasySQL.Ventanas.Operaciones
             }
         }
 
+        /// <summary>
+        /// Extrae los datos de un contenedor con controles generados.
+        /// </summary>
+        /// <param name="contenedor">El control del que extraer los datos.</param>
+        /// <returns>Una lista de datos.</returns>
         public static async Task<List<ColumnaValor>> ExtraerDatosCamposColumnas(StackPanel contenedor)
         {
             // Espera 5ms para que de tiempo a repintar los componentes
@@ -292,6 +348,17 @@ namespace EasySQL.Ventanas.Operaciones
             return datos;
         }
 
+        /// <summary>
+        /// Genera una serie de controles que se insertan en un contenedor.
+        /// </summary>
+        /// <param name="contenedor">El contenedor donde serán los controles insertados.</param>
+        /// <param name="actual">La conexión actual.</param>
+        /// <param name="numCondiciones">Número de condiciones a generar.</param>
+        /// <param name="nombreTabla">Nombre de la tabla actual.</param>
+        /// <param name="handlerEventosCheckboxs">Evento al que llamarán 
+        /// los checkboxes generados.</param>
+        /// <param name="handlerEventosTextboxs">Evento al que llamarán 
+        /// los textboxes generados.</param>
         public static void GenerarCamposWhere(StackPanel contenedor, Conexion actual, int numCondiciones, string nombreTabla,
             Action<object, SelectionChangedEventArgs> handlerEventosCombos, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
         {
@@ -376,6 +443,11 @@ namespace EasySQL.Ventanas.Operaciones
                 contenedor.Children.RemoveAt(tamanio - 1);
         }
 
+        /// <summary>
+        /// Extrae los datos de un contenedor con controles generados.
+        /// </summary>
+        /// <param name="contenedor">El control del que extraer los datos.</param>
+        /// <returns>Una lista de datos.</returns>
         public static async Task<string> ExtraerDatosWhere(StackPanel contenedor)
         {
             // Espera 5ms para que de tiempo a repintar los componentes
@@ -413,6 +485,16 @@ namespace EasySQL.Ventanas.Operaciones
             return datos;
         }
 
+        /// <summary>
+        /// Genera una serie de controles que se insertan en un contenedor.
+        /// </summary>
+        /// <param name="contenedor">El contenedor donde serán los controles insertados.</param>
+        /// <param name="actual">La conexión actual.</param>
+        /// <param name="nombreTabla">Nombre de la tabla actual.</param>
+        /// <param name="handlerEventosCheckboxs">Evento al que llamarán 
+        /// los checkboxes generados.</param>
+        /// <param name="handlerEventosTextboxs">Evento al que llamarán 
+        /// los textboxes generados.</param>
         public static void GenerarCamposOrderBy(StackPanel contenedor, Conexion actual, int numCampos,
             List<ColumnaValor> camposElegidos, string nombreTabla, Action<object, SelectionChangedEventArgs> handlerEventosCombos)
         {
@@ -480,6 +562,11 @@ namespace EasySQL.Ventanas.Operaciones
             }
         }
 
+        /// <summary>
+        /// Extrae los datos de un contenedor con controles generados.
+        /// </summary>
+        /// <param name="contenedor">El control del que extraer los datos.</param>
+        /// <returns>Una lista de datos.</returns>
         public static async Task<List<ColumnaValor>> ExtraerDatosOrderBy(StackPanel contenedor)
         {
             // Espera 5ms para que de tiempo a repintar los componentes
@@ -511,6 +598,11 @@ namespace EasySQL.Ventanas.Operaciones
             return datos;
         }
 
+        /// <summary>
+        /// Marca o no todos los checkboxes del contenedor proporcionado.
+        /// </summary>
+        /// <param name="contenedor">El contenedor del que marcar los checkboxes.</param>
+        /// <param name="marcado">True si se desean marcar, false los desmarca.</param>
         public static void MarcarTodosCamposColumnas(StackPanel contenedor, bool marcado)
         {
             var generados = contenedor.Children;

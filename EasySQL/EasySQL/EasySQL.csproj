@@ -63,7 +63,6 @@
     <Compile Include="BBDD\ResultadoConexion.cs" />
     <Compile Include="BBDD\ResultadoLogin.cs" />
     <Compile Include="BBDD\ResultadoRegistro.cs" />
-    <Compile Include="Modelos\ColumnaOperadorValor.cs" />
     <Compile Include="Modelos\ColumnaValor.cs" />
     <Compile Include="Modelos\Conexion.cs" />
     <Compile Include="Modelos\DatosConsulta.cs" />

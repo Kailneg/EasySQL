@@ -12,16 +12,59 @@ namespace EasySQL.Modelos
     [Serializable]
     public class Conexion
     {
+        /// <summary>
+        /// ID de la conexión en la BBDD.
+        /// </summary>
         public int ID { get; set; }
+
+        /// <summary>
+        /// Tipos de conexiones posibles para una Conexión.
+        /// </summary>
         public enum TipoConexion { MicrosoftSQL, MySQL };
+
+        /// <summary>
+        /// Nombre de la conexión.
+        /// </summary>
         public string Nombre { get; set; }
+
+        /// <summary>
+        /// Dirección de la conexión.
+        /// </summary>
         public string Direccion { get; set; }
+
+        /// <summary>
+        /// Nombre de la Base de datos.
+        /// </summary>
         public string BaseDatos { get; set; }
+
+        /// <summary>
+        /// Puerto de la conexión.
+        /// </summary>
         public int Puerto { get; set; }
+
+        /// <summary>
+        /// Tipo de la conexión actual.
+        /// </summary>
         public TipoConexion TipoActual { get; set; }
+
+        /// <summary>
+        /// Usuario de la conexión.
+        /// </summary>
         public string UsuarioConexion { get; set; }
+
+        /// <summary>
+        /// Contraseña de la conexión.
+        /// </summary>
         public string ContraseniaConexion { get; set; }
+
+        /// <summary>
+        /// Usuario propietario (almacenado en BBDD) de la conexión.
+        /// </summary>
         public Usuario Propietario { get; set; }
+
+        /// <summary>
+        /// Cadena de conexión bien formada para la conexión con BBDD.
+        /// </summary>
         public string CadenaConexion {
             get
             {
