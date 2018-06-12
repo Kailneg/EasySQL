@@ -1,4 +1,6 @@
-﻿Microsoft SQL Server:
+﻿
+Microsoft SQL Server:
+direccion debe escribirse: localhost\SQLALE
 
 SQLALE
 integrated security
@@ -8,6 +10,7 @@ sa
 Root1234
 
 MYSQL Server:
+direccion debe escribirse: localhost
 root
 root
 

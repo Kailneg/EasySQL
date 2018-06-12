@@ -1,5 +1,6 @@
 ﻿using EasySQL.Modelos;
 using EasySQL.Operaciones.Controlador;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,7 +37,7 @@ namespace EasySQL.Operaciones.Ayudante
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteScalar(actual.CadenaConexion, (SqlCommand)comando);
+                return AyudanteMySQL.ExecuteScalar(actual.CadenaConexion, (MySqlCommand)comando);
             }
             else return null;
         }
@@ -49,7 +50,7 @@ namespace EasySQL.Operaciones.Ayudante
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteNonQuery(actual.CadenaConexion, (SqlCommand)comando);
+                return AyudanteMySQL.ExecuteNonQuery(actual.CadenaConexion, (MySqlCommand)comando);
             }
             else return -1;
         }
@@ -62,7 +63,7 @@ namespace EasySQL.Operaciones.Ayudante
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteReader(actual.CadenaConexion, (SqlCommand)comando);
+                return AyudanteMySQL.ExecuteReader(actual.CadenaConexion, (MySqlCommand)comando);
             }
             else return null;
         }

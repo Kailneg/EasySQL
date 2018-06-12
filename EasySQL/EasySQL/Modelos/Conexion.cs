@@ -1,5 +1,6 @@
 ﻿using EasySQL.BBDD;
 using EasySQL.Utils;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -141,23 +142,16 @@ namespace EasySQL.Modelos
         /// <returns>Cadena de conexión válida Microsoft SQL</returns>
         private string ObtenerCadenaConexionMySQL()
         {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
 
-            builder.DataSource = Direccion;
+            builder.Server = Direccion;
             if (BaseDatos != null)
-                builder.InitialCatalog = BaseDatos;
+                builder.Database = BaseDatos;
             else
-                builder.InitialCatalog = "";
-
-            if (UsuarioConexion.Equals(Usuario.NombreIntegratedSecurity))
-            {
-                builder.IntegratedSecurity = true;
-            }
-            else
-            {
-                builder.UserID = UsuarioConexion;
-                builder.Password = ContraseniaConexion;
-            }
+                builder.Database = "";
+            
+            builder.UserID = UsuarioConexion;
+            builder.Password = ContraseniaConexion;
 
             return builder.ToString();
         }

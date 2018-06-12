@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasySQL.Operaciones.Ayudante;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,11 @@ namespace EasySQL.Ventanas
         public Pruebas()
         {
             InitializeComponent();
+        }
+
+        private void btn_Click(object sender, RoutedEventArgs e)
+        {
+            AyudanteMySQL.ExecuteTest(txtBox.Text);
         }
     }
 }
