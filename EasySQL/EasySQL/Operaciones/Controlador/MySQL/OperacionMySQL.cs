@@ -12,7 +12,7 @@ namespace EasySQL.Operaciones.Controlador.MySQL
     public class OperacionMySQL
     {
         public static readonly string[] TIPOS_DATOS =
-            { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(MAX)", "DATE"  };
+            { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(500)", "DATE"  };
         private const string SHOW_DATABASES = "SHOW DATABASES";
         private const string CREATE_DATABASE = "CREATE DATABASE ";
         private const string DROP_DATABASE_FORCE = "ALTER DATABASE @1param SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE @1param";

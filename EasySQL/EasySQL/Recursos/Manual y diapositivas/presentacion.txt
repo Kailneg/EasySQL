@@ -1,0 +1,6 @@
+incluir titulo del trabajo, nombre y curso, imagen
+
+introducción
+motivación
+objetivos
+conclusiones

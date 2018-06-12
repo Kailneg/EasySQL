@@ -135,6 +135,24 @@ namespace EasySQL.Ventanas
             {
                 if (!modoInvitado)
                 {
+                    // Si no está marcado el check de contraseñas, se borran los datos
+                    if (chkGuardarContrasenia.IsChecked.Value)
+                    {
+                        if (Comprueba.ContraseniaPrograma(txtBoxContrasenia.Text) ?? false)
+                        {
+                            // Todo correcto, se devuelve una conexion guardando contraseña
+                            guardar.ContraseniaConexion = txtBoxContrasenia.Text;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Se ha marcado 'guardar contraseña' pero está vacía o con valores nulos.");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        guardar.ContraseniaConexion = "";
+                    }
                     ResultadoConexion resultado =
                         BBDDPrograma.RegistrarConexion(guardar);
                     resultado.MostrarMensaje();
@@ -199,28 +217,11 @@ namespace EasySQL.Ventanas
                     return null;
                 }
 
-                // Si los campos están correctos, mirar si se quiere guardar la contraseña.
-                if (chkGuardarContrasenia.IsChecked.Value)
-                {
-                    if (Comprueba.ContraseniaPrograma(txtBoxContrasenia.Text) ?? false)
-                    {
-                        // Todo correcto, se devuelve una conexion guardando contraseña
-                        string contrasenia = txtBoxContrasenia.Text;
-                        Conexion guardar = new Conexion(nombre, direccion, puerto, usuario,
-                            contrasenia, tipo, usuarioActivo);
-                        return guardar;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Se ha marcado 'guardar contraseña' pero está vacía o con valores nulos.");
-                        return null;
-                    }
-                }
-                else
-                {
-                    // Todo correcto, se devuelve una conexion SIN guardar contraseña
-                    return new Conexion(nombre, direccion, puerto, usuario, tipo, usuarioActivo);
-                }
+                string contrasenia = txtBoxContrasenia.Text;
+                Conexion guardar = new Conexion(nombre, direccion, puerto, usuario,
+                    contrasenia, tipo, usuarioActivo);
+                return guardar;
+
             }
             else
             {
