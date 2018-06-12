@@ -18,10 +18,12 @@ namespace EasySQL.Operaciones.Controlador.MySQL
         private const string DROP_DATABASE_FORCE = "ALTER DATABASE @1param SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE @1param";
         private const string DROP_DATABASE = "DROP DATABASE ";
         private const string SHOW_TABLES = "SHOW TABLES FROM @1param";
-        private const string SHOW_COLUMNS = "SHOW COLUMNS FROM @2param FROM @1param";
+        private const string SHOW_COLUMNS =
+            "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS " +
+            "WHERE TABLE_SCHEMA = '@1param' AND TABLE_NAME = '@2param'";
         private const string SHOW_COLUMNS_DATA_TYPE =
             "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS " +
-            "WHERE TABLE_SCHEMA ='@1param' TABLE_NAME = '@2param'";
+            "WHERE TABLE_SCHEMA = '@1param' AND TABLE_NAME = '@2param'";
         private const string CREATE_TABLE = "CREATE TABLE ";
         private const string DROP_TABLE = "DROP TABLE ";
         private const string ALTER_TABLE = "ALTER TABLE ";

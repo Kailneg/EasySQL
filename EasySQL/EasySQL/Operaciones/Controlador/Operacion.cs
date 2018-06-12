@@ -29,7 +29,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.TIPOS_DATOS;
             }
             else return null;
         }
@@ -42,7 +42,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoShowDatabases();
             }
             else return null;
         }
@@ -55,7 +55,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoCreateDatabase();
             }
             else return null;
         }
@@ -68,7 +68,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoDropDatabase(forzar);
             }
             else return null;
         }
@@ -82,7 +82,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoCreateTable();
             }
             else return null;
         }
@@ -95,7 +95,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoDropTable();
             }
             else return null;
         }
@@ -108,7 +108,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoAlterTable();
             }
             else return null;
         }
@@ -121,7 +121,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoShowTables();
             }
             else return null;
         }
@@ -134,7 +134,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoShowColumnas();
             }
             else return null;
         }
@@ -147,7 +147,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoShowTiposDatosColumnas();
             }
             else return null;
         }
@@ -160,7 +160,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoDeleteFrom();
             }
             else return null;
         }
@@ -173,7 +173,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoUpdate();
             }
             else return null;
         }
@@ -186,7 +186,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoInsert();
             }
             else return null;
         }
@@ -199,7 +199,7 @@ namespace EasySQL.Operaciones.Controlador
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return null;
+                return OperacionMySQL.ComandoSelect();
             }
             else return null;
         }
