@@ -5,3 +5,5 @@ añadir radiobutton PK a create table
 condiciones where generadas, no borrar contenido existente
 
 mirar doble espacio WHERE en VUpdate VDelete
+
+excepcion cuando select intenta mostrar valores null. show tables muchas columnas
