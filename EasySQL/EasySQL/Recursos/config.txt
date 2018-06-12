@@ -1,6 +1,9 @@
-﻿lMicrosoft SQL Server:
+﻿Microsoft SQL Server:
 
 SQLALE
+integrated security
+
+DATOS
 sa
 Root1234
 
@@ -8,3 +11,4 @@ MYSQL Server:
 root
 root
 
+CONFIGURAR COMO PASSWORD LEGACY
