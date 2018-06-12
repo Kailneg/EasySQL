@@ -161,10 +161,10 @@ namespace EasySQL.Ventanas
         /// <summary>
         /// Comprueba que el input Contrasenia tenga los datos correctos.
         /// </summary>
-        private void txtBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
+        private void pwdBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.ContraseniaConexion(datos.Text));
+            PasswordBox datos = (PasswordBox)sender;
+            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.ContraseniaConexion(datos.Password));
         }
 
         /// <summary>

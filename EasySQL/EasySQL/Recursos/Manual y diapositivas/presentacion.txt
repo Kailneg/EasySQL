@@ -4,3 +4,7 @@ introducción
 motivación
 objetivos
 conclusiones
+
+Introducción, con los objetivos y puntos clave.
+Desarrollo de cada uno de los puntos.
+Cierre, con las conclusiones.

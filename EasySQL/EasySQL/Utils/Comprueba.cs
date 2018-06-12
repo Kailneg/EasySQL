@@ -21,7 +21,7 @@ namespace EasySQL.Utils
         private static readonly int LONGITUD_USUARIO_CONEXION = 50;
         private static readonly int LONGITUD_CONTRASENIA_CONEXION = 50;
         private static readonly int LONGITUD_MINIMA = 0;
-        private static readonly int LONGITUD_MINIMA_CONTRASENIA_CONEXION = 4;
+        private static readonly int LONGITUD_MINIMA_CONTRASENIA_CONEXION = 3;
         private static readonly string SEPARADOR_SQL = ";";
 
         /// <summary>

@@ -1,13 +1,7 @@
 ﻿direccion debe escribirse: localhost\SQLALE
 
-puerto no se está cogiendo en modo Invitado, ni se envía en la connectionString
-
-comprobar guardado contraseña y recuperación cuando checkbox contraseña marcado
-
 añadir radiobutton PK a create table
 
 condiciones where generadas, no borrar contenido existente
 
 mirar doble espacio WHERE en VUpdate VDelete
-
-al entrar en modo invitado asignar el nombre "invitado"

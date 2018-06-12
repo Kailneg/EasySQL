@@ -78,6 +78,7 @@ namespace EasySQL.Ventanas
             btnGuardar.IsEnabled = false;
             listViewConexiones.IsEnabled = false;
             lblListaConexiones.IsEnabled = false;
+            txtBoxNombre.IsEnabled = false;
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace EasySQL.Ventanas
             txtBoxDireccion.Text = actual.Direccion;
             txtBoxPuerto.Text = actual.Puerto.ToString();
             txtBoxUsuario.Text = actual.UsuarioConexion;
-            txtBoxContrasenia.Text = actual.ContraseniaConexion;
+            pwdBoxContrasenia.Password = actual.ContraseniaConexion;
             chkGuardarContrasenia.IsChecked = false;
             rbtnMicrosoftSQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.MicrosoftSQL);
             rbtnMySQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.MySQL);
@@ -138,10 +139,10 @@ namespace EasySQL.Ventanas
                     // Si no está marcado el check de contraseñas, se borran los datos
                     if (chkGuardarContrasenia.IsChecked.Value)
                     {
-                        if (Comprueba.ContraseniaPrograma(txtBoxContrasenia.Text) ?? false)
+                        if (Comprueba.ContraseniaConexion(pwdBoxContrasenia.Password) ?? false)
                         {
                             // Todo correcto, se devuelve una conexion guardando contraseña
-                            guardar.ContraseniaConexion = txtBoxContrasenia.Text;
+                            guardar.ContraseniaConexion = pwdBoxContrasenia.Password;
                         }
                         else
                         {
@@ -188,17 +189,16 @@ namespace EasySQL.Ventanas
 
             // El operador ?? operador devuelve el operando izquierdo si no es NULL; 
             // de lo contrario, devuelve el operando derecho.
-            if ((Comprueba.Nombre(txtBoxNombre.Text))
-                && (Comprueba.Direccion(txtBoxDireccion.Text))
+
+            // Comprueba si el nombre tiene datos correctos o está deshabilitado (modoInvitado)
+            if (((Comprueba.Nombre(txtBoxNombre.Text)) || !txtBoxNombre.IsEnabled)
+                && (Comprueba.Direccion(txtBoxDireccion.Text)) 
                 && (Comprueba.UsuarioConexion(txtBoxUsuario.Text))
                 && (Comprueba.Puerto(txtBoxPuerto.Text) ?? true))
             {
                 string nombre = txtBoxNombre.Text;
                 string direccion = txtBoxDireccion.Text;
                 string usuario = txtBoxUsuario.Text;
-                int puerto = 0;
-                if (!String.IsNullOrWhiteSpace(txtBoxPuerto.Text))
-                    puerto = Int32.Parse(txtBoxPuerto.Text);
                 Conexion.TipoConexion tipo;
 
                 // Comprobando si el tipo de conexión está marcado
@@ -216,8 +216,13 @@ namespace EasySQL.Ventanas
                     MessageBox.Show("No se ha marcado el tipo de conexión.");
                     return null;
                 }
+                int puerto = 0;
+                if (!String.IsNullOrWhiteSpace(txtBoxPuerto.Text))
+                    puerto = Int32.Parse(txtBoxPuerto.Text);
+                if (puerto == 0)
+                    puerto = BBDDPrograma.ObtenerPuertoDefecto(tipo);
 
-                string contrasenia = txtBoxContrasenia.Text;
+                string contrasenia = pwdBoxContrasenia.Password;
                 Conexion guardar = new Conexion(nombre, direccion, puerto, usuario,
                     contrasenia, tipo, usuarioActivo);
                 return guardar;
@@ -338,7 +343,7 @@ namespace EasySQL.Ventanas
             txtBoxDireccion.Text = "";
             txtBoxPuerto.Text = "";
             txtBoxUsuario.Text = "";
-            txtBoxContrasenia.Text = "";
+            pwdBoxContrasenia.Password = "";
             chkGuardarContrasenia.IsChecked = false;
             rbtnMicrosoftSQL.IsChecked = false;
             rbtnMySQL.IsChecked = false;
@@ -346,7 +351,7 @@ namespace EasySQL.Ventanas
             Colorea.BordeCorrectoErrorDefecto(txtBoxDireccion, null);
             Colorea.BordeCorrectoErrorDefecto(txtBoxPuerto, null);
             Colorea.BordeCorrectoErrorDefecto(txtBoxUsuario, null);
-            Colorea.BordeCorrectoErrorDefecto(txtBoxContrasenia, null);
+            Colorea.BordeCorrectoErrorDefecto(pwdBoxContrasenia, null);
         }
 
         /// <summary>
@@ -406,7 +411,7 @@ namespace EasySQL.Ventanas
         {
             bool pulsado = (sender as CheckBox).IsChecked.Value;
             txtBoxUsuario.IsEnabled = !pulsado;
-            txtBoxContrasenia.IsEnabled = !pulsado;
+            pwdBoxContrasenia.IsEnabled = !pulsado;
             chkGuardarContrasenia.IsEnabled = !pulsado;
             chkGuardarContrasenia.IsChecked = false;
             rbtnMySQL.IsEnabled = !pulsado;
@@ -414,16 +419,16 @@ namespace EasySQL.Ventanas
             if (pulsado)
             {
                 txtBoxUsuario.Text = Usuario.NombreIntegratedSecurity;
-                txtBoxContrasenia.Text = "";
+                pwdBoxContrasenia.Password = "";
                 Colorea.BordeCorrectoError(txtBoxUsuario, true);
-                Colorea.BordeCorrectoError(txtBoxContrasenia, true);
+                Colorea.BordeCorrectoError(pwdBoxContrasenia, true);
             }
             else
             {
                 txtBoxUsuario.Text = "";
-                txtBoxContrasenia.Text = "";
+                pwdBoxContrasenia.Password = "";
                 Colorea.BordeCorrectoError(txtBoxUsuario, false);
-                Colorea.BordeCorrectoErrorDefecto(txtBoxContrasenia, null);
+                Colorea.BordeCorrectoErrorDefecto(pwdBoxContrasenia, null);
             }
         }
     }
