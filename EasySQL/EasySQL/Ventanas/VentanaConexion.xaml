@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="Conexiones" Height="450" MinHeight="380" Width="800" MinWidth="750">
 
     <Window.Resources>

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="Operaciones" Height="450" MinHeight="400" Width="800" MinWidth="500">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">

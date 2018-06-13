@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="DELETE FROM" 
         Height="500" Width="420" MinHeight="350" MinWidth="350">
     <Window.Resources>

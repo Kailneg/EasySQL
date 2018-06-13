@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="SELECT" 
         Height="700" Width="500" MinHeight="600" MinWidth="420">
     <Window.Resources>

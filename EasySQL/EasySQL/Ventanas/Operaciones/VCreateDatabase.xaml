@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="CREATE DATABASE" 
         Height="180" Width="400" MinHeight="180" MaxHeight="250" MinWidth="200">
     <Grid Margin="10">

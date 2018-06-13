@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySQL.Ventanas.Operaciones"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="ALTER TABLE" 
         Height="350" Width="400" MinHeight="320" MaxHeight="600" MinWidth="280">
     <Grid Margin="10">
