@@ -1,2 +1,5 @@
 imagenes: 
 1 http://bigdatahadooppro.com/sql-vs-nosql-all-you-need-to-know/
+2 http://learn-php-online.top5reviews.com/php-and-mysql-vs-asp-net-and-sql-server/
+3 https://www.mysql.com/common/images/products/MySQL_Workbench_Editor_General_Mac.png
+4 http://social.msdn.microsoft.com/Forums/getfile/272678
