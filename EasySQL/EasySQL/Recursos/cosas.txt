@@ -8,7 +8,7 @@ Ctrl ML
 
 
 
-        //for (int i = 0; i < lector.FieldCount; i++)
+        //for (int col = 0; col < lector.FieldCount; i++)
         //{
         //    Console.WriteLine(lector[i]);
         //    Console.Write(SqlReader.GetName(col).ToString());         // Gets the column name

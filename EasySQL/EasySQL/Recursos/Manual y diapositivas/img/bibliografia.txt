@@ -1,0 +1,2 @@
+imagenes: 
+1 http://bigdatahadooppro.com/sql-vs-nosql-all-you-need-to-know/
