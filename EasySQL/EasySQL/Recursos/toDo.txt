@@ -6,4 +6,4 @@ condiciones where generadas, no borrar contenido existente
 
 mirar doble espacio WHERE en VUpdate VDelete
 
-excepcion cuando select intenta mostrar valores null. show tables muchas columnas
+comprobar retorno en CREATES Y DROP MySQL

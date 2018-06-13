@@ -13,8 +13,15 @@ namespace EasySQL.Operaciones.Comandos.MicrosoftSQL
 {
     public class ComandoMicrosoftSQL
     {
+        /// <summary>
+        /// Define los tipos de datos disponibles para una BBDD SQL Server
+        /// </summary>
         public static readonly string[] TIPOS_DATOS = 
             { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(MAX)", "DATETIME"  };
+
+        /**
+         * Las siguientes líneas definen los comandos SQL con la sintaxis específica de SQL Server.
+         */
         private const string SHOW_DATABASES = "SELECT name FROM master.sys.databases";
         private const string CREATE_DATABASE = "CREATE DATABASE ";
         private const string DROP_DATABASE_FORCE = "ALTER DATABASE @1param SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE @1param";
@@ -33,16 +40,28 @@ namespace EasySQL.Operaciones.Comandos.MicrosoftSQL
         private const string INSERT = "INSERT INTO @1param (@2param) VALUES (@3param)";
         private const string SELECT = "SELECT @1param FROM @2param @3param @4param";
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para mostrar bases de datos, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand ShowDatabases()
         {
             return new SqlCommand(SHOW_DATABASES);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para crear bases de datos, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand CreateDatabase()
         {
             return new SqlCommand(CREATE_DATABASE);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para eliminar bases de datos, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand DropDatabase(bool forzar)
         {
             if (!forzar)
@@ -51,51 +70,91 @@ namespace EasySQL.Operaciones.Comandos.MicrosoftSQL
                 return new SqlCommand(DROP_DATABASE_FORCE);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para crear tables, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand CreateTable()
         {
             return new SqlCommand(CREATE_TABLE);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para borrar tablas, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand DropTable()
         {
             return new SqlCommand(DROP_TABLE);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para alterar tablas, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand AlterTable()
         {
             return new SqlCommand(ALTER_TABLE);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para mostrar tablas, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand ShowTables()
         {
             return new SqlCommand(SHOW_TABLES);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para mostrar columnas de tablas, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand ShowColumnas()
         {
             return new SqlCommand(SHOW_COLUMNS);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para mostrar los tipos de las columnas de tablas, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand ShowTiposDatosColumnas()
         {
             return new SqlCommand(SHOW_COLUMNS_DATA_TYPE);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para eliminar datos, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand DeleteFrom()
         {
             return new SqlCommand(DELETE_FROM);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para actualizar datos, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand Update()
         {
             return new SqlCommand(UPDATE);
         }
-        
+
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para añadir datos, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand Insert()
         {
             return new SqlCommand(INSERT);
         }
 
+        /// <summary>
+        /// Devuelve un comando SQL Server construido para mostrar datos, 
+        /// como se especifica en Comando.cs.
+        /// </summary>
         public static DbCommand Select()
         {
             return new SqlCommand(SELECT);

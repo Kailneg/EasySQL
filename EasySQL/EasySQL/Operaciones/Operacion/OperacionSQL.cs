@@ -10,10 +10,20 @@ namespace EasySQL.Operaciones.Operacion
 {
     public class OperacionSQL
     {
+        /// <summary>
+        /// Mensaje a devolver en caso que la consulta sea fallida.
+        /// </summary>
         private const string MSJ_ERROR =
             "Error en la operación, compruebe los datos o la conexión con la base de datos.";
+
+        /// <summary>
+        /// Conexión única para evitar conexiones redundantes al usar ExecuteReader
+        /// </summary>
         private static SqlConnection sqlConnReader;
 
+        /// <summary>
+        /// Implementa para una conexión SQL Server el método ExecuteTest como se especifica en Operacion.cs
+        /// </summary>
         public static bool ExecuteTest(string cadenaConexion)
         {
             using (SqlConnection sqlCon = new SqlConnection(cadenaConexion))
@@ -39,6 +49,9 @@ namespace EasySQL.Operaciones.Operacion
             }
         }
 
+        /// <summary>
+        /// Implementa para una conexión SQL Server el método ExecuteScalar como se especifica en Operacion.cs
+        /// </summary>
         public static object ExecuteScalar(string cadenaConexion, SqlCommand comando)
         {
             using (SqlConnection sqlCon = new SqlConnection(cadenaConexion))
@@ -65,6 +78,9 @@ namespace EasySQL.Operaciones.Operacion
             }
         }
 
+        /// <summary>
+        /// Implementa para una conexión SQL Server el método ExecuteNonQuery como se especifica en Operacion.cs
+        /// </summary>
         public static int ExecuteNonQuery(string cadenaConexion, SqlCommand comando)
         {
             using (SqlConnection sqlCon = new SqlConnection(cadenaConexion))
@@ -91,6 +107,9 @@ namespace EasySQL.Operaciones.Operacion
             }
         }
 
+        /// <summary>
+        /// Implementa para una conexión SQL Server el método ExecuteReader como se especifica en Operacion.cs
+        /// </summary>
         public static SqlDataReader ExecuteReader(string cadenaConexion, SqlCommand comando)
         {
             try

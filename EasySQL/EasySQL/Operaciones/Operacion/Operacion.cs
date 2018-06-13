@@ -14,21 +14,35 @@ namespace EasySQL.Operaciones.Operacion
 {
     public static class Operacion
     {
+        /// <summary>
+        /// Constante que se devuelve cuando en la operación SQL se ha producido un error
+        /// </summary>
         public const int ERROR = Int32.MinValue;
 
-        public static bool ExecuteTest(Conexion actual)
+        /// <summary>
+        /// Ejecuta un test de conexión correcta contra una conexión dada.
+        /// </summary>
+        /// <param name="test">La conexión a probar.</param>
+        /// <returns>True si el test ha sido correcto.</returns>
+        public static bool ExecuteTest(Conexion test)
         {
-            if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
+            if (test.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionSQL.ExecuteTest(actual.CadenaConexion);
+                return OperacionSQL.ExecuteTest(test.CadenaConexion);
             }
-            else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
+            else if (test.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ExecuteTest(actual.CadenaConexion);
+                return OperacionMySQL.ExecuteTest(test.CadenaConexion);
             }
             else return false;
         }
 
+        /// <summary>
+        /// Ejecuta una consulta y devuelve el primer resultado devuelto por la consulta.
+        /// </summary>
+        /// <param name="actual">La conexión contra la que se realizará la consulta.</param>
+        /// <param name="comando">El comando a ejecutar de manera escalar.</param>
+        /// <returns>El primer resultado de la consulta.</returns>
         public static object ExecuteScalar(Conexion actual, DbCommand comando)
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
@@ -42,6 +56,12 @@ namespace EasySQL.Operaciones.Operacion
             else return null;
         }
 
+        /// <summary>
+        /// Ejecuta una sentencia SQL contra una conexión y devuelve el número de filas afectadas.
+        /// </summary>
+        /// <param name="actual">La conexión contra la que se ejecutará la sentencia.</param>
+        /// <param name="comando">El comando a ejecutar.</param>
+        /// <returns>El número de filas afectadas.</returns>
         public static int ExecuteNonQuery(Conexion actual, DbCommand comando)
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
@@ -55,6 +75,13 @@ namespace EasySQL.Operaciones.Operacion
             else return -1;
         }
 
+        /// <summary>
+        /// Ejecuta una sentencia SQL contra una conexión y devuelve un DataReader con el
+        /// que iterar sobre los resultados obtenidos.
+        /// </summary>
+        /// <param name="actual">La conexión contra la que se ejecutará la sentencia.</param>
+        /// <param name="comando">El comando a ejecutar.</param>
+        /// <returns>Un objeto IDataReader con el que acceder a los datos.</returns>
         public static IDataReader ExecuteReader(Conexion actual, DbCommand comando)
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
@@ -126,6 +153,12 @@ namespace EasySQL.Operaciones.Operacion
             return ExecuteReader(conexionActual, comando);
         }
 
+        /// <summary>
+        /// Extrae los datos de la primera columna encontrada en un DataReader
+        /// y los añade a una lista de string.
+        /// </summary>
+        /// <param name="lector">El DataReader donde extraer los datos.</param>
+        /// <returns>Una lista de string con los datos de la primera columna del DataReader.</returns>
         public static List<string> MapearReaderALista(IDataReader lector)
         {
             List<string> resultado = new List<string>();
