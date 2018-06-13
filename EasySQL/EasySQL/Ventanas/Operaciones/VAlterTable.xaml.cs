@@ -1,6 +1,6 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Operacion;
+using EasySQL.Operaciones.Comandos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -41,7 +41,7 @@ namespace EasySQL.Ventanas.Operaciones
             this.conexionActual = actual;
             this.Title += " || Base de datos \"" + actual.BaseDatos + "\"";
             // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = Operacion.ComandoAlterTable(actual);
+            this.comandoEnviar = Comando.AlterTable(actual);
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
@@ -58,7 +58,7 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+            int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
             if (resultado == -1)
             {
                 MessageBox.Show("Tabla \"" + Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) 
@@ -141,7 +141,7 @@ namespace EasySQL.Ventanas.Operaciones
             lblNombreColumna.Visibility = Visibility.Visible;
             lblTipoDato.Visibility = Visibility.Visible;
             separador.Visibility = Visibility.Visible;
-            string[] tiposDatos = Operacion.TiposDatos(conexionActual);
+            string[] tiposDatos = Comando.TiposDatos(conexionActual);
 
             // Se crean los controles dinámicos
             txtBoxGenerado = new TextBox();
@@ -188,7 +188,7 @@ namespace EasySQL.Ventanas.Operaciones
             separador.Visibility = Visibility.Visible;
             string nombreTabla = cmbTablas.SelectedItem.ToString();
             List<string> nombresColumnas =
-                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderColumnas(conexionActual, nombreTabla));
+                Operacion.MapearReaderALista(Operacion.ObtenerReaderColumnas(conexionActual, nombreTabla));
 
             // Se crean los controles dinámicos
             cmbGenerado = new ComboBox();

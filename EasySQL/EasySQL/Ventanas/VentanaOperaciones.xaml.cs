@@ -1,5 +1,4 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Controlador;
 using EasySQL.Utils;
 using EasySQL.Ventanas.Operaciones;
 using System;

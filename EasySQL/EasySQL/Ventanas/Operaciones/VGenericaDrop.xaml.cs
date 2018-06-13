@@ -1,6 +1,6 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Operacion;
+using EasySQL.Operaciones.Comandos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -63,7 +63,7 @@ namespace EasySQL.Ventanas.Operaciones
                 CLICK_OK = CLICK_OK_DATABASE;
                 DESCRIPCION = DESCRIPCION_DATABASE;
                 Comun.RellenarComboBasesDatos(conexionActual, cmbDatos);
-                return Operacion.ComandoDropDatabase(conexionActual, false);
+                return Comando.DropDatabase(conexionActual, false);
             }
             else if (modoActual.Equals(Modo.TABLE))
             {
@@ -71,7 +71,7 @@ namespace EasySQL.Ventanas.Operaciones
                 CLICK_OK = CLICK_OK_TABLE;
                 DESCRIPCION = DESCRIPCION_TABLE;
                 Comun.RellenarComboTablas(conexionActual, cmbDatos);
-                return Operacion.ComandoDropTable(conexionActual);
+                return Comando.DropTable(conexionActual);
             }
             return null;
         }
@@ -82,7 +82,7 @@ namespace EasySQL.Ventanas.Operaciones
             {
                 comandoEnviar.CommandText = GenerarComandoEnvio(false);
 
-                int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+                int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
                 // Bien
                 if (resultado == -1)
                 {
@@ -90,7 +90,7 @@ namespace EasySQL.Ventanas.Operaciones
                 }
 
                 // Si la base de datos no se ha podido borrar por conexión abierta, preguntar forzado
-                if (modoActual.Equals(Modo.DATABASE) && resultado == Ayudante.ERROR)
+                if (modoActual.Equals(Modo.DATABASE) && resultado == Operacion.ERROR)
                 {
                     MessageBoxResult opcionElegir = 
                         MessageBox.Show("Error al eliminar la base de datos.\r\n" +
@@ -100,7 +100,7 @@ namespace EasySQL.Ventanas.Operaciones
                     if (opcionElegir.Equals(MessageBoxResult.Yes))
                     {
                         comandoEnviar.CommandText = GenerarComandoEnvio(true);
-                        resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+                        resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
                         // Bien
                         if (resultado == -1)
                         {
@@ -123,8 +123,8 @@ namespace EasySQL.Ventanas.Operaciones
                 string nombreBBDD = cmbDatos.SelectedItem?.ToString();
                 if (forzar)
                 {
-                    comando = Operacion.ComandoDropDatabase(conexionActual, forzar).CommandText;
-                    comando = comando.Replace(Operacion.PARAMS[0], nombreBBDD);
+                    comando = Comando.DropDatabase(conexionActual, forzar).CommandText;
+                    comando = comando.Replace(Comando.PARAMS[0], nombreBBDD);
                 } else
                 {
                     comando = textoComandoOriginal + nombreBBDD;
@@ -133,7 +133,7 @@ namespace EasySQL.Ventanas.Operaciones
             else if (modoActual.Equals(Modo.TABLE))
             {
                 string nombreTabla = cmbDatos.SelectedItem?.ToString();
-                comando = Operacion.ComandoDropTable(conexionActual).CommandText;
+                comando = Comando.DropTable(conexionActual).CommandText;
                 comando += nombreTabla;
             }
             return comando;

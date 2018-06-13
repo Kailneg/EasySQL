@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -7,17 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace EasySQL.Operaciones.Ayudante
+namespace EasySQL.Operaciones.Operacion
 {
-    public class AyudanteMySQL
+    public class OperacionSQL
     {
         private const string MSJ_ERROR =
             "Error en la operación, compruebe los datos o la conexión con la base de datos.";
-        private static MySqlConnection sqlConnReader;
+        private static SqlConnection sqlConnReader;
 
         public static bool ExecuteTest(string cadenaConexion)
         {
-            using (MySqlConnection sqlCon = new MySqlConnection(cadenaConexion))
+            using (SqlConnection sqlCon = new SqlConnection(cadenaConexion))
             {
                 try
                 {
@@ -26,7 +25,7 @@ namespace EasySQL.Operaciones.Ayudante
                     sqlCon.Close();
                     return true;
                 }
-                catch (MySqlException s)
+                catch (SqlException s)
                 {
                     MessageBox.Show(s.Message);
                     return false;
@@ -40,9 +39,9 @@ namespace EasySQL.Operaciones.Ayudante
             }
         }
 
-        public static object ExecuteScalar(string cadenaConexion, MySqlCommand comando)
+        public static object ExecuteScalar(string cadenaConexion, SqlCommand comando)
         {
-            using (MySqlConnection sqlCon = new MySqlConnection(cadenaConexion))
+            using (SqlConnection sqlCon = new SqlConnection(cadenaConexion))
             {
                 try
                 {
@@ -52,23 +51,23 @@ namespace EasySQL.Operaciones.Ayudante
                     // 2. Ejecuta y devuelve un objeto resultado
                     return comando.ExecuteScalar();
                 }
-                catch (MySqlException s)
+                catch (SqlException s)
                 {
                     MessageBox.Show(s.Message);
-                    return Ayudante.ERROR;
+                    return Operacion.ERROR;
                 }
                 catch (Exception s)
                 {
                     MessageBox.Show(MSJ_ERROR);
                     Console.WriteLine(s.Message);
-                    return Ayudante.ERROR;
+                    return Operacion.ERROR;
                 }
             }
         }
 
-        public static int ExecuteNonQuery(string cadenaConexion, MySqlCommand comando)
+        public static int ExecuteNonQuery(string cadenaConexion, SqlCommand comando)
         {
-            using (MySqlConnection sqlCon = new MySqlConnection(cadenaConexion))
+            using (SqlConnection sqlCon = new SqlConnection(cadenaConexion))
             {
                 try
                 {
@@ -78,30 +77,30 @@ namespace EasySQL.Operaciones.Ayudante
                     // 2. Ejecuta y devuelve el número de filas afectadas
                     return comando.ExecuteNonQuery();
                 }
-                catch (MySqlException s)
+                catch (SqlException s)
                 {
                     MessageBox.Show(s.Message);
-                    return Ayudante.ERROR;
+                    return Operacion.ERROR;
                 }
                 catch (Exception s)
                 {
                     MessageBox.Show(MSJ_ERROR);
                     Console.WriteLine(s.Message);
-                    return Ayudante.ERROR;
+                    return Operacion.ERROR;
                 }
             }
         }
 
-        public static MySqlDataReader ExecuteReader(string cadenaConexion, MySqlCommand comando)
+        public static SqlDataReader ExecuteReader(string cadenaConexion, SqlCommand comando)
         {
             try
             {
-                sqlConnReader = new MySqlConnection(cadenaConexion);
+                sqlConnReader = new SqlConnection(cadenaConexion);
                 sqlConnReader.Open();
                 comando.Connection = sqlConnReader;
                 return comando.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
             }
-            catch (MySqlException s)
+            catch (SqlException s)
             {
                 MessageBox.Show(s.Message);
                 return null;
@@ -115,4 +114,3 @@ namespace EasySQL.Operaciones.Ayudante
         }
     }
 }
-

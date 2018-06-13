@@ -1,6 +1,6 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Operacion;
+using EasySQL.Operaciones.Comandos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -52,7 +52,7 @@ namespace EasySQL.Ventanas.Operaciones
             this.conexionActual = actual;
             this.Title += " || Base de datos \"" + actual.BaseDatos + "\"";
             // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = Operacion.ComandoSelect(actual);
+            this.comandoEnviar = Comando.Select(actual);
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
             extraerSelect = new List<ColumnaValor>();
@@ -96,39 +96,39 @@ namespace EasySQL.Ventanas.Operaciones
 
             if (!String.IsNullOrWhiteSpace(datosSelect))
             {
-                comando = comando.Replace(Operacion.PARAMS[0], datosSelect);
+                comando = comando.Replace(Comando.PARAMS[0], datosSelect);
             }
             else
             {
-                comando = comando.Replace(Operacion.PARAMS[0], "*");
+                comando = comando.Replace(Comando.PARAMS[0], "*");
             }
 
             if (!String.IsNullOrWhiteSpace(tabla))
             {
-                comando = comando.Replace(Operacion.PARAMS[1], tabla);
+                comando = comando.Replace(Comando.PARAMS[1], tabla);
             }
             else
             {
-                comando = comando.Replace(Operacion.PARAMS[1], "");
+                comando = comando.Replace(Comando.PARAMS[1], "");
             }
 
             if (!String.IsNullOrWhiteSpace(this.datosWhere))
             {
-                comando = comando.Replace(Operacion.PARAMS[2], this.datosWhere);
+                comando = comando.Replace(Comando.PARAMS[2], this.datosWhere);
             }
             else
             {
-                comando = comando.Replace(Operacion.PARAMS[2], "");
+                comando = comando.Replace(Comando.PARAMS[2], "");
             }
 
             if (this.datosOrderBy?.Count > 0)
             {
                 string orderByParseado = parsearDatosOrderBy(this.datosOrderBy);
-                comando = comando.Replace(Operacion.PARAMS[3], orderByParseado);
+                comando = comando.Replace(Comando.PARAMS[3], orderByParseado);
             }
             else
             {
-                comando = comando.Replace(Operacion.PARAMS[3], "");
+                comando = comando.Replace(Comando.PARAMS[3], "");
             }
 
             comandoEnviar.CommandText = comando;
@@ -267,15 +267,15 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            object comprobarComando = Ayudante.ExecuteScalar(conexionActual, comandoEnviar);
+            object comprobarComando = Operacion.ExecuteScalar(conexionActual, comandoEnviar);
             if (comprobarComando != null)
             {
                 int resultado = 0;
                 Int32.TryParse(comprobarComando.ToString(), out resultado);
-                if (resultado != Ayudante.ERROR)
+                if (resultado != Operacion.ERROR)
                 {
                     // Al menos hay una fila que mostrar
-                    IDataReader readerSelect = Ayudante.ExecuteReader(conexionActual, comandoEnviar);
+                    IDataReader readerSelect = Operacion.ExecuteReader(conexionActual, comandoEnviar);
                     DataTable datosMostrar = new DataTable();
                     datosMostrar.Load(readerSelect);
                     DatosConsulta paqueteDatos = new DatosConsulta(conexionActual, datosMostrar, comandoEnviar.CommandText);

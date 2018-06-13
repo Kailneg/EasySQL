@@ -1,6 +1,6 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Operacion;
+using EasySQL.Operaciones.Comandos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -53,24 +53,24 @@ namespace EasySQL.Ventanas.Operaciones
         {
             // Saco la información del textbox de su izquierda
             string nombreTabla = (((sender as Button).Parent as Grid).Children[1] as TextBox).Text;
-            DbCommand comando = Operacion.ComandoSelect(conexionActual);
+            DbCommand comando = Comando.Select(conexionActual);
             string txtComando = comando.CommandText;
-            txtComando = txtComando.Replace(Operacion.PARAMS[0], "*");
-            txtComando = txtComando.Replace(Operacion.PARAMS[1], nombreTabla);
-            txtComando = txtComando.Replace(Operacion.PARAMS[2], "");
-            txtComando = txtComando.Replace(Operacion.PARAMS[3], "");
+            txtComando = txtComando.Replace(Comando.PARAMS[0], "*");
+            txtComando = txtComando.Replace(Comando.PARAMS[1], nombreTabla);
+            txtComando = txtComando.Replace(Comando.PARAMS[2], "");
+            txtComando = txtComando.Replace(Comando.PARAMS[3], "");
             comando.CommandText = txtComando;
 
 
-            object comprobarComando = Ayudante.ExecuteScalar(conexionActual, comando);
+            object comprobarComando = Operacion.ExecuteScalar(conexionActual, comando);
             if (comprobarComando != null)
             {
                 int resultado = 0;
                 Int32.TryParse(comprobarComando.ToString(), out resultado);
-                if (resultado != Ayudante.ERROR)
+                if (resultado != Operacion.ERROR)
                 {
                     // Al menos hay una fila que mostrar
-                    IDataReader readerSelect = Ayudante.ExecuteReader(conexionActual, comando);
+                    IDataReader readerSelect = Operacion.ExecuteReader(conexionActual, comando);
                     DataTable datosMostrar = new DataTable();
                     datosMostrar.Load(readerSelect);
                     DatosConsulta paqueteDatos = new DatosConsulta(conexionActual, datosMostrar, comando.CommandText);

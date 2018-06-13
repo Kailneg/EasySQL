@@ -1,6 +1,6 @@
 ﻿using EasySQL.Modelos;
 using EasySQL.Operaciones;
-using EasySQL.Operaciones.Ayudante;
+using EasySQL.Operaciones.Operacion;
 using System;
 using System.Collections.Generic;
 using System.Data;

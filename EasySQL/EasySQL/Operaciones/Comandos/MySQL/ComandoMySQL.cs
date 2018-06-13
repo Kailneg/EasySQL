@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasySQL.Operaciones.Controlador.MySQL
+namespace EasySQL.Operaciones.Comandos.MySQL
 {
-    public class OperacionMySQL
+    public class ComandoMySQL
     {
         public static readonly string[] TIPOS_DATOS =
             { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(500)", "DATE"  };
@@ -32,12 +32,12 @@ namespace EasySQL.Operaciones.Controlador.MySQL
         private const string INSERT = "INSERT INTO @1param (@2param) VALUES (@3param)";
         private const string SELECT = "SELECT @1param FROM @2param @3param @4param";
 
-        public static DbCommand ComandoShowDatabases()
+        public static DbCommand ShowDatabases()
         {
             return new MySqlCommand(SHOW_DATABASES);
         }
 
-        public static DbCommand ComandoCreateDatabase()
+        public static DbCommand CreateDatabase()
         {
             return new MySqlCommand(CREATE_DATABASE);
         }
@@ -50,52 +50,52 @@ namespace EasySQL.Operaciones.Controlador.MySQL
                 return new MySqlCommand(DROP_DATABASE_FORCE);
         }
 
-        public static DbCommand ComandoCreateTable()
+        public static DbCommand CreateTable()
         {
             return new MySqlCommand(CREATE_TABLE);
         }
 
-        public static DbCommand ComandoDropTable()
+        public static DbCommand DropTable()
         {
             return new MySqlCommand(DROP_TABLE);
         }
 
-        public static DbCommand ComandoAlterTable()
+        public static DbCommand AlterTable()
         {
             return new MySqlCommand(ALTER_TABLE);
         }
 
-        public static DbCommand ComandoShowTables()
+        public static DbCommand ShowTables()
         {
             return new MySqlCommand(SHOW_TABLES);
         }
 
-        public static DbCommand ComandoShowColumnas()
+        public static DbCommand ShowColumnas()
         {
             return new MySqlCommand(SHOW_COLUMNS);
         }
 
-        public static DbCommand ComandoShowTiposDatosColumnas()
+        public static DbCommand ShowTiposDatosColumnas()
         {
             return new MySqlCommand(SHOW_COLUMNS_DATA_TYPE);
         }
 
-        public static DbCommand ComandoDeleteFrom()
+        public static DbCommand DeleteFrom()
         {
             return new MySqlCommand(DELETE_FROM);
         }
 
-        public static DbCommand ComandoUpdate()
+        public static DbCommand Update()
         {
             return new MySqlCommand(UPDATE);
         }
 
-        public static DbCommand ComandoInsert()
+        public static DbCommand Insert()
         {
             return new MySqlCommand(INSERT);
         }
 
-        public static DbCommand ComandoSelect()
+        public static DbCommand Select()
         {
             return new MySqlCommand(SELECT);
         }

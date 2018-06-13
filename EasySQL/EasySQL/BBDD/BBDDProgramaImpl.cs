@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
+using EasySQL.Operaciones.Operacion;
 
 namespace EasySQL.BBDD
 {
@@ -84,14 +84,14 @@ namespace EasySQL.BBDD
             loginCmd.Parameters.AddWithValue("@contrasenia", contraseniaBcrypt);
 
             // Obtiene el resultado
-            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, loginCmd);
+            object resultado = OperacionSQL.ExecuteScalar(cadenaConexion, loginCmd);
             
             // Si el resultado es nulo, no existe el usuario.
             if (resultado == null)
             {
                 return new ResultadoLogin(ResultadoLogin.TipoResultado.DENEGADO, null);
             }
-            else if (resultado.Equals(Ayudante.ERROR))
+            else if (resultado.Equals(Operacion.ERROR))
             {
                 return new ResultadoLogin(ResultadoLogin.TipoResultado.ERROR, null);
             }
@@ -113,7 +113,7 @@ namespace EasySQL.BBDD
             SqlCommand saltCmd = new SqlCommand(saltQuery);
             saltCmd.Parameters.AddWithValue("@usuario", usuario);
             // Obtiene el resultado
-            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, saltCmd);
+            object resultado = OperacionSQL.ExecuteScalar(cadenaConexion, saltCmd);
             if (resultado != null)
                 return resultado.ToString();
             else
@@ -144,7 +144,7 @@ namespace EasySQL.BBDD
                 registrarCmd.Parameters.AddWithValue("@contrasenia_salt", contraseniaSalt);
 
                 // Obtiene el resultado
-                int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, registrarCmd);
+                int resultadoFilasSQL = OperacionSQL.ExecuteNonQuery(cadenaConexion, registrarCmd);
                 
                 // Si es distinto mayor a 0, se habrá registrado el usuario
                 if (resultadoFilasSQL > 0)
@@ -170,7 +170,7 @@ namespace EasySQL.BBDD
             obtenerCmd.Parameters.AddWithValue("@usuario", usuario.Nombre);
             obtenerCmd.Parameters.AddWithValue("@contrasenia", usuario.ContraseniaBBDD);
             // Obtiene el resultado
-            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, obtenerCmd);
+            object resultado = OperacionSQL.ExecuteScalar(cadenaConexion, obtenerCmd);
             // Si el resultado es nulo, no existe el usuario.
             if (resultado == null)
             {
@@ -193,7 +193,7 @@ namespace EasySQL.BBDD
             obtenerIDCmd.Parameters.AddWithValue("@direccion", conexion.Direccion);
             obtenerIDCmd.Parameters.AddWithValue("@usuario", conexion.UsuarioConexion);
             // Obtiene el resultado
-            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, obtenerIDCmd);
+            object resultado = OperacionSQL.ExecuteScalar(cadenaConexion, obtenerIDCmd);
             // Si el resultado es nulo, no existe la conexion.
             if (resultado == null)
             {
@@ -238,7 +238,7 @@ namespace EasySQL.BBDD
                 registrarCmd.Parameters.AddWithValue("@contrasenia", contrasenia);
 
                 // Obtiene el resultado
-                int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, registrarCmd);
+                int resultadoFilasSQL = OperacionSQL.ExecuteNonQuery(cadenaConexion, registrarCmd);
 
                 // Si es distinto mayor a 0, se habrá registrado la conexion
                 if (resultadoFilasSQL > 0)
@@ -262,7 +262,7 @@ namespace EasySQL.BBDD
             SqlCommand eliminarCmd = new SqlCommand(eliminarConexionQuery);
             eliminarCmd.Parameters.AddWithValue("@id_conexion", eliminar.ID);
             // Obtiene resultado
-            int resultadoFilasSQL = AyudanteSQL.ExecuteNonQuery(cadenaConexion, eliminarCmd); 
+            int resultadoFilasSQL = OperacionSQL.ExecuteNonQuery(cadenaConexion, eliminarCmd); 
 
             // Si es distinto a 0, se eliminado la conexión
             return (resultadoFilasSQL != 0);
@@ -276,7 +276,7 @@ namespace EasySQL.BBDD
             // Crea el comando
             SqlCommand obtenerConexCmd = new SqlCommand(obtenerConexionesQuery);
             obtenerConexCmd.Parameters.AddWithValue("@id_usuario", usuario.ID);
-            using (SqlDataReader lector = AyudanteSQL.ExecuteReader(cadenaConexion, obtenerConexCmd))
+            using (SqlDataReader lector = OperacionSQL.ExecuteReader(cadenaConexion, obtenerConexCmd))
             {
                 // Si el lector no es nulo, parsear las conexiones
                 if (lector != null)
@@ -304,7 +304,7 @@ namespace EasySQL.BBDD
             SqlCommand existirCmd = new SqlCommand(existirQuery);
             existirCmd.Parameters.AddWithValue("@usuario", usuario);
             // Obtiene resultado
-            object resultado = AyudanteSQL.ExecuteScalar(cadenaConexion, existirCmd);
+            object resultado = OperacionSQL.ExecuteScalar(cadenaConexion, existirCmd);
 
             // Si el resultado es nulo, no existe el usuario.
             return (resultado != null);
@@ -332,7 +332,7 @@ namespace EasySQL.BBDD
             SqlCommand obtenerPuerto = new SqlCommand(obtenerPuertoQuery);
             obtenerPuerto.Parameters.AddWithValue("@id_tipo", (int)tipo);
             // Obtiene y devuelve el resultado
-            return (int) AyudanteSQL.ExecuteScalar(cadenaConexion, obtenerPuerto);
+            return (int) OperacionSQL.ExecuteScalar(cadenaConexion, obtenerPuerto);
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
-using EasySQL.Operaciones.Controlador.MicrosoftSQL;
-using EasySQL.Operaciones.Controlador.MySQL;
+using EasySQL.Operaciones.Comandos.MicrosoftSQL;
+using EasySQL.Operaciones.Comandos.MySQL;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -10,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasySQL.Operaciones.Controlador
+namespace EasySQL.Operaciones.Comandos
 {
-    public class Operacion
+    public class Comando
     {
         public static readonly string[] PARAMS 
             = { "@1param", "@2param", "@3param", "@4param", "@5param" };
@@ -25,181 +23,181 @@ namespace EasySQL.Operaciones.Controlador
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.TIPOS_DATOS;
+                return ComandoMicrosoftSQL.TIPOS_DATOS;
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.TIPOS_DATOS;
+                return ComandoMySQL.TIPOS_DATOS;
             }
             else return null;
         }
 
-        public static DbCommand ComandoShowDatabases(Conexion conexionActual)
+        public static DbCommand ShowDatabases(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoShowDatabases();
+                return ComandoMicrosoftSQL.ShowDatabases();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoShowDatabases();
+                return ComandoMySQL.ShowDatabases();
             }
             else return null;
         }
 
-        public static DbCommand ComandoCreateDatabase(Conexion conexionActual)
+        public static DbCommand CreateDatabase(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoCreateDatabase();
+                return ComandoMicrosoftSQL.CreateDatabase();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoCreateDatabase();
+                return ComandoMySQL.CreateDatabase();
             }
             else return null;
         }
 
-        public static DbCommand ComandoDropDatabase(Conexion conexionActual, bool forzar)
+        public static DbCommand DropDatabase(Conexion conexionActual, bool forzar)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoDropDatabase(forzar);
+                return ComandoMicrosoftSQL.DropDatabase(forzar);
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoDropDatabase(forzar);
+                return ComandoMySQL.ComandoDropDatabase(forzar);
             }
             else return null;
         }
 
 
-        public static DbCommand ComandoCreateTable(Conexion conexionActual)
+        public static DbCommand CreateTable(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoCreateTable();
+                return ComandoMicrosoftSQL.CreateTable();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoCreateTable();
+                return ComandoMySQL.CreateTable();
             }
             else return null;
         }
 
-        public static DbCommand ComandoDropTable(Conexion conexionActual)
+        public static DbCommand DropTable(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoDropTable();
+                return ComandoMicrosoftSQL.DropTable();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoDropTable();
+                return ComandoMySQL.DropTable();
             }
             else return null;
         }
 
-        public static DbCommand ComandoAlterTable(Conexion conexionActual)
+        public static DbCommand AlterTable(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoAlterTable();
+                return ComandoMicrosoftSQL.AlterTable();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoAlterTable();
+                return ComandoMySQL.AlterTable();
             }
             else return null;
         }
 
-        public static DbCommand ComandoShowTables(Conexion conexionActual)
+        public static DbCommand ShowTables(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoShowTables();
+                return ComandoMicrosoftSQL.ShowTables();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoShowTables();
+                return ComandoMySQL.ShowTables();
             }
             else return null;
         }
 
-        public static DbCommand ComandoShowColumnas(Conexion conexionActual)
+        public static DbCommand ShowColumnas(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoShowColumnas();
+                return ComandoMicrosoftSQL.ShowColumnas();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoShowColumnas();
+                return ComandoMySQL.ShowColumnas();
             }
             else return null;
         }
 
-        public static DbCommand ComandoShowTiposDatosColumnas(Conexion conexionActual)
+        public static DbCommand ShowTiposDatosColumnas(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoShowTiposDatosColumnas();
+                return ComandoMicrosoftSQL.ShowTiposDatosColumnas();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoShowTiposDatosColumnas();
+                return ComandoMySQL.ShowTiposDatosColumnas();
             }
             else return null;
         }
 
-        public static DbCommand ComandoDeleteFrom(Conexion conexionActual)
+        public static DbCommand DeleteFrom(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoDeleteFrom();
+                return ComandoMicrosoftSQL.DeleteFrom();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoDeleteFrom();
+                return ComandoMySQL.DeleteFrom();
             }
             else return null;
         }
 
-        public static DbCommand ComandoUpdate(Conexion conexionActual)
+        public static DbCommand Update(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoUpdate();
+                return ComandoMicrosoftSQL.Update();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoUpdate();
+                return ComandoMySQL.Update();
             }
             else return null;
         }
 
-        public static DbCommand ComandoInsert(Conexion conexionActual)
+        public static DbCommand Insert(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoInsert();
+                return ComandoMicrosoftSQL.Insert();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoInsert();
+                return ComandoMySQL.Insert();
             }
             else return null;
         }
 
-        public static DbCommand ComandoSelect(Conexion conexionActual)
+        public static DbCommand Select(Conexion conexionActual)
         {
             if (conexionActual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return OperacionMicrosoftSQL.ComandoSelect();
+                return ComandoMicrosoftSQL.Select();
             }
             else if (conexionActual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return OperacionMySQL.ComandoSelect();
+                return ComandoMySQL.Select();
             }
             else return null;
         }

@@ -1,6 +1,6 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Operacion;
+using EasySQL.Operaciones.Comandos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace EasySQL.Ventanas.Operaciones
         public static void RellenarComboTablas(Conexion actual, ComboBox aRellenar)
         {
             List<string> nombresTablas =
-                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderTablas(actual));
+                Operacion.MapearReaderALista(Operacion.ObtenerReaderTablas(actual));
             // Rellena el combobox con las bases de datos o tablas pertinentes
             nombresTablas.Insert(0, CMB_OPCION_DEFECTO_TABLE);
             aRellenar.Items.Clear();
@@ -70,7 +70,7 @@ namespace EasySQL.Ventanas.Operaciones
         public static void RellenarComboBasesDatos(Conexion actual, ComboBox aRellenar)
         {
             List<string> nombresBBDD =
-                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderBasesDatos(actual));
+                Operacion.MapearReaderALista(Operacion.ObtenerReaderBasesDatos(actual));
             // Rellena el combobox con las bases de datos o tablas pertinentes
             nombresBBDD.Insert(0, CMB_OPCION_DEFECTO_DATABASE);
             aRellenar.Items.Clear();
@@ -91,8 +91,8 @@ namespace EasySQL.Ventanas.Operaciones
             Action<object, RoutedEventArgs> handlerEventosButtons)
         {
             List<string> nombre_tablas =
-                Ayudante.MapearReaderALista(
-                    Ayudante.ObtenerReaderTablas(actual));
+                Operacion.MapearReaderALista(
+                    Operacion.ObtenerReaderTablas(actual));
 
             // Se vacía de contenido el stackpanel
             contenedor.Children.Clear();
@@ -166,11 +166,11 @@ namespace EasySQL.Ventanas.Operaciones
             Action<object, RoutedEventArgs> handlerEventosCheckboxs)
         {
             List<string> nombre_columnas =
-                Ayudante.MapearReaderALista(
-                    Ayudante.ObtenerReaderColumnas(actual, nombreTabla));
+                Operacion.MapearReaderALista(
+                    Operacion.ObtenerReaderColumnas(actual, nombreTabla));
             List<string> tipo_datos =
-                Ayudante.MapearReaderALista(
-                    Ayudante.ObtenerReaderTiposDatosColumnas(actual, nombreTabla));
+                Operacion.MapearReaderALista(
+                    Operacion.ObtenerReaderTiposDatosColumnas(actual, nombreTabla));
 
             int numCamposGenerar = nombre_columnas.Count;
 
@@ -293,11 +293,11 @@ namespace EasySQL.Ventanas.Operaciones
             Action<object, RoutedEventArgs> handlerEventosCheckboxs, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
         {
             List<string> nombre_columnas =
-                Ayudante.MapearReaderALista(
-                    Ayudante.ObtenerReaderColumnas(actual, nombreTabla));
+                Operacion.MapearReaderALista(
+                    Operacion.ObtenerReaderColumnas(actual, nombreTabla));
             List<string> tipo_datos =
-                Ayudante.MapearReaderALista(
-                    Ayudante.ObtenerReaderTiposDatosColumnas(actual, nombreTabla));
+                Operacion.MapearReaderALista(
+                    Operacion.ObtenerReaderTiposDatosColumnas(actual, nombreTabla));
 
             int numCamposGenerar = nombre_columnas.Count;
 
@@ -437,11 +437,11 @@ namespace EasySQL.Ventanas.Operaciones
         public static void GenerarCamposWhere(StackPanel contenedor, Conexion actual, int numCondiciones, string nombreTabla,
             Action<object, SelectionChangedEventArgs> handlerEventosCombos, Action<object, TextChangedEventArgs> handlerEventosTextboxs)
         {
-            string[] tipos_operadores = Operacion.TIPOS_CONDICIONES;
-            string[] tipos_operadores_union = Operacion.TIPOS_CONDICIONES_UNION;
+            string[] tipos_operadores = Comando.TIPOS_CONDICIONES;
+            string[] tipos_operadores_union = Comando.TIPOS_CONDICIONES_UNION;
             List<string> nombre_columnas =
-                Ayudante.MapearReaderALista(
-                    Ayudante.ObtenerReaderColumnas(actual, nombreTabla));
+                Operacion.MapearReaderALista(
+                    Operacion.ObtenerReaderColumnas(actual, nombreTabla));
             nombre_columnas.Insert(0, "");
 
             // Se vacía de contenido el stackpanel
@@ -573,7 +573,7 @@ namespace EasySQL.Ventanas.Operaciones
         public static void GenerarCamposOrderBy(StackPanel contenedor, Conexion actual, int numCampos,
             List<ColumnaValor> camposElegidos, string nombreTabla, Action<object, SelectionChangedEventArgs> handlerEventosCombos)
         {
-            string[] tipos_operadores = Operacion.TIPOS_ORDEN;
+            string[] tipos_operadores = Comando.TIPOS_ORDEN;
 
             // Se vacía de contenido el stackpanel
             contenedor.Children.Clear();

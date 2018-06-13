@@ -1,6 +1,6 @@
 ﻿using EasySQL.BBDD;
 using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
+using EasySQL.Operaciones.Operacion;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -248,7 +248,7 @@ namespace EasySQL.Ventanas
                 // Muestra la conexión actual
                 ActualizarConexionActual(conexionActual);
                 // Obtiene el resultado
-                bool retorno = Ayudante.ExecuteTest(conexionActual);
+                bool retorno = Operacion.ExecuteTest(conexionActual);
 
                 if (retorno)
                     MessageBox.Show("Conexión correcta.");

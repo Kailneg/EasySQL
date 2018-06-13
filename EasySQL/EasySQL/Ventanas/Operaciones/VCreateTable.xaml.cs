@@ -1,6 +1,6 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Operacion;
+using EasySQL.Operaciones.Comandos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace EasySQL.Ventanas.Operaciones
             this.conexionActual = actual;
             this.Title += " || Base de datos \"" + actual.BaseDatos + "\"";
             // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = Operacion.ComandoCreateTable(actual);
+            this.comandoEnviar = Comando.CreateTable(actual);
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
@@ -93,7 +93,7 @@ namespace EasySQL.Ventanas.Operaciones
             if (cmbCampos.SelectedItem != null && cmbCampos.IsMouseCaptured)
             {
                 numColumnas = Int32.Parse(cmbCampos.SelectedItem.ToString());
-                string[] tiposDatos = Operacion.TiposDatos(conexionActual);
+                string[] tiposDatos = Comando.TiposDatos(conexionActual);
 
                 stackTextBoxes.Children.Clear();
                 for (int i = 0; i < numColumnas; i++)
@@ -122,7 +122,7 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void btnEjecutar_Click(object sender, RoutedEventArgs e)
         {
-            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+            int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
             if (resultado == -1)
             {
                 MessageBox.Show("Tabla \"" + Comprueba.EliminarResto(txtbox.Text) + "\" en base de datos " +

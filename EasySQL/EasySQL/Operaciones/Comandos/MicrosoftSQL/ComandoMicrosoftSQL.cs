@@ -1,5 +1,5 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
+using EasySQL.Operaciones.Operacion;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
+namespace EasySQL.Operaciones.Comandos.MicrosoftSQL
 {
-    public class OperacionMicrosoftSQL
+    public class ComandoMicrosoftSQL
     {
         public static readonly string[] TIPOS_DATOS = 
             { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(MAX)", "DATETIME"  };
@@ -33,17 +33,17 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
         private const string INSERT = "INSERT INTO @1param (@2param) VALUES (@3param)";
         private const string SELECT = "SELECT @1param FROM @2param @3param @4param";
 
-        public static DbCommand ComandoShowDatabases()
+        public static DbCommand ShowDatabases()
         {
             return new SqlCommand(SHOW_DATABASES);
         }
 
-        public static DbCommand ComandoCreateDatabase()
+        public static DbCommand CreateDatabase()
         {
             return new SqlCommand(CREATE_DATABASE);
         }
 
-        public static DbCommand ComandoDropDatabase(bool forzar)
+        public static DbCommand DropDatabase(bool forzar)
         {
             if (!forzar)
                 return new SqlCommand(DROP_DATABASE);
@@ -51,52 +51,52 @@ namespace EasySQL.Operaciones.Controlador.MicrosoftSQL
                 return new SqlCommand(DROP_DATABASE_FORCE);
         }
 
-        public static DbCommand ComandoCreateTable()
+        public static DbCommand CreateTable()
         {
             return new SqlCommand(CREATE_TABLE);
         }
 
-        public static DbCommand ComandoDropTable()
+        public static DbCommand DropTable()
         {
             return new SqlCommand(DROP_TABLE);
         }
 
-        public static DbCommand ComandoAlterTable()
+        public static DbCommand AlterTable()
         {
             return new SqlCommand(ALTER_TABLE);
         }
 
-        public static DbCommand ComandoShowTables()
+        public static DbCommand ShowTables()
         {
             return new SqlCommand(SHOW_TABLES);
         }
 
-        public static DbCommand ComandoShowColumnas()
+        public static DbCommand ShowColumnas()
         {
             return new SqlCommand(SHOW_COLUMNS);
         }
 
-        public static DbCommand ComandoShowTiposDatosColumnas()
+        public static DbCommand ShowTiposDatosColumnas()
         {
             return new SqlCommand(SHOW_COLUMNS_DATA_TYPE);
         }
 
-        public static DbCommand ComandoDeleteFrom()
+        public static DbCommand DeleteFrom()
         {
             return new SqlCommand(DELETE_FROM);
         }
 
-        public static DbCommand ComandoUpdate()
+        public static DbCommand Update()
         {
             return new SqlCommand(UPDATE);
         }
         
-        public static DbCommand ComandoInsert()
+        public static DbCommand Insert()
         {
             return new SqlCommand(INSERT);
         }
 
-        public static DbCommand ComandoSelect()
+        public static DbCommand Select()
         {
             return new SqlCommand(SELECT);
         }

@@ -1,7 +1,7 @@
 ﻿using EasySQL.Modelos;
 using EasySQL.Operaciones;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Operacion;
+using EasySQL.Operaciones.Comandos;
 using EasySQL.Utils;
 using EasySQL.Ventanas.Operaciones;
 using System;
@@ -79,7 +79,7 @@ namespace EasySQL.Ventanas
         private void MostrarBasesDatos()
         {
             List<string> nombres_bbdd = 
-                Ayudante.MapearReaderALista(Ayudante.ObtenerReaderBasesDatos(conexionActual));  
+                Operacion.MapearReaderALista(Operacion.ObtenerReaderBasesDatos(conexionActual));  
             nombres_bbdd.Insert(0, CMB_BASEDATOS_DEFECTO);
             cmbBaseDatos.Items.Clear();
             Rellena.ComboBox(cmbBaseDatos, nombres_bbdd);
@@ -114,7 +114,7 @@ namespace EasySQL.Ventanas
                 SeleccionBBDDCambiada();
                 MessageBox.Show("Deseleccionada BBDD elegida");
             }
-            DbCommand comando = Operacion.ComandoDropDatabase(conexionActual, false);
+            DbCommand comando = Comando.DropDatabase(conexionActual, false);
             VGenericaDrop vod =
                 new VGenericaDrop(conexionActual, VGenericaDrop.Modo.DATABASE);
             vod.ShowDialog();
@@ -149,7 +149,7 @@ namespace EasySQL.Ventanas
         {
             if (HayBBDDSeleccionada())
             {
-                DbCommand comando = Operacion.ComandoDropTable(conexionActual);
+                DbCommand comando = Comando.DropTable(conexionActual);
                 VGenericaDrop vod =
                     new VGenericaDrop(conexionActual, VGenericaDrop.Modo.TABLE);
                 vod.ShowDialog();

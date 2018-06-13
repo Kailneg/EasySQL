@@ -1,6 +1,6 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Operacion;
+using EasySQL.Operaciones.Comandos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace EasySQL.Ventanas.Operaciones
             this.conexionActual = actual;
             this.Title += " || Base de datos \"" + actual.BaseDatos + "\"";
             // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = Operacion.ComandoInsert(actual);
+            this.comandoEnviar = Comando.Insert(actual);
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
@@ -72,9 +72,9 @@ namespace EasySQL.Ventanas.Operaciones
                 this.columnas = columnas;
             if (!String.IsNullOrWhiteSpace(datosColumnas))
                 this.datosColumnas = columnas;
-            comando = comando.Replace(Operacion.PARAMS[0], tabla);
-            comando = comando.Replace(Operacion.PARAMS[1], columnas);
-            comando = comando.Replace(Operacion.PARAMS[2], datosColumnas);
+            comando = comando.Replace(Comando.PARAMS[0], tabla);
+            comando = comando.Replace(Comando.PARAMS[1], columnas);
+            comando = comando.Replace(Comando.PARAMS[2], datosColumnas);
             comandoEnviar.CommandText = comando;
             // Muestra el contenido del comando actual en el label
             lblComando.Content = comando;
@@ -142,7 +142,7 @@ namespace EasySQL.Ventanas.Operaciones
 
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+            int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
             if (resultado > 0)
             {
                 MessageBox.Show(

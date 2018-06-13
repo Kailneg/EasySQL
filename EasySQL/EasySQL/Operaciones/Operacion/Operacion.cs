@@ -1,5 +1,5 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Comandos;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -10,9 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasySQL.Operaciones.Ayudante
+namespace EasySQL.Operaciones.Operacion
 {
-    public static class Ayudante
+    public static class Operacion
     {
         public const int ERROR = Int32.MinValue;
 
@@ -20,11 +20,11 @@ namespace EasySQL.Operaciones.Ayudante
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return AyudanteSQL.ExecuteTest(actual.CadenaConexion);
+                return OperacionSQL.ExecuteTest(actual.CadenaConexion);
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteTest(actual.CadenaConexion);
+                return OperacionMySQL.ExecuteTest(actual.CadenaConexion);
             }
             else return false;
         }
@@ -33,11 +33,11 @@ namespace EasySQL.Operaciones.Ayudante
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return AyudanteSQL.ExecuteScalar(actual.CadenaConexion, (SqlCommand) comando);
+                return OperacionSQL.ExecuteScalar(actual.CadenaConexion, (SqlCommand) comando);
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteScalar(actual.CadenaConexion, (MySqlCommand)comando);
+                return OperacionMySQL.ExecuteScalar(actual.CadenaConexion, (MySqlCommand)comando);
             }
             else return null;
         }
@@ -46,11 +46,11 @@ namespace EasySQL.Operaciones.Ayudante
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return AyudanteSQL.ExecuteNonQuery(actual.CadenaConexion, (SqlCommand)comando);
+                return OperacionSQL.ExecuteNonQuery(actual.CadenaConexion, (SqlCommand)comando);
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteNonQuery(actual.CadenaConexion, (MySqlCommand)comando);
+                return OperacionMySQL.ExecuteNonQuery(actual.CadenaConexion, (MySqlCommand)comando);
             }
             else return -1;
         }
@@ -59,11 +59,11 @@ namespace EasySQL.Operaciones.Ayudante
         {
             if (actual.TipoActual == Conexion.TipoConexion.MicrosoftSQL)
             {
-                return AyudanteSQL.ExecuteReader(actual.CadenaConexion, (SqlCommand)comando);
+                return OperacionSQL.ExecuteReader(actual.CadenaConexion, (SqlCommand)comando);
             }
             else if (actual.TipoActual == Conexion.TipoConexion.MySQL)
             {
-                return AyudanteMySQL.ExecuteReader(actual.CadenaConexion, (MySqlCommand)comando);
+                return OperacionMySQL.ExecuteReader(actual.CadenaConexion, (MySqlCommand)comando);
             }
             else return null;
         }
@@ -76,7 +76,7 @@ namespace EasySQL.Operaciones.Ayudante
         public static IDataReader ObtenerReaderBasesDatos(Conexion conexionActual)
         {
             // Obtener comando BBDDs
-            DbCommand comando = Operacion.ComandoShowDatabases(conexionActual);
+            DbCommand comando = Comando.ShowDatabases(conexionActual);
             // Comprobación que evita conexiones redundantes
             if (conexionActual.BaseDatos != null)
                 conexionActual.BaseDatos = null;
@@ -91,8 +91,8 @@ namespace EasySQL.Operaciones.Ayudante
         public static IDataReader ObtenerReaderTablas(Conexion conexionActual)
         {
             // Obtener comando tablas, reemplazar los parámetros de BBDD y nombreTabla
-            DbCommand comando = Operacion.ComandoShowTables(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[0], conexionActual.BaseDatos);
+            DbCommand comando = Comando.ShowTables(conexionActual);
+            comando.CommandText = comando.CommandText.Replace(Comando.PARAMS[0], conexionActual.BaseDatos);
             return ExecuteReader(conexionActual, comando);
         }
 
@@ -105,9 +105,9 @@ namespace EasySQL.Operaciones.Ayudante
         public static IDataReader ObtenerReaderColumnas(Conexion conexionActual, string nombreTabla)
         {
             // Obtener comando columnas, reemplazar los parámetros de BBDD y nombreTabla
-            DbCommand comando = Operacion.ComandoShowColumnas(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[0], conexionActual.BaseDatos);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[1], nombreTabla);
+            DbCommand comando = Comando.ShowColumnas(conexionActual);
+            comando.CommandText = comando.CommandText.Replace(Comando.PARAMS[0], conexionActual.BaseDatos);
+            comando.CommandText = comando.CommandText.Replace(Comando.PARAMS[1], nombreTabla);
             return ExecuteReader(conexionActual, comando);
         }
 
@@ -120,9 +120,9 @@ namespace EasySQL.Operaciones.Ayudante
         public static IDataReader ObtenerReaderTiposDatosColumnas(Conexion conexionActual, string nombreTabla)
         {
             // Obtener comando columnas, reemplazar los parámetros de BBDD y nombreTabla
-            DbCommand comando = Operacion.ComandoShowTiposDatosColumnas(conexionActual);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[0], conexionActual.BaseDatos);
-            comando.CommandText = comando.CommandText.Replace(Operacion.PARAMS[1], nombreTabla);
+            DbCommand comando = Comando.ShowTiposDatosColumnas(conexionActual);
+            comando.CommandText = comando.CommandText.Replace(Comando.PARAMS[0], conexionActual.BaseDatos);
+            comando.CommandText = comando.CommandText.Replace(Comando.PARAMS[1], nombreTabla);
             return ExecuteReader(conexionActual, comando);
         }
 

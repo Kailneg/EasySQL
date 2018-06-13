@@ -1,6 +1,6 @@
 ﻿using EasySQL.Modelos;
-using EasySQL.Operaciones.Ayudante;
-using EasySQL.Operaciones.Controlador;
+using EasySQL.Operaciones.Operacion;
+using EasySQL.Operaciones.Comandos;
 using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace EasySQL.Ventanas.Operaciones
             this.conexionActual = actual;
             this.Title += " || Base de datos \"" + actual.BaseDatos + "\"";
             // Obtiene el comando SQL correspondiente
-            this.comandoEnviar = Operacion.ComandoUpdate(actual);
+            this.comandoEnviar = Comando.Update(actual);
             lblComando.Content = comandoEnviar.CommandText;
             this.textoComandoOriginal = comandoEnviar.CommandText;
 
@@ -82,7 +82,7 @@ namespace EasySQL.Ventanas.Operaciones
                 this.datosCampos = datosCampos;
             if (!String.IsNullOrWhiteSpace(datosCondiciones))
                 this.datosCondiciones = datosCondiciones;
-            comando = comando.Replace(Operacion.PARAMS[0], tabla);
+            comando = comando.Replace(Comando.PARAMS[0], tabla);
             comando += datosCampos + " " + datosCondiciones;
             comandoEnviar.CommandText = comando;
             // Muestra el contenido del comando actual en el label
@@ -184,7 +184,7 @@ namespace EasySQL.Ventanas.Operaciones
                 if (opcionElegida.Equals(MessageBoxResult.No))
                     return;
             }
-            int resultado = Ayudante.ExecuteNonQuery(conexionActual, comandoEnviar);
+            int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
             if (resultado > 0)
             {
                 MessageBox.Show(
