@@ -10,7 +10,7 @@
         Height="500" Width="420" MinHeight="350" MinWidth="350" KeyUp="Window_KeyUp" PreviewMouseUp="Window_PreviewMouseUp">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
     <Grid Margin="10">
@@ -28,7 +28,7 @@
 
         <Label x:Name="lbl" Grid.Row="0" VerticalAlignment="Center">Introduce nombre de la tabla a crear:</Label>
         <Separator Grid.Row="1" VerticalAlignment="Top"></Separator>
-        <TextBox x:Name="txtbox" Grid.Row="2" Padding="0 5" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtTabla" Grid.Row="2" Padding="0 5" VerticalAlignment="Center"/>
         <!--Grid elegir cantidad campos-->
         <Grid Grid.Row="3" Margin="0 5">
             <Grid.ColumnDefinitions>
@@ -42,11 +42,13 @@
         <!--Grid labels campos-->
         <Grid Grid.Row="4" Margin="0 0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="6*"></ColumnDefinition>
-                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">Nombre de la columna:</Label>
-            <Label Grid.Column="1">Tipo de dato:</Label>
+            <Label Grid.Column="0">PK:</Label>
+            <Label Grid.Column="1">Nombre de la columna:</Label>
+            <Label Grid.Column="2">Tipo de dato:</Label>
         </Grid>
 
         <Separator Grid.Row="5" VerticalAlignment="Top"></Separator>
@@ -55,16 +57,23 @@
         <ScrollViewer Grid.Row="6" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="3*"></ColumnDefinition>
                     <ColumnDefinition Width="2*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <!--Stack Panel Izquierdo: TextBoxes-->
-                <StackPanel x:Name="stackTextBoxes" Orientation="Vertical" Grid.Column="0">
+                <!--Stack Panel Izquierdo: CheckBoxes-->
+                <StackPanel x:Name="stackCheckBoxes" Orientation="Vertical" Grid.Column="0">
+                    <!--<CheckBox VerticalContentAlignment="Center"
+                              HorizontalAlignment="Center" Height="25" Margin="0 5"></CheckBox>-->
+                </StackPanel>
+                
+                <!--Stack Panel Central: TextBoxes-->
+                <StackPanel x:Name="stackTextBoxes" Orientation="Vertical" Grid.Column="1">
                     <!--<TextBox Height="25" Margin="0 5">ASD</TextBox>-->
                 </StackPanel>
                 
                 <!--Stack Panel Derecho: ComboBoxes-->
-                <StackPanel x:Name="stackComboBoxes" Orientation="Vertical" Grid.Column="1">
+                <StackPanel x:Name="stackComboBoxes" Orientation="Vertical" Grid.Column="2">
                     <!--<ComboBox Height="25" Margin="0 5">ASD</ComboBox>-->
                 </StackPanel>
             </Grid>

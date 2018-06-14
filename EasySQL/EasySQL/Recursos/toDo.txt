@@ -1,8 +1,5 @@
 ﻿direccion debe escribirse: localhost\SQLALE
 
-añadir radiobutton PK a create table
-
-condiciones where generadas, no borrar contenido existente
 
 mirar doble espacio WHERE en VUpdate VDelete
 
