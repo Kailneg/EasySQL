@@ -5,3 +5,5 @@ imagenes:
 4 http://social.msdn.microsoft.com/Forums/getfile/272678
 5 https://cdn.macworld.co.uk/cmsdata/features/3638150/setup_learn_sql_mac_thumb800.jpg
 6 https://studyguide.itu.dk/~/media/studyguide/student-life/facilities-at-itu/it-facilities/github/github_logo.png
+7 https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Visual_Studio_2017_logo_and_wordmark.svg/2000px-Visual_Studio_2017_logo_and_wordmark.svg.png
+8 https://javiersuarezruiz.files.wordpress.com/2018/01/wpf-logo.png
