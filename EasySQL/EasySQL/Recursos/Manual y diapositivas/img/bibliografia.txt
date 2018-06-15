@@ -9,3 +9,5 @@ imagenes:
 8 https://javiersuarezruiz.files.wordpress.com/2018/01/wpf-logo.png
 9 http://www.palermo.edu/Archivos_content/ingenieria/top/130712_git_github_topdenota1.jpg
 10 https://i.stack.imgur.com/PNYHA.png
+11 http://3.bp.blogspot.com/-iCTBNgqzQtU/VJxJcvKAKrI/AAAAAAAAAHc/2Vnwfss9bmw/s1600/client-server-illustration.gif (traducción propia)
+12 http://codingornot.com/wp-content/uploads/2017/10/mvc-modelo-vista-controlador.png
