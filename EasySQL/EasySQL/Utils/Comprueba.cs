@@ -79,8 +79,10 @@ namespace EasySQL.Utils
         {
             if (cadena.Length == 0)
                 return null;
-            else
+            else if (cadena.Length > 3)
                 return SoloLetras(cadena, LONGITUD_CONTRASENIA_PROGRAMA);
+            else
+                return false;
         }
 
         /// <summary>

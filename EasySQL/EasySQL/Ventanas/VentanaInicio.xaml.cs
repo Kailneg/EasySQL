@@ -103,7 +103,7 @@ namespace EasySQL.Ventanas
         private void txtBoxUsuario_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox datos = (TextBox)sender;
-            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.UsuarioPrograma(datos.Text));
+            Colorea.BordeCorrectoError(datos, Comprueba.UsuarioPrograma(datos.Text));
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace EasySQL.Ventanas
         private void pwdBoxContrasenia_LostFocus(object sender, RoutedEventArgs e)
         {
             PasswordBox datos = (PasswordBox)sender;
-            Colorea.BordeCorrectoErrorDefecto(datos, Comprueba.ContraseniaPrograma(datos.Password));
+            Colorea.BordeCorrectoError(datos, Comprueba.ContraseniaPrograma(datos.Password));
         }
 
         /// <summary>
