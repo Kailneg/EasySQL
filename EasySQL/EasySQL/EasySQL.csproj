@@ -228,6 +228,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Recursos\DiagramaBBDD-drawio.pdf" />
+    <None Include="Recursos\Manual y diapositivas\EasySQL - DAM.docx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -241,6 +242,46 @@
     <Resource Include="Recursos\toDo.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Recursos\Manual y diapositivas\img\0EasySQL.png" />
+    <Resource Include="Recursos\Manual y diapositivas\img\10bcrypt.png" />
+    <Resource Include="Recursos\Manual y diapositivas\img\11client-server-illustration.png" />
+    <Resource Include="Recursos\Manual y diapositivas\img\12mvc-modelo-vista-controlador.png" />
+    <Resource Include="Recursos\Manual y diapositivas\img\1MercadoActual.png" />
+    <Resource Include="Recursos\Manual y diapositivas\img\2MySQL Vs. SQLServer.jpg" />
+    <Resource Include="Recursos\Manual y diapositivas\img\3mysqlWorkBench.png" />
+    <Resource Include="Recursos\Manual y diapositivas\img\4sqlServerManagement.jpg" />
+    <Resource Include="Recursos\Manual y diapositivas\img\5sql.jpg" />
+    <Resource Include="Recursos\Manual y diapositivas\img\6github_logo.png" />
+    <Resource Include="Recursos\Manual y diapositivas\img\7VisualStudio.png" />
+    <Resource Include="Recursos\Manual y diapositivas\img\8wpf.png" />
+    <Resource Include="Recursos\Manual y diapositivas\img\9gitgithub.jpg" />
+    <Resource Include="Recursos\Manual y diapositivas\img\bibliografia.txt" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\0inicio.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\10AlterTable.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\11Select.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\1registro.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\2conexionInvitado.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\3conexionUsuario.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\4operaciones.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\5CreateDB.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\6DropDB.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\7CreateTable.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\8ShowTables.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\img\capturas\9.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\presentacion.txt" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\10ventanas-operacion4.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\11ventanas-operacion-final.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\12BCrypt.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\13bbddPNG.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\1modelos.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\2bbdd.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\3operaciones.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\4utils.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\5ventanas-general1.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\6ventanas-general2.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\7ventanas-operacion1.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\8ventanas-operacion2.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\uml\9ventanas-operacion3.PNG" />
     <Content Include="Recursos\scriptInsert3ConexionesUsuario2.sql" />
     <Content Include="Recursos\scriptTablaPruebasPedido.sql" />
     <Content Include="Recursos\ZScriptCreacionTablaMuchasColumnas.sql" />
