@@ -282,6 +282,8 @@
     <Resource Include="Recursos\Manual y diapositivas\uml\7ventanas-operacion1.PNG" />
     <Resource Include="Recursos\Manual y diapositivas\uml\8ventanas-operacion2.PNG" />
     <Resource Include="Recursos\Manual y diapositivas\uml\9ventanas-operacion3.PNG" />
+    <Resource Include="Recursos\Manual y diapositivas\Diagrama e-r.png" />
+    <Resource Include="Recursos\Diagrama e-r.xml" />
     <Content Include="Recursos\scriptInsert3ConexionesUsuario2.sql" />
     <Content Include="Recursos\scriptTablaPruebasPedido.sql" />
     <Content Include="Recursos\ZScriptCreacionTablaMuchasColumnas.sql" />
