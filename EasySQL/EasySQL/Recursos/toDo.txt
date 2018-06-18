@@ -1,5 +1,3 @@
 ﻿direccion debe escribirse: localhost\SQLALE
 
 mirar doble espacio WHERE en VUpdate VDelete
-
-comprobar retorno en CREATES Y DROP MySQL

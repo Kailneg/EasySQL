@@ -50,7 +50,7 @@ namespace EasySQL.Ventanas.Operaciones
                 comandoEnviar.CommandText = textoComandoOriginal + Comprueba.EliminarResto(txtbox.Text);
 
                 int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
-                if (resultado == -1)
+                if (resultado != Operacion.ERROR)
                 {
                     Msj.Info("Base de datos \"" + Comprueba.EliminarResto(txtbox.Text) + "\" creada con éxito.");
                 }

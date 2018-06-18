@@ -84,7 +84,7 @@ namespace EasySQL.Ventanas.Operaciones
 
                 int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
                 // Bien
-                if (resultado == -1)
+                if (resultado != Operacion.ERROR)
                 {
                     Msj.Info(CLICK_OK + "\"" + cmbDatos.SelectedItem + "\"" + " eliminada con con éxito.");
                 }

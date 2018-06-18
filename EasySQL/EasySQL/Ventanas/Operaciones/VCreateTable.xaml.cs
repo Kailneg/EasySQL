@@ -152,7 +152,7 @@ namespace EasySQL.Ventanas.Operaciones
         private void btnEjecutar_Click(object sender, RoutedEventArgs e)
         {
             int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
-            if (resultado == -1)
+            if (resultado != Operacion.ERROR)
             {
                 Msj.Info("Tabla \"" + Comprueba.EliminarResto(txtTabla.Text) + "\" en base de datos " +
                     "\"" + conexionActual.BaseDatos +  "\" creada con éxito.");
