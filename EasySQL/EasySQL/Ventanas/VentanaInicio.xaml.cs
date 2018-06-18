@@ -74,7 +74,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show("Uno o más campos contienen errores");
+                Msj.Error("Uno o más campos contienen errores");
             }
         }
         
@@ -83,7 +83,7 @@ namespace EasySQL.Ventanas
         /// </summary>
         private void btnInvitado_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Aviso: funcionalidades de guardado de conexiones no están disponibles en modo invitado.");
+            Msj.Aviso("Aviso: funcionalidades de guardado de conexiones no están disponibles en modo invitado.");
             VentanaConexion vc = new VentanaConexion(null);
             Manejador.CambiarVentana(this, vc);
         }

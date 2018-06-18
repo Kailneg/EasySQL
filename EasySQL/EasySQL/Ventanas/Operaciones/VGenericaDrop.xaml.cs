@@ -86,7 +86,7 @@ namespace EasySQL.Ventanas.Operaciones
                 // Bien
                 if (resultado == -1)
                 {
-                    MessageBox.Show(CLICK_OK + "\"" + cmbDatos.SelectedItem + "\"" + " eliminada con con éxito.");
+                    Msj.Info(CLICK_OK + "\"" + cmbDatos.SelectedItem + "\"" + " eliminada con con éxito.");
                 }
 
                 // Si la base de datos no se ha podido borrar por conexión abierta, preguntar forzado
@@ -104,14 +104,14 @@ namespace EasySQL.Ventanas.Operaciones
                         // Bien
                         if (resultado == -1)
                         {
-                            MessageBox.Show(CLICK_OK + "\"" + cmbDatos.SelectedItem + "\"" + " eliminada con con éxito.");
+                            Msj.Info(CLICK_OK + "\"" + cmbDatos.SelectedItem + "\"" + " eliminada con con éxito.");
                         }
                     }
                 }
             }
             else
             {
-                MessageBox.Show(CLICK_ERROR);
+                Msj.Error(CLICK_ERROR);
             }
         }
 

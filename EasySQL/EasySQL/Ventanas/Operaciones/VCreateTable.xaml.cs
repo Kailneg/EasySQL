@@ -154,7 +154,7 @@ namespace EasySQL.Ventanas.Operaciones
             int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
             if (resultado == -1)
             {
-                MessageBox.Show("Tabla \"" + Comprueba.EliminarResto(txtTabla.Text) + "\" en base de datos " +
+                Msj.Info("Tabla \"" + Comprueba.EliminarResto(txtTabla.Text) + "\" en base de datos " +
                     "\"" + conexionActual.BaseDatos +  "\" creada con éxito.");
             }
         }

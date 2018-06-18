@@ -285,7 +285,7 @@ namespace EasySQL.Ventanas.Operaciones
             }
             else
             {
-                MessageBox.Show("Ninguna fila encontrada.");
+                Msj.Aviso("Ninguna fila encontrada.");
             }
         }
     }

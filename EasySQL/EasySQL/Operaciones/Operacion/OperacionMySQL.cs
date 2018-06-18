@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using EasySQL.Utils;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -38,12 +39,12 @@ namespace EasySQL.Operaciones.Operacion
                 }
                 catch (MySqlException s)
                 {
-                    MessageBox.Show(s.Message);
+                    Msj.Error(s.Message);
                     return false;
                 }
                 catch (Exception s)
                 {
-                    MessageBox.Show(MSJ_ERROR);
+                    Msj.Error(MSJ_ERROR);
                     Console.WriteLine(s.Message);
                     return false;
                 }
@@ -67,12 +68,12 @@ namespace EasySQL.Operaciones.Operacion
                 }
                 catch (MySqlException s)
                 {
-                    MessageBox.Show(s.Message);
+                    Msj.Error(s.Message);
                     return Operacion.ERROR;
                 }
                 catch (Exception s)
                 {
-                    MessageBox.Show(MSJ_ERROR);
+                    Msj.Error(MSJ_ERROR);
                     Console.WriteLine(s.Message);
                     return Operacion.ERROR;
                 }
@@ -96,12 +97,12 @@ namespace EasySQL.Operaciones.Operacion
                 }
                 catch (MySqlException s)
                 {
-                    MessageBox.Show(s.Message);
+                    Msj.Error(s.Message);
                     return Operacion.ERROR;
                 }
                 catch (Exception s)
                 {
-                    MessageBox.Show(MSJ_ERROR);
+                    Msj.Error(MSJ_ERROR);
                     Console.WriteLine(s.Message);
                     return Operacion.ERROR;
                 }
@@ -122,12 +123,12 @@ namespace EasySQL.Operaciones.Operacion
             }
             catch (MySqlException s)
             {
-                MessageBox.Show(s.Message);
+                Msj.Error(s.Message);
                 return null;
             }
             catch (Exception s)
             {
-                MessageBox.Show(MSJ_ERROR);
+                Msj.Error(MSJ_ERROR);
                 Console.WriteLine(s.Message);
                 return null;
             }

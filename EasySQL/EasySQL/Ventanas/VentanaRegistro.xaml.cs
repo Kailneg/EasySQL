@@ -40,7 +40,6 @@ namespace EasySQL.Ventanas
         /// Cambia a la ventana Conexión y le pasa el usuario actual.
         /// </summary>
         private void Acceder() {
-            MessageBox.Show("Accediendo...");
             VentanaConexion vc = new VentanaConexion(usuarioGuardado);
             Manejador.CambiarVentana(this, vc);
         }
@@ -66,7 +65,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show("Uno o más campos contienen errores");
+                Msj.Error("Uno o más campos contienen errores");
                 return false;
             }
         }

@@ -187,7 +187,7 @@ namespace EasySQL.Ventanas.Operaciones
             int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
             if (resultado > 0)
             {
-                MessageBox.Show(
+                Msj.Info(
                     resultado + " filas de la tabla \"" +
                     Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) +
                     "\" en base de datos " + "\"" + conexionActual.BaseDatos +
@@ -195,7 +195,7 @@ namespace EasySQL.Ventanas.Operaciones
             }
             else
             {
-                MessageBox.Show("Ninguna fila afectada.");
+                Msj.Aviso("Ninguna fila afectada.");
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using EasySQL.Modelos;
+using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,13 +67,13 @@ namespace EasySQL.BBDD
             switch (ResultadoActual)
             {
                 case TipoResultado.ACEPTADO:
-                    MessageBox.Show(RESPUESTA_ACEPTADO);
+                    Msj.Info(RESPUESTA_ACEPTADO);
                     break;
                 case TipoResultado.ERROR_CONEXION:
-                    MessageBox.Show(RESPUESTA_ERROR);
+                    Msj.Aviso(RESPUESTA_ERROR);
                     break;
                 case TipoResultado.DUPLICADO:
-                    MessageBox.Show(RESPUESTA_DUPLICADO);
+                    Msj.Error(RESPUESTA_DUPLICADO);
                     break;
                 default:
                     break;

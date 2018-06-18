@@ -61,7 +61,7 @@ namespace EasySQL.Ventanas.Operaciones
             int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
             if (resultado == -1)
             {
-                MessageBox.Show("Tabla \"" + Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) 
+                Msj.Info("Tabla \"" + Comprueba.EliminarResto(cmbTablas.SelectedItem.ToString()) 
                     + "\" en base de datos " + "\"" + conexionActual.BaseDatos + "\" modificada con éxito.");
                 // Reestableciendo tipo operación a por defecto
                 cmbTipoOperacion.SelectedIndex = 0;

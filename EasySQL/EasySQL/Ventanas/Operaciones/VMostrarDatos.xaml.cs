@@ -1,6 +1,7 @@
 ﻿using EasySQL.Modelos;
 using EasySQL.Operaciones;
 using EasySQL.Operaciones.Operacion;
+using EasySQL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -41,12 +42,10 @@ namespace EasySQL.Ventanas.Operaciones
                 paqueteDatos.Conexion, paqueteDatos.Datos, paqueteDatos.ComandoSQL);
             if (Serializador.Guardar(datosGuardar))
             {
-                MessageBox.Show("Datos almacenados correctamente.", "Información", 
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                Msj.Info("Datos almacenados correctamente.");
             } else
             {
-                MessageBox.Show("Error al guardar. Datos no almacenados.", "Aviso",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                Msj.Aviso("Error al guardar. Datos no almacenados.");
             }
         }
     }

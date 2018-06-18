@@ -146,7 +146,7 @@ namespace EasySQL.Ventanas
                         }
                         else
                         {
-                            MessageBox.Show("Se ha marcado 'guardar contraseña' pero está vacía o con valores nulos.");
+                            Msj.Aviso("Se ha marcado 'guardar contraseña' pero está vacía o con valores nulos.");
                             return false;
                         }
                     }
@@ -213,7 +213,7 @@ namespace EasySQL.Ventanas
                 }
                 else
                 {
-                    MessageBox.Show("No se ha marcado el tipo de conexión.");
+                    Msj.Error("No se ha marcado el tipo de conexión.");
                     return null;
                 }
                 int puerto = 0;
@@ -230,7 +230,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show("Uno o más campos obligatorios están vacíos o con valores nulos.");
+                Msj.Error("Uno o más campos obligatorios están vacíos o con valores nulos.");
                 return null;
             }
         }
@@ -251,14 +251,14 @@ namespace EasySQL.Ventanas
                 bool retorno = Operacion.ExecuteTest(conexionActual);
 
                 if (retorno)
-                    MessageBox.Show("Conexión correcta.");
+                    Msj.Info("Conexión correcta.");
                 else
-                    MessageBox.Show("Conexión fallida");
+                    Msj.Error("Conexión fallida");
                 return retorno;
             }
             else
             {
-                MessageBox.Show("No existe conexión actual guardada correcta.");
+                Msj.Aviso("No existe conexión actual guardada correcta.");
                 return false;
             }
         }
@@ -282,7 +282,7 @@ namespace EasySQL.Ventanas
                 }
                 else
                 {
-                    MessageBox.Show("No existe una conexión válida guardada");
+                    Msj.Aviso("No existe una conexión válida guardada");
                 }
             }
             else
@@ -366,7 +366,7 @@ namespace EasySQL.Ventanas
                 RefrescarConexionesListview();
             } else
             {
-                MessageBox.Show("No existen conexiones a ordenar");
+                Msj.Aviso("No existen conexiones a ordenar");
             }
         }
 
@@ -383,7 +383,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show("No existen conexiones a ordenar");
+                Msj.Aviso("No existen conexiones a ordenar");
             }
         }
 

@@ -112,7 +112,7 @@ namespace EasySQL.Ventanas
                 // Quita la selección de la BBDD actual
                 cmbBaseDatos.SelectedIndex = 0;
                 SeleccionBBDDCambiada();
-                MessageBox.Show("Deseleccionada BBDD elegida");
+                Msj.Aviso("Deseleccionada BBDD elegida");
             }
             DbCommand comando = Comando.DropDatabase(conexionActual, false);
             VGenericaDrop vod =
@@ -135,7 +135,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show(MSJ_ELEGIR_BBDD);
+                Msj.Aviso(MSJ_ELEGIR_BBDD);
             }
         }
 
@@ -156,7 +156,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show(MSJ_ELEGIR_BBDD);
+                Msj.Aviso(MSJ_ELEGIR_BBDD);
             }
         }
 
@@ -175,7 +175,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show(MSJ_ELEGIR_BBDD);
+                Msj.Aviso(MSJ_ELEGIR_BBDD);
             }
         }
 
@@ -189,7 +189,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show(MSJ_ELEGIR_BBDD);
+                Msj.Aviso(MSJ_ELEGIR_BBDD);
             }
         }
 
@@ -213,7 +213,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show(MSJ_ELEGIR_BBDD);
+                Msj.Aviso(MSJ_ELEGIR_BBDD);
             }
         }
 
@@ -233,7 +233,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show(MSJ_ELEGIR_BBDD);
+                Msj.Aviso(MSJ_ELEGIR_BBDD);
             }
         }
 
@@ -253,7 +253,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show(MSJ_ELEGIR_BBDD);
+                Msj.Aviso(MSJ_ELEGIR_BBDD);
             }
         }
 
@@ -273,7 +273,7 @@ namespace EasySQL.Ventanas
             }
             else
             {
-                MessageBox.Show(MSJ_ELEGIR_BBDD);
+                Msj.Aviso(MSJ_ELEGIR_BBDD);
             }
         }
         
@@ -307,15 +307,14 @@ namespace EasySQL.Ventanas
                 string informacion =
                     "Base de datos \"" + c.BaseDatos + "\" tipo \"" + c.TipoActual +
                     "\"\r\nFecha consulta: " + datosCargados.FechaCreacion;
-                MessageBox.Show(informacion, "Recuperando consulta",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                Msj.Info(informacion);
+
                 VMostrarDatos vmd = new VMostrarDatos(datosCargados);
                 vmd.Show();
             }
             else
             {
-                MessageBox.Show("No se ha podido cargar el fichero seleccionado", "Aviso",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                Msj.Aviso("No se ha podido cargar el fichero seleccionado");
             }
         }
 
@@ -338,8 +337,7 @@ namespace EasySQL.Ventanas
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Navegador por defecto no encontrado", "Aviso",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Msj.Aviso("Navegador por defecto no encontrado");
                 }
             }
         }

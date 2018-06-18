@@ -45,18 +45,18 @@ namespace EasySQL.Ventanas.Operaciones
             {
                 if (Comprueba.ContieneSeparadorSQL(txtbox.Text))
                 {
-                    MessageBox.Show("Detectado separador SQL. Sólo se ejecutará: " + comandoEnviar.CommandText);
+                    Msj.Aviso("Detectado separador SQL. Sólo se ejecutará: " + comandoEnviar.CommandText);
                 }
                 comandoEnviar.CommandText = textoComandoOriginal + Comprueba.EliminarResto(txtbox.Text);
 
                 int resultado = Operacion.ExecuteNonQuery(conexionActual, comandoEnviar);
                 if (resultado == -1)
                 {
-                    MessageBox.Show("Base de datos \"" + Comprueba.EliminarResto(txtbox.Text) + "\" creada con éxito.");
+                    Msj.Info("Base de datos \"" + Comprueba.EliminarResto(txtbox.Text) + "\" creada con éxito.");
                 }
             } else
             {
-                MessageBox.Show("Debes introducir un nombre");
+                Msj.Aviso("Debes introducir un nombre");
             }
         }
 
