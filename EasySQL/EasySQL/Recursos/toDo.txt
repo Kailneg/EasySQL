@@ -3,5 +3,3 @@
 mirar doble espacio WHERE en VUpdate VDelete
 
 comprobar retorno en CREATES Y DROP MySQL
-
-mejorar mesaggeboxes y avisar cuando puerto por defecto

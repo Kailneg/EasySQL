@@ -220,7 +220,11 @@ namespace EasySQL.Ventanas
                 if (!String.IsNullOrWhiteSpace(txtBoxPuerto.Text))
                     puerto = Int32.Parse(txtBoxPuerto.Text);
                 if (puerto == 0)
+                {
+                    Msj.Info("Puerto no introducido. " +
+                        "\r\nObteniendo puerto por defecto para bases de datos " + tipo);
                     puerto = BBDDPrograma.ObtenerPuertoDefecto(tipo);
+                }
 
                 string contrasenia = pwdBoxContrasenia.Password;
                 Conexion guardar = new Conexion(nombre, direccion, puerto, usuario,
