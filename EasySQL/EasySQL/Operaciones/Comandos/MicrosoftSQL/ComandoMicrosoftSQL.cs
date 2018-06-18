@@ -17,7 +17,8 @@ namespace EasySQL.Operaciones.Comandos.MicrosoftSQL
         /// Define los tipos de datos disponibles para una BBDD SQL Server
         /// </summary>
         public static readonly string[] TIPOS_DATOS = 
-            { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(MAX)", "DATETIME"  };
+            { "TINYINT", "INT", "BIGINT", "FLOAT", "REAL",
+            "NVARCHAR(50)", "NVARCHAR(500)", "NVARCHAR(MAX)", "DATE", "DATETIME"};
 
         /**
          * Las siguientes líneas definen los comandos SQL con la sintaxis específica de SQL Server.

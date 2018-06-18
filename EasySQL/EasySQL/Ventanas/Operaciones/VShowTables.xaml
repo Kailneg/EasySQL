@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="SHOW TABLES" 
-        Height="450" Width="500" MinHeight="350" MinWidth="420">
+        Height="250" Width="500" MinHeight="200" MinWidth="420">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="VerticalAlignment" Value="Center"/>

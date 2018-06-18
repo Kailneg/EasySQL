@@ -15,7 +15,8 @@ namespace EasySQL.Operaciones.Comandos.MySQL
         /// Define los tipos de datos disponibles para una BBDD MySQL
         /// </summary>
         public static readonly string[] TIPOS_DATOS =
-            { "INT", "FLOAT", "NVARCHAR(50)", "NVARCHAR(500)", "DATE"  };
+            { "TINYINT", "INT", "BIGINT", "FLOAT",
+            "NVARCHAR(50)", "NVARCHAR(500)", "NVARCHAR(15000)", "DATE", "DATETIME"  };
 
         /**
          * Las siguientes líneas definen los comandos SQL con la sintaxis específica de MySQL.

@@ -22,7 +22,8 @@ namespace EasySQL.Operaciones.Comandos
         /// Define las condiciones WHERE que existen
         /// </summary>
         public static readonly string[] TIPOS_CONDICIONES 
-            = { "", "=", "<>", ">", "<", ">=", "<=", "LIKE", "IN", "IS NULL", "IS NOT NULL" };
+            = { "", "=", "<>", ">", "<", ">=", "<=",
+            "LIKE", "NOT LIKE", "IN", "NOT IN", "IS NULL", "IS NOT NULL" };
 
         /// <summary>
         /// Define los operadores de unión para unir condiciones WHERE
