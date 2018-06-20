@@ -1,0 +1,15 @@
+incluir titulo del trabajo, nombre y curso, imagen
+
+introducción
+motivación - Cuál es la idea de vuestro proyecto y por qué se ha elegido.
+- Sus funcionalidades.
+- Tecnologías empleadas.
+- Inconvenientes en su desarrollo. 
+- Proyección de futuro que puede tener.
+conclusiones
+
+Desarrollo de cada uno de los puntos.
+Cierre, con las conclusiones.
+
+
+
