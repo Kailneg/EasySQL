@@ -182,5 +182,10 @@ namespace EasySQL.Ventanas
         {
             IntegratedSecurity(sender);
         }
+
+        private void chkUsarSSL_Click(object sender, RoutedEventArgs e)
+        {
+            UsarSSL(sender);
+        }
     }
 }

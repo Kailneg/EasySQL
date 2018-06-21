@@ -24,6 +24,11 @@ namespace EasySQL.Modelos
         public enum TipoConexion { MicrosoftSQL, MySQL };
 
         /// <summary>
+        /// Si se desea usar SSL en la conexión actual.
+        /// </summary>
+        public bool SSL { get; set; }
+
+        /// <summary>
         /// Nombre de la conexión.
         /// </summary>
         public string Nombre { get; set; }
@@ -72,7 +77,7 @@ namespace EasySQL.Modelos
                 if (TipoActual == TipoConexion.MicrosoftSQL)
                     return ObtenerCadenaConexionSQL();
                 else if (TipoActual == TipoConexion.MySQL)
-                    return ObtenerCadenaConexionMySQL();
+                    return ObtenerCadenaConexionMySQL(SSL);
                 else
                     return null;
             }
@@ -87,13 +92,13 @@ namespace EasySQL.Modelos
         /// Constructor con los parámetros necesarios para guardar una conexión en BBDD
         /// </summary>
         public Conexion(string nombre, string direccion, int puerto, string usuario, TipoConexion tipo, Usuario propietario) 
-            : this(nombre, direccion, puerto, usuario, "", tipo, propietario) {}
+            : this(nombre, direccion, puerto, usuario, "", tipo, propietario, false) {}
 
         /// <summary>
         /// Constructor con los parámetros necesarios para guardar una conexión en BBDD con contraseña
         /// </summary>
         public Conexion(string nombre, string direccion, int puerto, string usuario, string contrasenia, 
-            TipoConexion tipo, Usuario propietario)
+            TipoConexion tipo, Usuario propietario, bool ssl)
         {
             // Campos obligatorios: nombre conexión, dirección, usuario, tipo conexión, puerto.
             // De la bbdd hay que traer el ID y el puerto.
@@ -104,6 +109,7 @@ namespace EasySQL.Modelos
             TipoActual = tipo;
             Propietario = propietario;
             Puerto = puerto;
+            SSL = ssl;
         }
 
         /// <summary>
@@ -139,8 +145,9 @@ namespace EasySQL.Modelos
         /// Acepta un objeto tipo conexión y crea una cadena de conexión bien formada
         /// de tipo MySQL
         /// </summary>
-        /// <returns>Cadena de conexión válida Microsoft SQL</returns>
-        private string ObtenerCadenaConexionMySQL()
+        /// <param name="usarSSL">Si la conexión debe usar SSL.</param>
+        /// <returns>Cadena de conexión válida MySQL</returns>
+        private string ObtenerCadenaConexionMySQL(bool usarSSL)
         {
             MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
 
@@ -152,6 +159,10 @@ namespace EasySQL.Modelos
             
             builder.UserID = UsuarioConexion;
             builder.Password = ContraseniaConexion;
+            if (!usarSSL)
+            {
+                builder.SslMode = MySqlSslMode.None;
+            }
 
             return builder.ToString();
         }

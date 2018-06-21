@@ -105,6 +105,7 @@ namespace EasySQL.Ventanas
             chkGuardarContrasenia.IsChecked = false;
             rbtnMicrosoftSQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.MicrosoftSQL);
             rbtnMySQL.IsChecked = actual.TipoActual.Equals(Conexion.TipoConexion.MySQL);
+            chkUsarSSL.IsChecked = actual.SSL;
         }
 
         /// <summary>
@@ -200,6 +201,7 @@ namespace EasySQL.Ventanas
                 string direccion = txtBoxDireccion.Text;
                 string usuario = txtBoxUsuario.Text;
                 Conexion.TipoConexion tipo;
+                bool ssl = false;
 
                 // Comprobando si el tipo de conexión está marcado
                 if (rbtnMicrosoftSQL.IsChecked.Value)
@@ -210,6 +212,8 @@ namespace EasySQL.Ventanas
                 }
                 else if (rbtnMySQL.IsChecked.Value) {
                     tipo = Conexion.TipoConexion.MySQL;
+                    if (chkUsarSSL.IsChecked.Value)
+                        ssl = true;
                 }
                 else
                 {
@@ -228,7 +232,7 @@ namespace EasySQL.Ventanas
 
                 string contrasenia = pwdBoxContrasenia.Password;
                 Conexion guardar = new Conexion(nombre, direccion, puerto, usuario,
-                    contrasenia, tipo, usuarioActivo);
+                    contrasenia, tipo, usuarioActivo, ssl);
                 return guardar;
 
             }
@@ -420,6 +424,8 @@ namespace EasySQL.Ventanas
             chkGuardarContrasenia.IsChecked = false;
             rbtnMySQL.IsEnabled = !pulsado;
             rbtnMicrosoftSQL.IsChecked = true;
+            chkUsarSSL.IsEnabled = !pulsado;
+            chkUsarSSL.IsChecked = false;
             if (pulsado)
             {
                 txtBoxUsuario.Text = Usuario.NombreIntegratedSecurity;
@@ -434,6 +440,21 @@ namespace EasySQL.Ventanas
                 Colorea.BordeCorrectoError(txtBoxUsuario, false);
                 Colorea.BordeCorrectoErrorDefecto(pwdBoxContrasenia, null);
             }
+        }
+
+        /// <summary>
+        /// Realiza cambios en la UI como desactivar los campos 
+        /// SQLServer en caso de marcar la opción
+        /// "Usar SSL" para MySQL.
+        /// </summary>
+        private void UsarSSL(object sender)
+        {
+            bool pulsado = (sender as CheckBox).IsChecked.Value;
+            rbtnMicrosoftSQL.IsEnabled = !pulsado;
+            chkIntegratedSecurity.IsEnabled = !pulsado;
+            rbtnMicrosoftSQL.IsChecked = false;
+            chkIntegratedSecurity.IsChecked = false;
+            rbtnMySQL.IsChecked = true;
         }
     }
 }

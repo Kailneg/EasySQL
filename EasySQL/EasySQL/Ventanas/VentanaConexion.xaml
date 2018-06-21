@@ -121,6 +121,7 @@
                 <RadioButton x:Name="rbtnMicrosoftSQL" GroupName="tipoConexion" Grid.Row="0" VerticalAlignment="Center">Microsoft SQL</RadioButton>
                 <CheckBox   x:Name="chkIntegratedSecurity" Grid.Column="1" Grid.Row="0" Content="Integrated Security" Click="chkIntegratedSecurity_Click"/>
                 <RadioButton x:Name="rbtnMySQL" GroupName="tipoConexion" Grid.Row="1" VerticalAlignment="Center">MySQL</RadioButton>
+                <CheckBox   x:Name="chkUsarSSL" Grid.Column="1" Grid.Row="1" Content="Usar SSL" Click="chkUsarSSL_Click"/>
             </Grid>
 
             <Label Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left">* Campos marcados con un asterísco deben ser rellenados.</Label>
