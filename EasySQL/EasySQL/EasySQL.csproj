@@ -13,6 +13,21 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +47,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>EasySQL.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Google.Protobuf, Version=3.5.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
@@ -223,6 +241,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="bin\Debug\EasySQL.exe.config" />
+    <None Include="bin\Release\EasySQL.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -285,6 +305,19 @@
     <Resource Include="Recursos\Manual y diapositivas\uml\9ventanas-operacion3.PNG" />
     <Resource Include="Recursos\Manual y diapositivas\Diagrama e-r.png" />
     <Resource Include="Recursos\Diagrama e-r.xml" />
+    <Content Include="bin\Debug\EasySQL.exe" />
+    <Content Include="bin\Debug\EasySQL.pdb" />
+    <Content Include="bin\Debug\Google.Protobuf.dll" />
+    <Resource Include="bin\Debug\Google.Protobuf.xml" />
+    <Content Include="bin\Debug\MySql.Data.dll" />
+    <Resource Include="bin\Debug\MySql.Data.xml" />
+    <Content Include="bin\Release\EasySQL.exe" />
+    <Content Include="bin\Release\EasySQL.pdb" />
+    <Content Include="bin\Release\Google.Protobuf.dll" />
+    <Resource Include="bin\Release\Google.Protobuf.xml" />
+    <Content Include="bin\Release\MySql.Data.dll" />
+    <Resource Include="bin\Release\MySql.Data.xml" />
+    <Resource Include="EasySQL.ico" />
     <Content Include="Recursos\scriptInsert3ConexionesUsuario2.sql" />
     <Content Include="Recursos\scriptTablaPruebasPedido.sql" />
     <Content Include="Recursos\ZScriptCreacionTablaMuchasColumnas.sql" />
@@ -296,6 +329,17 @@
     <Content Include="Recursos\scriptInsert2usuarios.sql" />
     <Content Include="Recursos\scriptInsert3ConexionesUsuario1.sql" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
